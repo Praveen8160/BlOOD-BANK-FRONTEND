@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <Header></Header>
-      <h1>Blood bank</h1>
+      
     </>
   );
 }
