@@ -1,19 +1,14 @@
-import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
-import Home from "./pages/Home";
-import DonorLogin from "./pages/DonorLogin";
-import DonorRegister from "./pages/DonorRegister";
-import BloodBankRegister from "./pages/BloodBankRegister";
-import BloodBankLogin from "./pages/BloodBankLogin";
-import BloodDirectory from "./pages/BloodDirectory";
-import NearbyDonor from "./pages/NearbyDonor";
+import { Outlet } from "react-router-dom";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <>
       <Header></Header>
-      <NearbyDonor></NearbyDonor>
+      <Outlet></Outlet>
+      {/* <Footer></Footer> */}
     </>
   );
 }

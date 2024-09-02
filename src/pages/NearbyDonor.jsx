@@ -116,9 +116,9 @@ function NearbyDonor() {
           Search
         </button>
       </div>
-      <div className="mt-7">
-        <table class="lg:w-full w-96 text-center">
-          <thead className="bg-red-500">
+      <div className="mt-7 overflow-x-auto">
+        <table className="min-w-full text-center border-collapse">
+          <thead className="bg-red-500 text-white">
             <tr>
               <th class="p-3 text-md border border-gray-400 rounded">Name</th>
               <th class="p-3 text-md border border-gray-400 rounded">Age</th>
@@ -159,7 +159,6 @@ function NearbyDonor() {
                 john.doe@example.com
               </td>
             </tr>
-          
           </tbody>
         </table>
       </div>
