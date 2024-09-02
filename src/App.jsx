@@ -1,14 +1,18 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import Header from "./components/Header";
+import Home from "./pages/Home";
+import DonorLogin from "./pages/DonorLogin";
+import DonorRegister from "./pages/DonorRegister";
+import BloodBankRegister from "./pages/BloodBankRegister";
+import BloodBankLogin from "./pages/BloodBankLogin";
+import BloodDirectory from "./pages/BloodDirectory";
 
 function App() {
   return (
     <>
       <Header></Header>
-      
+      <BloodDirectory></BloodDirectory>
     </>
   );
 }
