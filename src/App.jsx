@@ -7,12 +7,13 @@ import DonorRegister from "./pages/DonorRegister";
 import BloodBankRegister from "./pages/BloodBankRegister";
 import BloodBankLogin from "./pages/BloodBankLogin";
 import BloodDirectory from "./pages/BloodDirectory";
+import NearbyDonor from "./pages/NearbyDonor";
 
 function App() {
   return (
     <>
       <Header></Header>
-      <BloodDirectory></BloodDirectory>
+      <NearbyDonor></NearbyDonor>
     </>
   );
 }
