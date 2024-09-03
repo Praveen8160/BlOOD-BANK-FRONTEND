@@ -35,8 +35,8 @@ function DonorRegister() {
   }, [selectedState]);
   return (
     <div className="flex flex-col justify-center md:mt-12 items-center">
-      <form className="border min-h-[45rem] sticky w-auto flex flex-col items-center justify-center rounded-3xl bg-gray-200 mt-5">
-        <fieldset className="md:mx-20 md:my-10 md:p-9 mx-5 p-5 border border-gray-500 rounded-xl grid grid-cols-1 md:grid-cols-2 my-4 gap-4 sticky">
+      <form className="border min-h-[45rem] sticky w-auto flex flex-col items-center justify-center rounded-3xl bg-transparent mt-5 shadow-2xl">
+        <fieldset className="md:mx-20 md:my-10 md:p-9 mx-5 p-5 border border-red-100 rounded-xl grid grid-cols-1 md:grid-cols-2 my-4 gap-4 sticky shadow-2xl">
           <legend className="text-2xl font-semibold text-red-600">
             Donor Register
           </legend>

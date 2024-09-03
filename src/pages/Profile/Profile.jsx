@@ -5,7 +5,7 @@ import { FaClockRotateLeft } from "react-icons/fa6";
 import { FaCalendarPlus } from "react-icons/fa";
 function Profile() {
   return (
-    <div className="flex md:flex-row flex-col overflow-hidden">
+    <div className="flex md:flex-row flex-col md:justify-normal md:items-start">
       {/* Side Panel */}
       <aside className="lg:w-2/5 md:bg-gray-200 p-4 mt-10 rounded-r-[10rem] h-auto">
         <nav className=" flex justify-center items-center mt-20">
@@ -16,11 +16,11 @@ function Profile() {
             </li>
             <li className="mb-10 px-10 py-4 text-xl text-center font-bold gap-1 inline-flex cursor-pointer bg-red-600 rounded-full">
               <span className="self-center"><FaClockRotateLeft size={28} /></span>
-              <Link to="/profile/profileOverview">Request</Link>
+              <Link to="/profile/request">Request</Link>
             </li>
             <li className="mb-10 px-10 py-4 text-xl text-center font-bold gap-1 inline-flex cursor-pointer bg-red-600 rounded-full">
               <span className="self-center"><FaCalendarPlus size={30} /></span>
-              <Link to="/profile/profileOverview">Donation Request</Link>
+              <Link to="/profile/donation_request">Donation Request</Link>
             </li>
             <li className="mb-10 px-10 py-4 text-xl text-center font-bold gap-1 inline-flex cursor-pointer bg-red-600 rounded-full">
               <span className="self-center"><CgProfile size={30} /></span>
@@ -31,7 +31,7 @@ function Profile() {
       </aside>
 
       {/* Content Area */}
-      <main className="w-2/4 mt-10 ml-10 h-auto">
+      <main className="md:w-2/4 mt-20 md:ml-10 m-5 h-auto">
         <Outlet />
       </main>
     </div>

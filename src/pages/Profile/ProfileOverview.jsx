@@ -34,12 +34,12 @@ function ProfileOverview() {
     fetchDistricts();
   }, [selectedState]);
   return (
-    <div className="border-2 sticky border-red-400">
-      <div className="bg-red-300 text-center text-2xl font-semibold p-4">
+    <div className="border-2 sticky border-red-200 rounded-lg">
+      <div className="bg-red-200 text-center text-2xl font-semibold p-4">
         <h1>Personal Detail</h1>
       </div>
-      <div className="flex flex-col md:mt-12 w-full bg-black">
-        <form className="h-auto w-full sm:w-full md:w-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 rounded-3xl gap-4 mt-5 px-4 sm:px-8">
+      <div className="flex flex-col md:mt-12 h-auto md:w-auto">
+        <form className="h-auto grid grid-cols-1 md:grid-cols-2 rounded-3xl gap-4 mt-5 px-4">
           <div className="mb-2">
             <label
               htmlFor="name"

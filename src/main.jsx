@@ -17,6 +17,8 @@ import BloodDirectory from "./pages/BloodDirectory.jsx";
 import NearbyDonor from "./pages/NearbyDonor.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import ProfileOverview from "./pages/Profile/ProfileOverview.jsx";
+import Request from "./pages/Profile/Request.jsx";
+import BloodRequest from "./pages/Profile/BloodRequest.jsx";
 
 const rout = createBrowserRouter(
   createRoutesFromElements(
@@ -41,11 +43,16 @@ const rout = createBrowserRouter(
       ></Route>
       <Route path="/NearbyDonor" element={<NearbyDonor></NearbyDonor>}></Route>
       <Route path="/profile" element={<Profile></Profile>}>
-      <Route path="/profile" element={<ProfileOverview></ProfileOverview>}></Route>
+        <Route
+          path="/profile"
+          element={<ProfileOverview></ProfileOverview>}
+        ></Route>
         <Route
           path="profileOverview"
           element={<ProfileOverview></ProfileOverview>}
         ></Route>
+        <Route path="request" element={<Request></Request>}></Route>
+        <Route path="donation_request" element={<BloodRequest></BloodRequest>}></Route>
       </Route>
     </Route>
   )

@@ -31,14 +31,19 @@ export default function Header() {
       >
         <div className="flex justify-between items-center w-full">
           <img src={logo} alt="Logo" className="md:h-28 md:w-32 h-24 w-28" />
-
-          <button
-            onClick={handleToggleMenu}
-            className="md:hidden flex items-center text-gray-700 focus:outline-none"
-          >
-            <span className="sr-only">Toggle menu</span>
-            {isMenuOpen ? <MdClose size={30} /> : <MdMenu size={30} />}
-          </button>
+          <div className="md:hidden flex gap-5">
+            <button
+              onClick={handleToggleMenu}
+              className="md:hidden flex items-center text-gray-700 focus:outline-none"
+            >
+              <span className="sr-only">Toggle menu</span>
+              {isMenuOpen ? <MdClose size={30} /> : <MdMenu size={30} />}
+            </button>
+            <Link to="/profile" className="md:hidden">
+              {" "}
+              <PiUserSquareFill size={37} />
+            </Link>
+          </div>
         </div>
 
         {/* Desktop Menu */}
@@ -72,7 +77,10 @@ export default function Header() {
               <option className="bg-white" value="" selected hidden disabled>
                 Blood Bank Login
               </option>
-              <option className="bg-white text-black" value="/BloodBankRegister">
+              <option
+                className="bg-white text-black"
+                value="/BloodBankRegister"
+              >
                 Add Your Blood Bank
               </option>
               <option className="bg-white text-black" value="/BloodBankLogin">

@@ -3,8 +3,8 @@ import axios from "axios";
 export default function DonorLogin() {
   return (
     <div className="flex flex-col justify-center md:mt-12 items-center">
-      <form className="border sticky w-auto flex flex-col items-center justify-center rounded-3xl bg-gray-200 mt-20">
-        <fieldset className="md:mx-20 md:my-10 md:p-9 mx-10 p-6 border border-gray-500 rounded-xl grid grid-cols-1 my-10 gap-4 sticky">
+      <form className="border sticky w-auto flex flex-col items-center justify-center rounded-3xl bg-transparent mt-20 shadow-2xl">
+        <fieldset className="md:mx-20 md:my-10 md:p-9 mx-10 p-6 border border-red-100 rounded-xl grid grid-cols-1 my-10 gap-4 sticky shadow-2xl">
           <legend className="text-2xl font-semibold text-red-600">
             Donor Login
           </legend>

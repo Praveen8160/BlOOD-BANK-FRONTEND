@@ -5,10 +5,10 @@ import { Carousel } from "react-responsive-carousel";
 import img from "../utils/Image.js";
 function Home() {
   const [carouselImages, setCarouselImages] = useState([
-    "https://i.pinimg.com/originals/f6/70/e0/f670e036d26c7a32d33c76ce8a7895c7.jpg  ",
-    "https://i.pinimg.com/originals/77/03/99/7703996c6677701660d3c6c108a00939.jpg",
-    "https://i.pinimg.com/originals/96/53/f6/9653f6102b68c96dd8f59808b3ceed9d.jpg",
-    "https://i.pinimg.com/736x/e3/af/65/e3af655f7a7ecc9b033353afc7f11ba5.jpg",
+    img.first,
+    img.second,
+    img.fourth,
+    img.third,
   ]);
   return (
     <div className="w-auto z-0 overflow-hidden">
@@ -25,7 +25,7 @@ function Home() {
               <img
                 src={image}
                 alt={`Carousel slide ${index}`}
-                className="w-screen object-center lg:h-[40rem] h-[27rem]"
+                className="w-screen object-fill lg:h-[40rem] h-[27rem]"
               />
             </div>
           ))}
