@@ -19,7 +19,7 @@ import Profile from "./pages/Profile/Profile.jsx";
 import ProfileOverview from "./pages/Profile/ProfileOverview.jsx";
 import Request from "./pages/Profile/Request.jsx";
 import BloodRequest from "./pages/Profile/BloodRequest.jsx";
-
+import 'react-toastify/dist/ReactToastify.css';
 const rout = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App></App>}>
