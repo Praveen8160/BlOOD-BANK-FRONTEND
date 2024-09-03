@@ -21,16 +21,16 @@ export default function Footer() {
             <div>
               <h4 className="text-lg font-semibold mb-3">Quick Links</h4>
               <ul className="text-gray-400">
-                <li className="mb-2 hover:text-white">
+                <li className="mb-2 hover:text-red-600">
                   <Link to="/">Home</Link>
                 </li>
-                <li className="mb-2 hover:text-white">
+                <li className="mb-2 hover:text-red-600">
                   <Link to="/BloodDirectory">Blood Bank Directory</Link>
                 </li>
-                <li className="mb-2 hover:text-white">
+                <li className="mb-2 hover:text-red-600">
                   <Link to="/NearbyDonor">Nearby Donor</Link>
                 </li>
-                <li className="mb-2 hover:text-white">
+                <li className="mb-2 hover:text-red-600">
                   <Link to="/">Contact Us</Link>
                 </li>
               </ul>
@@ -38,13 +38,13 @@ export default function Footer() {
             <div>
               <h4 className="text-lg font-semibold mb-3">For Donors</h4>
               <ul className="text-gray-400">
-                <li className="mb-2 hover:text-white">
+                <li className="mb-2 hover:text-red-600">
                   <Link to="/DonorRegister">Donor Register</Link>
                 </li>
-                <li className="mb-2 hover:text-white">
+                <li className="mb-2 hover:text-red-600">
                   <Link to="/DonorLogin">Donor Login</Link>
                 </li>
-                <li className="mb-2 hover:text-white">
+                <li className="mb-2 hover:text-red-600">
                   <Link to="/">Donor FAQs</Link>
                 </li>
               </ul>
@@ -52,13 +52,13 @@ export default function Footer() {
             <div>
               <h4 className="text-lg font-semibold mb-3">For Blood Banks</h4>
               <ul className="text-gray-400">
-                <li className="mb-2 hover:text-white">
+                <li className="mb-2 hover:text-red-600">
                   <Link to="/BloodBankRegister">Add Your Blood Bank</Link>
                 </li>
-                <li className="mb-2 hover:text-white">
+                <li className="mb-2 hover:text-red-600">
                   <Link to="/BloodBankLogin">Blood Bank Login</Link>
                 </li>
-                <li className="mb-2 hover:text-white">
+                <li className="mb-2 hover:text-red-600">
                   <Link to="/">Blood Bank FAQs</Link>
                 </li>
               </ul>
@@ -71,16 +71,16 @@ export default function Footer() {
         <div className="flex justify-between items-center">
           {/* Social Media Links */}
           <div className="flex space-x-6">
-            <a href="#" className="text-gray-400 hover:text-white">
+            <a href="#" className="text-gray-400 hover:text-red-600">
               <FaFacebook size={24} />
             </a>
-            <a href="#" className="text-gray-400 hover:text-white">
+            <a href="#" className="text-gray-400 hover:text-red-600">
               <FaTwitter size={24} />
             </a>
-            <a href="#" className="text-gray-400 hover:text-white">
+            <a href="#" className="text-gray-400 hover:text-red-600">
               <FaInstagram size={24} />
             </a>
-            <a href="#" className="text-gray-400 hover:text-white">
+            <a href="#" className="text-gray-400 hover:text-red-600">
               <FaLinkedin size={24} />
             </a>
           </div>

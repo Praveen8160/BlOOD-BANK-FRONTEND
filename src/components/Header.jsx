@@ -49,7 +49,7 @@ export default function Header() {
             </Link>
 
             <select
-              title="Looking for blood"
+              title="Option"
               className="lg:w-44 text-center md:w-40 p-2.5 font-semibold text-white border-none rounded-3xl shadow-sm outline-none bg-red-700 transition-all duration-500 appearance-none cursor-pointer md:hover:w-48"
               onChange={handleNavigation}
             >
@@ -65,7 +65,7 @@ export default function Header() {
             </select>
 
             <select
-              title="Blood Bank Login"
+              title="Option"
               className="lg:w-44 text-center md:w-40 font-semibold p-2.5 border-none text-white appearance-none rounded-3xl outline-none bg-red-700 transition-all duration-500 focus:ring-0 focus:border-none shadow-none cursor-pointer md:hover:w-48"
               onChange={handleNavigation}
             >
@@ -81,7 +81,7 @@ export default function Header() {
             </select>
 
             <select
-              title="Donor Login"
+              title="Option"
               className="lg:w-44 md:w-36 text-center font-semibold p-2.5 border-none text-white appearance-none rounded-3xl outline-none bg-red-700 transition-all duration-500 focus:ring-0 focus:border-none shadow-none cursor-pointer md:hover:w-48"
               onChange={handleNavigation}
             >
@@ -112,22 +112,7 @@ export default function Header() {
                 Home
               </Link>
               <select
-                title="Click it"
-                className="w-full text-center p-2.5 font-semibold text-white border-none bg-white rounded-3xl shadow-sm outline-none hover:bg-red-500 transition-all duration-500 appearance-none cursor-pointer"
-                onChange={handleNavigation}
-              >
-                <option className="bg-white" value="" selected hidden disabled>
-                  Looking for blood
-                </option>
-                <option className="bg-white" value="/BloodDirectory">
-                  Blood Bank Directory
-                </option>
-                <option className="bg-white" value="/NearbyDonor">
-                  Nearby Donor
-                </option>
-              </select>
-              <select
-                title="Click it"
+                title="Option"
                 className="w-full text-center font-semibold p-2.5 border-none text-black appearance-none bg-white rounded-3xl outline-none hover:bg-red-500 transition-all duration-1000 focus:ring-0 focus:border-none shadow-none cursor-pointer"
                 onChange={handleNavigation}
               >
@@ -142,7 +127,22 @@ export default function Header() {
                 </option>
               </select>
               <select
-                title="Click it"
+                title="Option"
+                className="w-full text-center font-semibold p-2.5 border-none text-black appearance-none bg-white rounded-3xl outline-none hover:bg-red-500 transition-all duration-1000 focus:ring-0 focus:border-none shadow-none cursor-pointer"
+                onChange={handleNavigation}
+              >
+                <option className="bg-white" value="" selected hidden disabled>
+                  Looking for blood
+                </option>
+                <option className="bg-white" value="/BloodDirectory">
+                  Blood Bank Directory
+                </option>
+                <option className="bg-white" value="/NearbyDonor">
+                  Nearby Donor
+                </option>
+              </select>
+              <select
+                title="Option"
                 className="w-full text-center font-semibold p-2.5 border-none text-black appearance-none bg-white rounded-3xl outline-none hover:bg-red-500 transition-all duration-1000 focus:ring-0 focus:border-none shadow-none cursor-pointer"
                 onChange={handleNavigation}
               >

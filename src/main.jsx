@@ -41,6 +41,7 @@ const rout = createBrowserRouter(
       ></Route>
       <Route path="/NearbyDonor" element={<NearbyDonor></NearbyDonor>}></Route>
       <Route path="/profile" element={<Profile></Profile>}>
+      <Route path="/profile" element={<ProfileOverview></ProfileOverview>}></Route>
         <Route
           path="profileOverview"
           element={<ProfileOverview></ProfileOverview>}
