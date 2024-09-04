@@ -3,6 +3,7 @@ import logo from "../assets/logo3.jpeg";
 import { MdMenu, MdClose } from "react-icons/md";
 import { PiUserSquareFill } from "react-icons/pi";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,6 +25,7 @@ export default function Header() {
 
   return (
     <>
+
       <header
         className={`bg-slate-50 shadow-2xl rounded-b-lg sticky top-0 flex flex-col md:flex-row md:justify-between md:items-center px-4 md:px-10 transition-all duration-700 z-50 overflow-hidden${
           isMenuOpen ? "h-auto py-4" : "h-28"
@@ -167,6 +169,7 @@ export default function Header() {
             </div>
           </div>
         )}
+        <ToastContainer/>
       </header>
     </>
   );

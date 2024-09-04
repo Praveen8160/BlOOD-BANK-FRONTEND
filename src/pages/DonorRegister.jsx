@@ -61,7 +61,7 @@ function DonorRegister() {
             setValue("district", ""); // Reset district selection when state changes
           }
         } catch (error) {
-          console.error("Error fetching districts", error);
+          // console.error("Error fetching districts", error);
           toast.error("Failed to fetch districts. Please try again later.");
         }
       } else {
@@ -86,8 +86,7 @@ function DonorRegister() {
         }
       );
       const response = res.data;
-      // console.log(response);
-      if (response.status === 200) {
+      if (response.success === true) {
         toast.success("Registration successful Now Login to continue");
       }
     } catch (error) {
@@ -106,8 +105,8 @@ function DonorRegister() {
         className="border min-h-[45rem] w-full max-w-4xl flex flex-col items-center justify-center rounded-3xl bg-white mt-5 shadow-2xl p-6"
         onSubmit={handleSubmit(Register)}
       >
-        <fieldset className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-          <legend className="text-3xl font-semibold text-red-600 mb-4 md:col-span-2 text-center">
+        <fieldset className="w-full md:mx-20 md:my-10 md:p-9 mx-5 p-5 border grid grid-cols-1 md:grid-cols-2 gap-4 shadow-2xl border-red-100 rounded-xl my-4 sticky">
+          <legend className="text-3xl font-semibold text-red-600 mb-4 md:col-span-2">
             Donor Registration
           </legend>
           <div className="flex flex-col">
@@ -371,7 +370,7 @@ function DonorRegister() {
           Register
         </button>
       </form>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 }
