@@ -31,7 +31,6 @@ function DonorRegister() {
   const selectedState = watch("state"); // Watch for changes in state selection
   const selectedDistrict = watch("district"); // Watch for changes in district selection
 
-  // Fetch all states on component mount
   useEffect(() => {
     const fetchStates = async () => {
       try {
@@ -47,7 +46,6 @@ function DonorRegister() {
     fetchStates();
   }, []);
 
-  // Fetch districts whenever selectedState changes
   useEffect(() => {
     const fetchDistricts = async () => {
       if (selectedState) {
@@ -74,26 +72,49 @@ function DonorRegister() {
     fetchDistricts();
   }, [selectedState, setValue, states]);
 
-  const onSubmit = (data) => {
+  const Register = async (data) => {
     console.log("Form Data Submitted: ", data);
-    // Add your form submission logic here (e.g., API call)
-    toast.success("Registration successful!");
+    // axios.defaults.withCredentials = true;
+    try {
+      const res = await axios.post(
+        "http://localhost:4000/Donor/register",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const response = res.data;
+      // console.log(response);
+      if (response.status === 200) {
+        toast.success("Registration successful Now Login to continue");
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response && error.response.status === 400) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(error.response.data.message);
+      }
+    }
   };
 
   return (
     <div className="flex flex-col justify-center md:mt-12 items-center">
       <form
         className="border min-h-[45rem] w-full max-w-4xl flex flex-col items-center justify-center rounded-3xl bg-white mt-5 shadow-2xl p-6"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(Register)}
       >
         <fieldset className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
           <legend className="text-3xl font-semibold text-red-600 mb-4 md:col-span-2 text-center">
             Donor Registration
           </legend>
-
-          {/* Full Name */}
           <div className="flex flex-col">
-            <label htmlFor="fullname" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="fullname"
+              className="text-sm font-medium text-gray-700"
+            >
               Full Name<span className="text-red-500">*</span>
             </label>
             <input
@@ -103,11 +124,11 @@ function DonorRegister() {
               {...register("fullname", { required: "Full Name is required" })}
             />
             {errors.fullname && (
-              <p className="text-red-600 text-sm mt-1">{errors.fullname.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.fullname.message}
+              </p>
             )}
           </div>
-
-          {/* Age */}
           <div className="flex flex-col">
             <label htmlFor="age" className="text-sm font-medium text-gray-700">
               Age<span className="text-red-500">*</span>
@@ -132,10 +153,11 @@ function DonorRegister() {
               <p className="text-red-600 text-sm mt-1">{errors.age.message}</p>
             )}
           </div>
-
-          {/* Mobile */}
           <div className="flex flex-col">
-            <label htmlFor="mobile" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="mobile"
+              className="text-sm font-medium text-gray-700"
+            >
               Mobile Number<span className="text-red-500">*</span>
             </label>
             <input
@@ -151,13 +173,16 @@ function DonorRegister() {
               })}
             />
             {errors.mobile && (
-              <p className="text-red-600 text-sm mt-1">{errors.mobile.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.mobile.message}
+              </p>
             )}
           </div>
-
-          {/* Email */}
           <div className="flex flex-col">
-            <label htmlFor="email" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="text-sm font-medium text-gray-700"
+            >
               Email<span className="text-red-500">*</span>
             </label>
             <input
@@ -167,20 +192,23 @@ function DonorRegister() {
               {...register("email", {
                 required: "Email is required",
                 pattern: {
-                  value:
-                    /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                  value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
                   message: "Enter a valid email address",
                 },
               })}
             />
             {errors.email && (
-              <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
-          {/* Password */}
           <div className="flex flex-col">
-            <label htmlFor="password" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium text-gray-700"
+            >
               Password<span className="text-red-500">*</span>
             </label>
             <input
@@ -196,19 +224,25 @@ function DonorRegister() {
               })}
             />
             {errors.password && (
-              <p className="text-red-600 text-sm mt-1">{errors.password.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.password.message}
+              </p>
             )}
           </div>
 
-          {/* Blood Group */}
           <div className="flex flex-col">
-            <label htmlFor="bloodGroup" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="bloodGroup"
+              className="text-sm font-medium text-gray-700"
+            >
               Blood Group<span className="text-red-500">*</span>
             </label>
             <select
               id="bloodGroup"
               className="mt-1 p-2 border border-gray-300 rounded bg-white"
-              {...register("bloodGroup", { required: "Select your blood group" })}
+              {...register("bloodGroup", {
+                required: "Select your blood group",
+              })}
             >
               <option value="">Select Blood Group</option>
               <option value="A+">A+</option>
@@ -221,13 +255,17 @@ function DonorRegister() {
               <option value="O-">O-</option>
             </select>
             {errors.bloodGroup && (
-              <p className="text-red-600 text-sm mt-1">{errors.bloodGroup.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.bloodGroup.message}
+              </p>
             )}
           </div>
 
-          {/* State */}
           <div className="flex flex-col">
-            <label htmlFor="state" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="state"
+              className="text-sm font-medium text-gray-700"
+            >
               State<span className="text-red-500">*</span>
             </label>
             <select
@@ -243,13 +281,17 @@ function DonorRegister() {
               ))}
             </select>
             {errors.state && (
-              <p className="text-red-600 text-sm mt-1">{errors.state.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.state.message}
+              </p>
             )}
           </div>
 
-          {/* District */}
           <div className="flex flex-col">
-            <label htmlFor="district" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="district"
+              className="text-sm font-medium text-gray-700"
+            >
               District<span className="text-red-500">*</span>
             </label>
             <select
@@ -260,19 +302,26 @@ function DonorRegister() {
             >
               <option value="">Select District</option>
               {districts.map((district) => (
-                <option key={district.district_id} value={district.district_name}>
+                <option
+                  key={district.district_id}
+                  value={district.district_name}
+                >
                   {district.district_name}
                 </option>
               ))}
             </select>
             {errors.district && (
-              <p className="text-red-600 text-sm mt-1">{errors.district.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.district.message}
+              </p>
             )}
           </div>
 
-          {/* Address */}
           <div className="flex flex-col">
-            <label htmlFor="address" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="address"
+              className="text-sm font-medium text-gray-700"
+            >
               Address<span className="text-red-500">*</span>
             </label>
             <textarea
@@ -282,13 +331,17 @@ function DonorRegister() {
               {...register("address", { required: "Address is required" })}
             />
             {errors.address && (
-              <p className="text-red-600 text-sm mt-1">{errors.address.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.address.message}
+              </p>
             )}
           </div>
 
-          {/* Pincode */}
           <div className="flex flex-col">
-            <label htmlFor="pincode" className="text-sm font-medium text-gray-700">
+            <label
+              htmlFor="pincode"
+              className="text-sm font-medium text-gray-700"
+            >
               Pincode<span className="text-red-500">*</span>
             </label>
             <input
@@ -304,7 +357,9 @@ function DonorRegister() {
               })}
             />
             {errors.pincode && (
-              <p className="text-red-600 text-sm mt-1">{errors.pincode.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.pincode.message}
+              </p>
             )}
           </div>
         </fieldset>
