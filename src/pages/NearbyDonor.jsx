@@ -65,7 +65,7 @@ function NearbyDonor() {
   }, [selectedState, setValue, states]);
 
   const SearchDonor = async (data) => {
-    console.log("data", data);
+    // console.log("data", data);
     try {
       const res = await axios.post(
         "http://localhost:4000/Search/getDonor",
@@ -77,7 +77,7 @@ function NearbyDonor() {
         }
       );
       const response = res.data;
-      console.log(response.Donors);
+      // console.log(response.Donors);
       setDonor(response.Donors);
     } catch (error) {
       // console.log("error",error.response)
@@ -210,7 +210,7 @@ function NearbyDonor() {
               </th>
             </tr>
           </thead>
-          <tbody className="text-center bg-slate-600">
+          <tbody className="text-center">
             {donor.length > 0 ? (
               donor.map((dnr) => {
                 return (

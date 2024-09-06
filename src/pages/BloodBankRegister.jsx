@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 function BloodBankRegister() {
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -72,7 +73,27 @@ function BloodBankRegister() {
     fetchDistricts();
   }, [selectedState, setValue, states]);
   const Register = async (data) => {
-    console.log(data);
+    try {
+      const res = await axios.post(
+        "http://localhost:4000/bloodBank/register",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const response = res.data;
+      if (response.success === true) {
+        toast.success("Registration successful Now Login to continue");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(error.response.data.message);
+      }
+    }
   };
   return (
     <div className="flex flex-col justify-center md:mt-12 items-center">
@@ -101,7 +122,7 @@ function BloodBankRegister() {
                 required: "Blood Bank Name is required",
               })}
             />
-            {errors.bloodBankName&& (
+            {errors.bloodBankName && (
               <p className="text-red-600 text-sm mt-1">
                 {errors.bloodBankName.message}
               </p>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import {toast } from "react-toastify";
 
 function DonorRegister() {
   const [states, setStates] = useState([]);
