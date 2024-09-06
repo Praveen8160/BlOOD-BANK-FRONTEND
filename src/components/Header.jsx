@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/logo3.jpeg";
 import { MdMenu, MdClose } from "react-icons/md";
 import { PiUserSquareFill } from "react-icons/pi";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../store/Authaction";
 
 export default function Header() {
+  const { isAuth } = useSelector((state) => state.Auth);
+  const dispatch = useDispatch();
+  // console.log(isAuth)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleToggleMenu = () => {
@@ -22,10 +27,12 @@ export default function Header() {
       }
     }
   };
+  useEffect(() => {
+    dispatch(login());
+  }, [dispatch]);
 
   return (
     <>
-
       <header
         className={`bg-slate-50 shadow-2xl rounded-b-lg sticky top-0 flex flex-col md:flex-row md:justify-between md:items-center px-4 md:px-10 transition-all duration-700 z-50 overflow-hidden${
           isMenuOpen ? "h-auto py-4" : "h-28"
@@ -70,47 +77,69 @@ export default function Header() {
                 Nearby Donor
               </option>
             </select>
+            {isAuth === false ? (
+              <>
+                <select
+                  title="Option"
+                  className="lg:w-44 text-center md:w-40 font-semibold p-2.5 border-none text-white appearance-none rounded-3xl outline-none bg-red-700 transition-all duration-500 focus:ring-0 focus:border-none shadow-none cursor-pointer md:hover:w-48"
+                  onChange={handleNavigation}
+                >
+                  <option
+                    className="bg-white"
+                    value=""
+                    selected
+                    hidden
+                    disabled
+                  >
+                    Blood Bank Login
+                  </option>
+                  <option
+                    className="bg-white text-black"
+                    value="/BloodBankRegister"
+                  >
+                    Add Your Blood Bank
+                  </option>
+                  <option
+                    className="bg-white text-black"
+                    value="/BloodBankLogin"
+                  >
+                    Login Blood Bank
+                  </option>
+                </select>
 
-            <select
-              title="Option"
-              className="lg:w-44 text-center md:w-40 font-semibold p-2.5 border-none text-white appearance-none rounded-3xl outline-none bg-red-700 transition-all duration-500 focus:ring-0 focus:border-none shadow-none cursor-pointer md:hover:w-48"
-              onChange={handleNavigation}
-            >
-              <option className="bg-white" value="" selected hidden disabled>
-                Blood Bank Login
-              </option>
-              <option
-                className="bg-white text-black"
-                value="/BloodBankRegister"
-              >
-                Add Your Blood Bank
-              </option>
-              <option className="bg-white text-black" value="/BloodBankLogin">
-                Login Blood Bank
-              </option>
-            </select>
-
-            <select
-              title="Option"
-              className="lg:w-44 md:w-36 text-center font-semibold p-2.5 border-none text-white appearance-none rounded-3xl outline-none bg-red-700 transition-all duration-500 focus:ring-0 focus:border-none shadow-none cursor-pointer md:hover:w-48"
-              onChange={handleNavigation}
-            >
-              <option className="bg-white" value="" selected hidden disabled>
-                Donor Login
-              </option>
-              <option className="bg-white text-black" value="/DonorRegister">
-                Donor Register
-              </option>
-              <option className="bg-white text-black" value="/DonorLogin">
-                Donor Login
-              </option>
-            </select>
-            <div>
-              <Link to="/profile">
-                {" "}
-                <PiUserSquareFill size={37} />
-              </Link>
-            </div>
+                <select
+                  title="Option"
+                  className="lg:w-44 md:w-36 text-center font-semibold p-2.5 border-none text-white appearance-none rounded-3xl outline-none bg-red-700 transition-all duration-500 focus:ring-0 focus:border-none shadow-none cursor-pointer md:hover:w-48"
+                  onChange={handleNavigation}
+                >
+                  <option
+                    className="bg-white"
+                    value=""
+                    selected
+                    hidden
+                    disabled
+                  >
+                    Donor Login
+                  </option>
+                  <option
+                    className="bg-white text-black"
+                    value="/DonorRegister"
+                  >
+                    Donor Register
+                  </option>
+                  <option className="bg-white text-black" value="/DonorLogin">
+                    Donor Login
+                  </option>
+                </select>
+              </>
+            ) : (
+              <div>
+                <Link to="/profile">
+                  {" "}
+                  <PiUserSquareFill size={37} />
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
@@ -136,40 +165,57 @@ export default function Header() {
                   Nearby Donor
                 </option>
               </select>
-              <select
-                title="Option"
-                className="w-full text-center font-semibold p-2.5 border-none text-black appearance-none bg-white rounded-3xl outline-none hover:bg-red-500 transition-all duration-1000 focus:ring-0 focus:border-none shadow-none cursor-pointer"
-                onChange={handleNavigation}
-              >
-                <option className="bg-white" value="" selected hidden disabled>
-                  Looking for blood
-                </option>
-                <option className="bg-white" value="/BloodDirectory">
-                  Blood Bank Directory
-                </option>
-                <option className="bg-white" value="/NearbyDonor">
-                  Nearby Donor
-                </option>
-              </select>
-              <select
-                title="Option"
-                className="w-full text-center font-semibold p-2.5 border-none text-black appearance-none bg-white rounded-3xl outline-none hover:bg-red-500 transition-all duration-1000 focus:ring-0 focus:border-none shadow-none cursor-pointer"
-                onChange={handleNavigation}
-              >
-                <option className="bg-white" value="" selected hidden disabled>
-                  Donor Login
-                </option>
-                <option className="bg-white" value="/DonorRegister">
-                  Donor Register
-                </option>
-                <option className="bg-white" value="/DonorLogin">
-                  Donor Login
-                </option>
-              </select>
+              {isAuth === false && (
+                <>
+                  {" "}
+                  <select
+                    title="Option"
+                    className="w-full text-center font-semibold p-2.5 border-none text-black appearance-none bg-white rounded-3xl outline-none hover:bg-red-500 transition-all duration-1000 focus:ring-0 focus:border-none shadow-none cursor-pointer"
+                    onChange={handleNavigation}
+                  >
+                    <option
+                      className="bg-white"
+                      value=""
+                      selected
+                      hidden
+                      disabled
+                    >
+                      Looking for blood
+                    </option>
+                    <option className="bg-white" value="/BloodDirectory">
+                      Blood Bank Directory
+                    </option>
+                    <option className="bg-white" value="/NearbyDonor">
+                      Nearby Donor
+                    </option>
+                  </select>
+                  <select
+                    title="Option"
+                    className="w-full text-center font-semibold p-2.5 border-none text-black appearance-none bg-white rounded-3xl outline-none hover:bg-red-500 transition-all duration-1000 focus:ring-0 focus:border-none shadow-none cursor-pointer"
+                    onChange={handleNavigation}
+                  >
+                    <option
+                      className="bg-white"
+                      value=""
+                      selected
+                      hidden
+                      disabled
+                    >
+                      Donor Login
+                    </option>
+                    <option className="bg-white" value="/DonorRegister">
+                      Donor Register
+                    </option>
+                    <option className="bg-white" value="/DonorLogin">
+                      Donor Login
+                    </option>
+                  </select>
+                </>
+              )}
             </div>
           </div>
         )}
-        <ToastContainer/>
+        <ToastContainer />
       </header>
     </>
   );

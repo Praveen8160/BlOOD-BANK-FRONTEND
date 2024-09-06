@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import {toast } from "react-toastify";
-
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 function DonorRegister() {
+  const { isAuth } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -45,7 +48,11 @@ function DonorRegister() {
     };
     fetchStates();
   }, []);
-
+  useEffect(() => {
+    if (isAuth) {
+      navigate("/");
+    }
+  }, [isAuth]);
   useEffect(() => {
     const fetchDistricts = async () => {
       if (selectedState) {

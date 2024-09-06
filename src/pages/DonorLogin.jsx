@@ -1,10 +1,56 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../store/Authaction";
+import { useEffect } from "react";
+function DonorLogin() {
+  const { isAuth, Role } = useSelector((state) => state.Auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues: { email: "", password: "" } });
 
-export default function DonorLogin() {
+  const Login = async (data) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:4000/Donor/login",
+        data,
+        { withCredentials: true },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const response = res.data;
+      if (response.success === true) {
+        await dispatch(login());
+        toast.success("Successfully Login");
+        // console.log(Role);
+        navigate("/");
+      }
+    } catch (error) {
+      // console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+  useEffect(() => {
+    if (isAuth) {
+      console.log("check:", isAuth);
+      navigate("/");
+    }
+  }, [isAuth]);
   return (
     <div className="flex flex-col justify-center md:mt-12 items-center">
-      <form className="border sticky w-auto flex flex-col items-center justify-center rounded-3xl bg-transparent mt-20 shadow-2xl">
+      <form
+        className="border sticky w-auto flex flex-col items-center justify-center rounded-3xl bg-transparent mt-20 shadow-2xl"
+        onSubmit={handleSubmit(Login)}
+      >
         <fieldset className="md:mx-20 md:my-10 md:p-9 mx-10 p-6 border border-red-100 rounded-xl grid grid-cols-1 my-10 gap-4 sticky shadow-2xl">
           <legend className="text-2xl font-semibold text-red-600">
             Donor Login
@@ -19,9 +65,14 @@ export default function DonorLogin() {
             <input
               type="email"
               id="email"
-              name="email"
+              {...register("email", { required: "Email is required" })}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
+            {errors.email && (
+              <p className="text-red-600 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
           <div className="mb-2 sticky">
             <label
@@ -33,9 +84,16 @@ export default function DonorLogin() {
             <input
               type="Password"
               id="Password"
-              name="Password"
+              {...register("password", {
+                required: "password is required",
+              })}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
+            {errors.password && (
+              <p className="text-red-600 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
         </fieldset>
 
@@ -43,9 +101,10 @@ export default function DonorLogin() {
           type="submit"
           className="px-7 py-2 mb-4 bg-red-500 text-white rounded hover:bg-red-600"
         >
-          Register
+          Login
         </button>
       </form>
     </div>
   );
 }
+export default DonorLogin;

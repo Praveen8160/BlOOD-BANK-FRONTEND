@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 function BloodBankRegister() {
+  const { isAuth } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
+  const navigate = useNavigate();
   // const [states, setStates] = useState([]);
   // const [selectedState, setSelectedState] = useState("");
   // const [districts, setDistricts] = useState([]);
@@ -95,6 +99,11 @@ function BloodBankRegister() {
       }
     }
   };
+  useEffect(() => {
+    if (isAuth) {
+      navigate("/");
+    }
+  }, [isAuth]);
   return (
     <div className="flex flex-col justify-center md:mt-12 items-center">
       <form

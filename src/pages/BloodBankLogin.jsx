@@ -1,9 +1,54 @@
-import React from "react";
-
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../store/Authaction";
+import { useEffect } from "react";
 function BloodBankLogin() {
+  const { isAuth} = useSelector((state) => state.Auth);
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues: { email: "", password: "" } });
+  const Login = async (data) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:4000/bloodBank/login",
+        data,
+        { withCredentials: true },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const response = res.data;
+      if (response.success === true) {
+        dispatch(login());
+        toast.success("Successfully Login");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+  useEffect(() => {
+    if (isAuth) {
+      navigate("/");
+    }
+  }, [isAuth]);
   return (
     <div className="flex flex-col justify-center md:mt-12 items-center">
-      <form className="border sticky w-auto flex flex-col items-center justify-center rounded-3xl bg-transparent mt-20 shadow-2xl">
+      <form
+        className="border sticky w-auto flex flex-col items-center justify-center rounded-3xl bg-transparent mt-20 shadow-2xl"
+        onSubmit={handleSubmit(Login)}
+      >
         <fieldset className="md:mx-20 md:my-10 md:p-9 mx-10 p-6 border border-red-100 rounded-xl grid grid-cols-1 my-10 gap-4 sticky shadow-2xl">
           <legend className="text-2xl font-semibold text-red-600 shadow-2xl">
             Blood Bank Login
@@ -18,9 +63,14 @@ function BloodBankLogin() {
             <input
               type="email"
               id="email"
-              name="email"
+              {...register("email", { required: "Email is required" })}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
+            {errors.email && (
+              <p className="text-red-600 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
           <div className="mb-2 sticky">
             <label
@@ -32,12 +82,24 @@ function BloodBankLogin() {
             <input
               type="Password"
               id="Password"
-              name="Password"
+              {...register("password", {
+                required: "password is required",
+              })}
               className="mt-1 p-2 border border-gray-300 rounded w-full"
             />
+            {errors.password && (
+              <p className="text-red-600 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
           <div>
-            <h1>I'm New User : <a className="underline" href="jb">Sign Up</a></h1>
+            <h1>
+              I'm New User :{" "}
+              <a className="underline" href="jb">
+                Sign Up
+              </a>
+            </h1>
           </div>
         </fieldset>
 
