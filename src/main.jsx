@@ -19,7 +19,8 @@ import Profile from "./pages/Profile/Profile.jsx";
 import ProfileOverview from "./pages/Profile/ProfileOverview.jsx";
 import Request from "./pages/Profile/Request.jsx";
 import BloodRequest from "./pages/Profile/BloodRequest.jsx";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import BloodInventory from "./pages/Profile/BloodInventory.jsx";
 const rout = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App></App>}>
@@ -52,7 +53,14 @@ const rout = createBrowserRouter(
           element={<ProfileOverview></ProfileOverview>}
         ></Route>
         <Route path="request" element={<Request></Request>}></Route>
-        <Route path="donation_request" element={<BloodRequest></BloodRequest>}></Route>
+        <Route
+          path="donation_request"
+          element={<BloodRequest></BloodRequest>}
+        ></Route>
+        <Route
+          path="blood_inventory"
+          element={<BloodInventory></BloodInventory>}
+        ></Route>
       </Route>
     </Route>
   )

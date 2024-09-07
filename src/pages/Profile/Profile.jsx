@@ -9,11 +9,9 @@ import { toast } from "react-toastify";
 function Profile() {
   const { Role } = useSelector((state) => state.Auth);
   const navigate = useNavigate();
-  const [Donor, setDonor] = useState([]);
-  const [bloodBank, setbloodBank] = useState([]);
-  
+
   useEffect(() => {
-    if (Role === null) {
+    if (!Role) {
       navigate("/");
     }
   }, [Role, navigate]);
@@ -55,7 +53,7 @@ function Profile() {
                     <span className="self-center">
                       <CgProfile size={30} />
                     </span>
-                    <Link to="/profile/profileOverview">Add Blood</Link>
+                    <Link to="/profile/blood_inventory">Add Blood</Link>
                   </li>
                 )}
               </ul>
