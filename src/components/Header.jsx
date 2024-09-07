@@ -5,7 +5,7 @@ import { PiUserSquareFill } from "react-icons/pi";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../store/Authaction";
+import { login, logout } from "../store/Authaction";
 
 export default function Header() {
   const { isAuth } = useSelector((state) => state.Auth);
@@ -31,6 +31,11 @@ export default function Header() {
     dispatch(login());
   }, [dispatch]);
 
+  const handleLogout = () => {
+   
+    dispatch(logout());
+    navigate("/")
+  };
   return (
     <>
       <header
@@ -48,10 +53,14 @@ export default function Header() {
               <span className="sr-only">Toggle menu</span>
               {isMenuOpen ? <MdClose size={30} /> : <MdMenu size={30} />}
             </button>
-            <Link to="/profile" className="md:hidden">
-              {" "}
-              <PiUserSquareFill size={37} />
-            </Link>
+            {isAuth === true && (
+              <>
+                <Link to="/profile" className="md:hidden">
+                  {" "}
+                  <PiUserSquareFill size={37} />
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
@@ -133,7 +142,13 @@ export default function Header() {
                 </select>
               </>
             ) : (
-              <div>
+              <div className="flex gap-5">
+                <button
+                  className="lg:w-44 text-center md:w-40 p-2.5 font-bold text-white border-none rounded-3xl shadow-sm outline-none bg-red-700 transition-all duration-500 appearance-none cursor-pointer md:hover:w-48 hover:text-black"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
                 <Link to="/profile">
                   {" "}
                   <PiUserSquareFill size={37} />
@@ -165,7 +180,7 @@ export default function Header() {
                   Nearby Donor
                 </option>
               </select>
-              {isAuth === false && (
+              {isAuth === false ? (
                 <>
                   {" "}
                   <select
@@ -180,13 +195,19 @@ export default function Header() {
                       hidden
                       disabled
                     >
-                      Looking for blood
+                      Blood Bank Login
                     </option>
-                    <option className="bg-white" value="/BloodDirectory">
-                      Blood Bank Directory
+                    <option
+                      className="bg-white text-black"
+                      value="/BloodBankRegister"
+                    >
+                      Add Your Blood Bank
                     </option>
-                    <option className="bg-white" value="/NearbyDonor">
-                      Nearby Donor
+                    <option
+                      className="bg-white text-black"
+                      value="/BloodBankLogin"
+                    >
+                      Login Blood Bank
                     </option>
                   </select>
                   <select
@@ -211,6 +232,10 @@ export default function Header() {
                     </option>
                   </select>
                 </>
+              ) : (
+                <button className="w-full text-center font-semibold p-2.5 border-none text-black appearance-none bg-white rounded-3xl outline-none hover:bg-red-500 transition-all duration-1000 focus:ring-0 focus:border-none shadow-none cursor-pointer">
+                  Logout
+                </button>
               )}
             </div>
           </div>

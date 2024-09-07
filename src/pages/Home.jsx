@@ -102,7 +102,7 @@ function Home() {
             <table className="w-auto sticky mt-7 mx-4" cellpadding="5">
               <tr>
                 <td
-                  colspan="3"
+                  colSpan="3"
                   className="border  bg-red-500 text-white-900 text-center font-bold"
                 >
                   Blood Type Compatibility Matrix

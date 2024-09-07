@@ -9,8 +9,8 @@ const initialState = {
 const authreducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
-        // console.log(action.payload)
-        // console.log(action.payload.data.role)
+      // console.log(action.payload)
+      // console.log(action.payload.data.role)
       return {
         ...state,
         isAuth: action.payload.success,
@@ -22,6 +22,7 @@ const authreducer = (state = initialState, action) => {
       return {
         ...state,
         isAuth: false,
+        Role: null,
         error: null,
       };
     case SET_ERROR:
