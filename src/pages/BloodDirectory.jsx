@@ -4,10 +4,27 @@ import { useForm } from "react-hook-form";
 import { FaBook } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { MdMarkEmailRead } from "react-icons/md";
+import RequestModelB2B from "../components/RequestModel_B2B";
+import { useSelector } from "react-redux";
 function BloodDirectory() {
+  const { isAuth, Role } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
+  const [id, setId] = useState("");
   const [districts, setDistricts] = useState([]);
   const [bloodbank, setbloodbank] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const open = (id) => {
+    if (isAuth === true && Role === "bloodbank") {
+      setIsModalOpen(true);
+      setId(id);
+    } else {
+      toast.error("You need to login to request blood");
+    }
+  };
+  const close = () => {
+    setIsModalOpen(false);
+  };
   const {
     register,
     handleSubmit,
@@ -92,6 +109,7 @@ function BloodDirectory() {
         </h1>
       </div>
       <hr />
+      {isModalOpen && <RequestModelB2B close={close} id={id} />}
       <div className="mt-3">
         <form onSubmit={handleSubmit(searchBloodbank)}>
           <div className="mb-2 sticky">
@@ -185,6 +203,11 @@ function BloodDirectory() {
               <th class="p-3 text-md border border-gray-400 rounded">
                 Availble Blood
               </th>
+              {isAuth === true && Role === "bloodbank" && (
+                <th class="p-3 text-md border border-gray-400 rounded">
+                  Request
+                </th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -221,9 +244,18 @@ function BloodDirectory() {
                         // className="ml-3 md:ml-5 lg:ml-10 hover:text-red-500 cursor-pointer"
                         to={`/Availableblood/${bank._id}`}
                       >
-                        <FaBook  className="ml-3 md:ml-5 lg:ml-10 hover:text-red-500 cursor-pointer"/>
+                        <FaBook className="ml-3 md:ml-5 lg:ml-10 hover:text-red-500 cursor-pointer" />
                       </Link>
                     </td>
+                    {isAuth === true && Role === "bloodbank" && (
+                      <td class="p-3 text-md border border-gray-400 rounded">
+                        <MdMarkEmailRead
+                          onClick={() => open(bank._id)}
+                          size={25}
+                          className="ml-3 md:ml-5 lg:ml-10 hover:text-red-500 cursor-pointer"
+                        />
+                      </td>
+                    )}
                   </tr>
                 );
               })

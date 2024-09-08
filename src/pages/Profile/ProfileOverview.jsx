@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 function ProfileOverview() {
+    const dispatch = useDispatch();
   const { Role } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
@@ -91,12 +92,12 @@ function ProfileOverview() {
       if (Role === "donor") {
         // console.log("fatching");
         getDonorData();
-        setdonorUpdateData(Donor);
+        
       } else if (Role === "bloodbank") {
         getBloodBankData();
       }
     }
-  }, [Role, navigate,Donor]);
+  }, [Role, navigate, dispatch]);
   return (
     <div className="border-2 sticky border-red-200 rounded-lg">
       <div className="bg-red-200 text-center text-2xl font-semibold p-4">

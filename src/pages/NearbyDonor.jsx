@@ -3,7 +3,13 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { MdMarkEmailRead } from "react-icons/md";
+import RequestModel from "../components/RequestModel_B2D";
+import { useSelector } from "react-redux";
 function NearbyDonor() {
+  const { isAuth, Role } = useSelector((state) => state.Auth);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [id, setId] = useState("");
+  const [bloodgroup, setbloodgroup] = useState("");
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [donor, setDonor] = useState([]);
@@ -22,7 +28,18 @@ function NearbyDonor() {
   });
   const selectedState = watch("state"); // Watch for changes in state selection
   const selectedDistrict = watch("district"); // Watch for changes in district selection
-
+  const open = (id, bloodgroup) => {
+    if (!isAuth && !Role) {
+      toast.error("You need to login to request blood");
+    } else {
+      setIsModalOpen(true);
+      setId(id);
+      setbloodgroup(bloodgroup);
+    }
+  };
+  const close = () => {
+    setIsModalOpen(false);
+  };
   useEffect(() => {
     const fetchStates = async () => {
       try {
@@ -92,6 +109,9 @@ function NearbyDonor() {
         <h1 className="text-2xl">Search Donor</h1>
       </div>
       <hr />
+      {isModalOpen && (
+        <RequestModel close={close} id={id} bloodgroup={bloodgroup} />
+      )}
       <div className="mt-3">
         <form onSubmit={handleSubmit(SearchDonor)}>
           <div className="mb-2 sticky">
@@ -238,6 +258,7 @@ function NearbyDonor() {
                     </td>
                     <td class="p-3 text-md border border-gray-400 rounded">
                       <MdMarkEmailRead
+                        onClick={() => open(dnr._id, dnr.bloodGroup)}
                         size={25}
                         className="ml-3 md:ml-5 lg:ml-10 hover:text-red-500 cursor-pointer"
                       />
@@ -247,7 +268,6 @@ function NearbyDonor() {
               })
             ) : (
               <center className="text-center bg-red-50 text-red-500 text-lg">
-                
                 No Donor Found
               </center>
             )}
