@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { FaBook } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 function BloodDirectory() {
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -73,7 +75,7 @@ function BloodDirectory() {
         }
       );
       const response = res.data;
-      // console.log(response.bloobank);
+      console.log(response.bloobank);
       setbloodbank(response.bloobank);
     } catch (error) {
       // console.log("error",error.response)
@@ -186,41 +188,50 @@ function BloodDirectory() {
             </tr>
           </thead>
           <tbody>
-            {bloodbank.length > 0
-              ? bloodbank.map((bank) => {
-                  return (
-                    <tr>
-                      <td class="p-3 text-md border border-gray-400 rounded">
-                        {bank.bloodBankName}
-                      </td>
-                      <td class="p-3 text-md border border-gray-400 rounded">
-                        {bank.parentHospital}
-                      </td>
-                      <td class="p-3 text-md border border-gray-400 rounded">
-                        {bank.category}
-                      </td>
-                      <td class="p-3 text-md border border-gray-400 rounded">
-                        {bank.state}
-                      </td>
-                      <td class="p-3 text-md border border-gray-400 rounded">
-                        {bank.district}
-                      </td>
-                      <td class="p-3 text-md border border-gray-400 rounded">
-                        {bank.address}
-                      </td>
-                      <td class="p-3 text-md border border-gray-400 rounded">
-                        {bank.mobile}
-                      </td>
-                      <td class="p-3 text-md border border-gray-400 rounded">
-                        {bank.pincode}
-                      </td>
-                    </tr>
-                  );
-                })
-              :  <center className="text-center bg-red-50 text-red-500 text-lg">
-                
-              No Blood Bank Found
-            </center>}
+            {bloodbank.length > 0 ? (
+              bloodbank.map((bank) => {
+                return (
+                  <tr>
+                    <td class="p-3 text-md border border-gray-400 rounded">
+                      {bank.bloodBankName}
+                    </td>
+                    <td class="p-3 text-md border border-gray-400 rounded">
+                      {bank.parentHospital}
+                    </td>
+                    <td class="p-3 text-md border border-gray-400 rounded">
+                      {bank.category}
+                    </td>
+                    <td class="p-3 text-md border border-gray-400 rounded">
+                      {bank.state}
+                    </td>
+                    <td class="p-3 text-md border border-gray-400 rounded">
+                      {bank.district}
+                    </td>
+                    <td class="p-3 text-md border border-gray-400 rounded">
+                      {bank.address}
+                    </td>
+                    <td class="p-3 text-md border border-gray-400 rounded">
+                      {bank.mobile}
+                    </td>
+                    <td class="p-3 text-md border border-gray-400 rounded">
+                      {bank.pincode}
+                    </td>
+                    <td class="p-3 text-md border border-gray-400 rounded">
+                      <Link
+                        // className="ml-3 md:ml-5 lg:ml-10 hover:text-red-500 cursor-pointer"
+                        to={`/Availableblood/${bank._id}`}
+                      >
+                        <FaBook  className="ml-3 md:ml-5 lg:ml-10 hover:text-red-500 cursor-pointer"/>
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <center className="text-center bg-red-50 text-red-500 text-lg">
+                No Blood Bank Found
+              </center>
+            )}
           </tbody>
         </table>
       </div>

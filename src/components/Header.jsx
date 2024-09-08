@@ -233,7 +233,7 @@ export default function Header() {
                   </select>
                 </>
               ) : (
-                <button className="w-full text-center font-semibold p-2.5 border-none text-black appearance-none bg-white rounded-3xl outline-none hover:bg-red-500 transition-all duration-1000 focus:ring-0 focus:border-none shadow-none cursor-pointer">
+                <button className="w-full text-center font-semibold p-2.5 border-none text-black appearance-none bg-white rounded-3xl outline-none hover:bg-red-500 transition-all duration-1000 focus:ring-0 focus:border-none shadow-none cursor-pointer" onClick={handleLogout}>
                   Logout
                 </button>
               )}

@@ -31,6 +31,29 @@ function BloodInventory() {
       toast.error(error.response.data.message);
     }
   };
+  const handlesub = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:4000/bloodBank/subBlood",
+
+        {
+          bloodgroup: bloodgroup,
+          quantity: quantity,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.data.success) {
+        toast.success("Successfully Update");
+        getAllBloodgroups();
+      } else {
+        toast.error("Failed to Subtract");
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
   const navigate = useNavigate();
   const getAllBloodgroups = async () => {
     try {
@@ -41,7 +64,7 @@ function BloodInventory() {
         }
       );
       if (res.data.success === true) {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setBloodgroups(res.data.data);
       } else {
         toast.error("Failed to fetch bloodgroups. Please try again later.");
@@ -66,7 +89,7 @@ function BloodInventory() {
           Keep track of your blood inventory{" "}
         </p>
       </div>
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 bg-red-200 rounded-md p-4 mx-5">
+      <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-4 bg-red-200 rounded-md p-4 mx-5">
         <div className="flex flex-col gap-1">
           <label htmlFor="bloodgroup" className="text-red-600 font-semibold">
             Blood Group
@@ -101,33 +124,41 @@ function BloodInventory() {
             className="border-none p-2 rounded-md"
           />
         </div>
-        <div className="bg-red-600 hover:bg-red-500 text-white text-center justify-center rounded-md flex flex-col p-3">
-          <button
-            type="submit"
-            className="text-white lg:text-2xl text-xl rounded-md"
-            onClick={handleAdd}
-          >
-            Add
-          </button>
-        </div>
+        {/* <div className="gap-2 text-white text-center justify-center rounded-md flex flex-row p-3"> */}
+        <button
+          type="submit"
+          className="text-white lg:text-2xl p-2 text-xl rounded-md bg-red-600 hover:bg-red-500"
+          onClick={handleAdd}
+        >
+          +
+        </button>
+        <button
+          type="submit"
+          className="text-white lg:text-4xl p-2 text-xl rounded-md bg-red-600 hover:bg-red-500"
+          onClick={handlesub}
+        >
+          -
+        </button>
       </div>
+      {/* </div> */}
       <div className="overflow-x-auto m-5 rounded-lg">
         <table className="table-auto border-collapse border border-slate-200 bg-red-600 w-full">
           <thead>
             <th className="text-white p-3">Blood Group</th>
             <th className="text-white p-3">Available Stock (units)</th>
-            <th className="text-white p-3">Edit</th>
+            {/* <th className="text-white p-3">Edit</th> */}
           </thead>
           <tbody className="bg-red-200 text-center">
             {bloodgroups &&
               Object.entries(bloodgroups).map(([group, quantity], index) => (
-                <tr key={group} className={index % 2 === 0 ? "bg-red-200" : "bg-red-100"}>
+                <tr
+                  key={group}
+                  className={index % 2 === 0 ? "bg-red-200" : "bg-red-100"}
+                >
                   <td className="py-3">{group}</td>
                   <td className="py-3">{quantity}</td>
-                  <td className="py-3">edit</td>
                 </tr>
               ))}
-          
           </tbody>
         </table>
       </div>

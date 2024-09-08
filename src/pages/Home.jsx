@@ -1,15 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
 import img from "../utils/Image.js";
+import axios from "axios";
 function Home() {
+  const [totaldonor, setTotaldonor] = useState(0);
+  const [totalBloodbank, setTotalbloodbank] = useState(0);
   const [carouselImages, setCarouselImages] = useState([
     img.first,
     img.second,
     img.fourth,
     img.third,
   ]);
+  const gettotalUser = async () => {
+    const api1 = "http://localhost:4000/Donor/getTotalDonor";
+    const api2 = "http://localhost:4000/BloodBank/getTotalBloodBank";
+    axios
+      .all([axios.get(api1), axios.get(api2)])
+      .then(axios.spread((response1, response2) => {
+        setTotaldonor(response1.data.data);
+        setTotalbloodbank(response2.data.data);
+      }))
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
+  };
+  useEffect(() => {
+    gettotalUser();
+  },[]);
   return (
     <div className="w-auto z-0 overflow-hidden">
       <div className="w-auto">
@@ -33,11 +52,11 @@ function Home() {
       </div>
       <div className="h-auto w-screen flex flex-col md:flex-row mt-10 justify-evenly items-center">
         <div className="bg-blue-500 h-36 md:w-96 w-64 flex flex-col justify-center items-center sticky border rounded-2xl mb-10 md:mb-0">
-          <h1 className="font-semibold text-4xl">23244</h1>
+          <h1 className="font-semibold text-4xl">{totaldonor}</h1>
           <h1 className="font-semibold text-xl">Donor Register</h1>
         </div>
         <div className="bg-indigo-600 h-36 md:w-96 w-64 flex flex-col justify-center items-center sticky border rounded-2xl">
-          <h1 className="font-semibold text-4xl">23244</h1>
+          <h1 className="font-semibold text-4xl">{totalBloodbank}</h1>
           <h1 className="font-semibold text-xl">Blood Bank Register</h1>
         </div>
       </div>
