@@ -26,8 +26,8 @@ function NearbyDonor() {
       district: "",
     },
   });
-  const selectedState = watch("state"); // Watch for changes in state selection
-  const selectedDistrict = watch("district"); // Watch for changes in district selection
+  const selectedState = watch("state"); 
+  const selectedDistrict = watch("district"); 
   const open = (id, bloodgroup) => {
     if (!isAuth && !Role) {
       toast.error("You need to login to request blood");

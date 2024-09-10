@@ -15,13 +15,13 @@ function RequestModelB2B({ close, id }) {
   const sendRequest = async (e) => {
     e.preventDefault();
     try {
-      const res = axios.post(
+      const res = await axios.post(
         "http://localhost:4000/bloodrequest/bloodRequestB2Bhandler",
         value,
         { withCredentials: true }
       );
       const response = res.data;
-      if (response.status === 200) {
+      if (response.success === true) {
         toast.success("Request Sent");
       }
     } catch (error) {
