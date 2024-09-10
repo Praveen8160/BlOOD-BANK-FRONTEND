@@ -6,6 +6,8 @@ function BloodRequest() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
   const [bloodbankRequest, setBloodbankRequest] = useState([]);
   const [donorRequest, setDonorRequest] = useState([]);
+  const [bloodbankAllRequest, setBloodbankAllRequest] = useState([]);
+  const [donorAllRequest, setDonorAllRequest] = useState([]);
   // const[]=us
   const getBloodbakAllRequest = async () => {
     try {
@@ -17,6 +19,7 @@ function BloodRequest() {
       );
       console.log(res.data.data);
       setBloodbankRequest(res.data.data);
+      setBloodbankAllRequest(res.data.data);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -31,6 +34,7 @@ function BloodRequest() {
       );
       console.log(res.data.data);
       setDonorRequest(res.data.data);
+      setDonorAllRequest(res.data.data);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -38,7 +42,20 @@ function BloodRequest() {
   const handleChange = (id) => async (e) => {
     // console.log(e.target.value);
     // console.log(id);
-    try {
+    if (Role === "donor") {
+      const res = await axios.put(
+        "http://localhost:4000/bloodrequest/updateDonorRequestStatus",
+        {
+          id: id,
+          status: e.target.value,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success(res.data.message);
+      getDonorRequest();
+    } else if (Role === "bloodbank") {
       const res = await axios.put(
         "http://localhost:4000/bloodrequest/updateBloodbakRequestStatus",
         {
@@ -51,35 +68,56 @@ function BloodRequest() {
       );
       toast.success(res.data.message);
       getBloodbakAllRequest();
-    } catch (error) {
-      toast.error(error.response.data.message);
     }
   };
   const getStatusData = (e) => {
     if (e.target.value === "") {
-      getBloodbakAllRequest();
+      Role === "donor"
+        ? setDonorRequest(donorAllRequest)
+        : setBloodbankRequest(bloodbankAllRequest);
     } else if (e.target.value === "Pending") {
-      const data = bloodbankRequest.filter(
-        (request) => request.status === "Pending"
-      );
-      setBloodbankRequest(data);
+      Role === "donor"
+        ? setDonorRequest(
+            donorAllRequest.filter((request) => request.status === "Pending")
+          )
+        : setBloodbankRequest(
+            bloodbankAllRequest.filter(
+              (request) => request.status === "Pending"
+            )
+          );
     } else if (e.target.value === "Accepted") {
-      const data = bloodbankRequest.filter(
-        (request) => request.status === "Accepted"
-      );
-      setBloodbankRequest(data);
+      Role === "donor"
+        ? setDonorRequest(
+            donorAllRequest.filter((request) => request.status === "Accepted")
+          )
+        : setBloodbankRequest(
+            bloodbankAllRequest.filter(
+              (request) => request.status === "Accepted"
+            )
+          );
     } else if (e.target.value === "Rejected") {
-      const data = bloodbankRequest.filter(
-        (request) => request.status === "Rejected"
-      );
-      setBloodbankRequest(data);
+      Role === "donor"
+        ? setDonorRequest(
+            donorAllRequest.filter((request) => request.status === "Rejected")
+          )
+        : setBloodbankRequest(
+            bloodbankAllRequest.filter(
+              (request) => request.status === "Rejected"
+            )
+          );
     } else if (e.target.value === "Completed") {
-      const data = bloodbankRequest.filter(
-        (request) => request.status === "Completed"
-      );
-      setBloodbankRequest(data);
+      Role === "donor"
+        ? setDonorRequest(
+            donorAllRequest.filter((request) => request.status === "Completed")
+          )
+        : setBloodbankRequest(
+            bloodbankAllRequest.filter(
+              (request) => request.status === "Completed"
+            )
+          );
     } else {
       getBloodbakAllRequest();
+      getDonorRequest();
     }
   };
   useEffect(() => {
@@ -95,9 +133,12 @@ function BloodRequest() {
       <div className="flex justify-items-center">
         <div>
           <span className="font-semibold text-lg mr-3">Status:</span>
-          <select onChange={getStatusData}>
+          <select
+            onChange={getStatusData}
+            className="p-3 focus:border-none border-none"
+          >
             <option value="" selected>
-              All
+              All Request
             </option>
             <option value="Pending">Pending</option>
             <option value="Accepted">Accepted</option>
@@ -127,6 +168,7 @@ function BloodRequest() {
               <th class="p-3 text-md border border-gray-400 rounded">
                 Unit(ML)
               </th>
+              <th class="p-3 text-md border border-gray-400 rounded">Date</th>
               <th class="p-3 text-md border border-gray-400 rounded">Status</th>
             </tr>
           </thead>
@@ -159,6 +201,9 @@ function BloodRequest() {
                         {request.quantity}
                       </td>
                       <td class="p-3 text-md border border-gray-400 rounded">
+                        {request.createdAt.split("T")[0]}
+                      </td>
+                      <td class="p-3 text-md border border-gray-400 rounded">
                         {request.status === "Completed" ? (
                           request.status
                         ) : (
@@ -178,9 +223,14 @@ function BloodRequest() {
                   );
                 })
               : Role === "donor" && (
-                  <center className="text-center bg-red-50 text-red-500 text-lg">
-                    No Request Found
-                  </center>
+                  <tr>
+                    <td
+                      colSpan="8"
+                      className="p-5 text-center bg-red-50 text-red-500 text-lg"
+                    >
+                      No Request Found
+                    </td>
+                  </tr>
                 )}
 
             {Role === "bloodbank" && bloodbankRequest.length > 0
@@ -206,6 +256,9 @@ function BloodRequest() {
                         {request.quantity}
                       </td>
                       <td class="p-3 text-md border border-gray-400 rounded">
+                        {request.createdAt.split("T")[0]}
+                      </td>
+                      <td class="p-3 text-md border border-gray-400 rounded">
                         {request.status === "Completed" ? (
                           request.status
                         ) : (
@@ -225,9 +278,14 @@ function BloodRequest() {
                   );
                 })
               : Role === "bloodbank" && (
-                  <center className="text-center bg-red-50 text-red-500 text-lg">
-                    No Request Found
-                  </center>
+                  <tr>
+                    <td
+                      colSpan="8"
+                      className="p-5 text-center bg-red-50 text-red-500 text-lg"
+                    >
+                      No Request Found
+                    </td>
+                  </tr>
                 )}
           </tbody>
         </table>
