@@ -16,7 +16,7 @@ function Request() {
             withCredentials: true,
           }
         );
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setAllBloodbankRequestforBlood(res.data.data);
         setBloodRequest(res.data.data);
       } catch (error) {
@@ -30,7 +30,7 @@ function Request() {
             withCredentials: true,
           }
         );
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setAllBloodbankRequestforBlood(res.data.data);
         setBloodRequest(res.data.data);
       } catch (error) {
@@ -64,8 +64,8 @@ function Request() {
   }, [isAuth, Role]);
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-      <div className=" bg-red-500 text-white p-8 rounded-t-lg shadow-lg">
+    <div className="flex w-full flex-col">
+      <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white p-8 rounded-t-lg shadow-lg">
         <h1 className="text-3xl font-bold mb-4">Your Blood Requests</h1>
         <p className="text-lg">Track and manage your sent blood requests</p>
       </div>
@@ -90,70 +90,54 @@ function Request() {
         <table className="min-w-full text-center border-none">
           <thead className="bg-red-500 text-white">
             <tr className="">
-              <th class="p-3 text-md border rounded">
-                Donor Name
-              </th>
-              <th class="p-3 text-md border rounded">Reason</th>
-              <th class="p-3 text-md border  rounded">
-                Blood Group
-              </th>
-              <th class="p-3 text-md border rounded">
+              <th class="p-3 font-bold">Donor Name</th>
+              <th class="p-3 font-bold">Reason</th>
+              <th class="p-3 font-bold">Blood Group</th>
+              {/* <th class="p-3 font-bold">
                 address
-              </th>
-              <th class="p-3 text-md border rounded">
-                contact
-              </th>
+              </th> */}
+              <th class="p-3 font-bold">contact</th>
 
-              <th class="p-3 text-md border rounded">
-                pincode
-              </th>
-              <th class="p-3 text-md border rounded">
-                Quantity(Unit)
-              </th>
-              <th class="p-3 text-md border rounded">Date</th>
-              <th class="p-3 text-md border rounded">Status</th>
+              <th class="p-3 font-bold">pincode</th>
+              <th class="p-3 font-bold">Quantity(Unit)</th>
+              <th class="p-3 font-bold">Date</th>
+              <th class="p-3 font-bold">Status</th>
             </tr>
           </thead>
           <tbody>
             {AllBloodbankRequestforBlood.length > 0 ? (
               AllBloodbankRequestforBlood.map((request) => {
                 return (
-                  <tr className="hover:bg-gray-100">
-                    <td class="p-3 text-md border rounded">
-                      {request.recipientId?.fullname ||
-                        request.recipientId?.bloodBankName}
-                    </td>
-                    <td class="p-3 text-md border rounded">
-                      {request.Reason}
-                    </td>
-                    <td class="p-3 text-md border rounded">
-                      {request.bloodgroup}
-                    </td>
-                    <td class="p-3 text-md border rounded">
+                  <>
+                    <tr className="hover:bg-gray-200 ">
+                      <td class="p-3 text-md ">
+                        {request.recipientId?.fullname ||
+                          request.recipientId?.bloodBankName}
+                      </td>
+                      <td class="p-3 text-md ">{request.Reason}</td>
+                      <td class="p-3 font-bold text-red-700">
+                        {request.bloodgroup}
+                      </td>
+                      {/* <td class="p-3 font-bold">
                       {request.recipientId.address}
-                    </td>
-                    <td class="p-3 text-md border rounded">
-                      {request.recipientId.mobile}
-                    </td>
-                    <td class="p-3 text-md border rounded">
-                      {request.recipientId.pincode}
-                    </td>
-                    <td class="p-3 text-md border rounded">
-                      {request.quantity}
-                    </td>
-                    <td class="p-3 text-md border rounded">
-                      {request.createdAt.split("T")[0]}
-                    </td>
-                    <td class="p-3 text-md border rounded">
-                      {request.status}
-                    </td>
-                  </tr>
+                    </td> */}
+                      <td class="p-3 text-md ">{request.recipientId.mobile}</td>
+                      <td class="p-3 text-md ">
+                        {request.recipientId.pincode}
+                      </td>
+                      <td class="p-3 text-md ">{request.quantity}</td>
+                      <td class="p-3 text-md ">
+                        {request.createdAt.split("T")[0]}
+                      </td>
+                      <td class="p-3 text-md ">{request.status}</td>
+                    </tr>
+                  </>
                 );
               })
             ) : (
               <tr>
                 <td
-                  colSpan="8"
+                  colSpan="10"
                   className="p-5 text-center bg-red-50 text-red-500 text-lg"
                 >
                   No Request Found

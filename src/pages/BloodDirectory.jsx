@@ -92,7 +92,7 @@ function BloodDirectory() {
         }
       );
       const response = res.data;
-      console.log(response.bloobank);
+      // console.log(response.bloobank);
       setbloodbank(response.bloobank);
     } catch (error) {
       // console.log("error",error.response)
@@ -260,9 +260,14 @@ function BloodDirectory() {
                 );
               })
             ) : (
-              <center className="text-center bg-red-50 text-red-500 text-lg">
-                No Blood Bank Found
-              </center>
+              <tr>
+                <td
+                  colSpan="10"
+                  className="p-5 text-center bg-red-50 text-red-500 text-lg"
+                >
+                  No Request Found
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

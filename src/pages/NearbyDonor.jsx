@@ -26,8 +26,8 @@ function NearbyDonor() {
       district: "",
     },
   });
-  const selectedState = watch("state"); 
-  const selectedDistrict = watch("district"); 
+  const selectedState = watch("state");
+  const selectedDistrict = watch("district");
   const open = (id, bloodgroup) => {
     if (!isAuth && !Role) {
       toast.error("You need to login to request blood");
@@ -267,9 +267,14 @@ function NearbyDonor() {
                 );
               })
             ) : (
-              <center className="text-center bg-red-50 text-red-500 text-lg">
-                No Donor Found
-              </center>
+              <tr>
+                <td
+                  colSpan="9"
+                  className="p-5 text-center bg-red-50 text-red-500 text-lg"
+                >
+                  No Request Found
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

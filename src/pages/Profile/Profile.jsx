@@ -49,19 +49,27 @@ function Profile() {
                   <Link to="/profile/donation_request">Donation Request</Link>
                 </li>
                 {Role === "bloodbank" && (
-                  <li className="mb-10 px-10 py-4 text-xl text-center text-white hover:scale-105 transition-all duration-300 font-bold gap-1 inline-flex cursor-pointer bg-red-600 hover:bg-red-400 hover:text-black rounded-full">
-                    <span className="self-center">
-                      <CgProfile size={30} />
-                    </span>
-                    <Link to="/profile/blood_inventory">Add Blood</Link>
-                  </li>
+                  <>
+                    <li className="mb-10 px-10 py-4 text-xl text-center text-white hover:scale-105 transition-all duration-300 font-bold gap-1 inline-flex cursor-pointer bg-red-600 hover:bg-red-400 hover:text-black rounded-full">
+                      <span className="self-center">
+                        <CgProfile size={30} />
+                      </span>
+                      <Link to="/profile/blood_inventory">Add Blood</Link>
+                    </li>
+                    <li className="mb-10 px-10 py-4 text-xl text-center text-white hover:scale-105 transition-all duration-300 font-bold gap-1 inline-flex cursor-pointer bg-red-600 hover:bg-red-400 hover:text-black rounded-full">
+                      <span className="self-center">
+                        <CgProfile size={30} />
+                      </span>
+                      <Link to="/profile/AddBlood_Camp">Add Blood Camp</Link>
+                    </li>
+                  </>
                 )}
               </ul>
             </nav>
           </aside>
 
           {/* Content Area */}
-          <main className="md:w-2/4 mt-20 md:ml-10 m-5 h-auto">
+          <main className="md:w-2/4 mt-14 md:ml-10 m-5 h-auto">
             <Outlet />
           </main>
         </div>
