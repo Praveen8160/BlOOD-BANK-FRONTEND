@@ -23,6 +23,8 @@ import "react-toastify/dist/ReactToastify.css";
 import BloodInventory from "./pages/Profile/BloodInventory.jsx";
 import AvailableBlood from "./pages/AvailableBlood.jsx";
 import AddBloodCamp from "./pages/Profile/AddBloodCamp.jsx";
+import AllCamp from "./pages/Profile/AllCamp.jsx";
+import BloodbankCamps from "./pages/BloodbankCamps.jsx";
 const rout = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App></App>}>
@@ -43,6 +45,10 @@ const rout = createBrowserRouter(
       <Route
         path="/BloodDirectory"
         element={<BloodDirectory></BloodDirectory>}
+      ></Route>
+      <Route
+        path="/BloodbankCamps"
+        element={<BloodbankCamps></BloodbankCamps>}
       ></Route>
       <Route path="/NearbyDonor" element={<NearbyDonor></NearbyDonor>}></Route>
       <Route path="/profile" element={<Profile></Profile>}>
@@ -67,6 +73,7 @@ const rout = createBrowserRouter(
           path="AddBlood_Camp"
           element={<AddBloodCamp></AddBloodCamp>}
         ></Route>
+        <Route path="AllBlood_Camp" element={<AllCamp></AllCamp>}></Route>
       </Route>
       <Route path="/Availableblood/:id" element={<AvailableBlood />}></Route>
     </Route>

@@ -45,7 +45,7 @@ function BloodBankRegister() {
         setStates(response.data.states);
       } catch (error) {
         console.error("Error fetching states", error);
-        toast.error("Failed to fetch states. Please try again later.");
+        toast.error("connect Internet");
       }
     };
     fetchStates();
@@ -67,7 +67,7 @@ function BloodBankRegister() {
           }
         } catch (error) {
           // console.error("Error fetching districts", error);
-          toast.error("Failed to fetch districts. Please try again later.");
+          toast.error("connect Internet");
         }
       } else {
         setDistricts([]); // Clear districts if no state is selected

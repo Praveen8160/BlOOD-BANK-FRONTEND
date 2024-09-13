@@ -83,7 +83,7 @@ function BloodInventory() {
   }, [isAuth, navigate]);
   return (
     <div className="border rounded-lg flex flex-col gap-4">
-      <div className="flex p-2 flex-col gap-1 bg-red-600 rounded-lg justify-center items-center">
+      <div className="flex py-7 flex-col gap-1 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg justify-center items-center">
         <h1 className="text-white text-3xl font-bold">Add Blood</h1>
         <p className="text-white text-lg">
           Keep track of your blood inventory{" "}

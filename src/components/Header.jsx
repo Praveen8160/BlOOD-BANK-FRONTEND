@@ -85,6 +85,9 @@ export default function Header() {
               <option className="bg-white text-black" value="/NearbyDonor">
                 Nearby Donor
               </option>
+              <option className="bg-white text-black" value="/BloodbankCamps">
+                Blood Bank Camps
+              </option>
             </select>
             {isAuth === false ? (
               <>
@@ -179,6 +182,9 @@ export default function Header() {
                 <option className="bg-white" value="/NearbyDonor">
                   Nearby Donor
                 </option>
+                <option className="bg-white" value="/BloodbankCamps">
+                  Blood Bank Camps
+                </option>
               </select>
               {isAuth === false ? (
                 <>
@@ -222,7 +228,7 @@ export default function Header() {
                       hidden
                       disabled
                     >
-                      Donor 
+                      Donor
                     </option>
                     <option className="bg-white" value="/DonorRegister">
                       Donor Register
