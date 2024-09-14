@@ -24,7 +24,6 @@ function Profile() {
         </div>
       ) : (
         <div className="flex md:flex-row flex-col md:justify-normal md:items-start">
-          {/* Side Panel */}
           <aside className="lg:w-2/5 md:bg-gray-200 p-4 mt-10 rounded-r-[10rem] h-auto">
             <nav className=" flex justify-center items-center mt-20">
               <ul className="flex flex-col justify-evenly">
@@ -67,6 +66,16 @@ function Profile() {
                         <CgProfile size={30} />
                       </span>
                       <Link to="/profile/AllBlood_Camp">All Blood Camp</Link>
+                    </li>
+                  </>
+                )}
+                {Role === "donor" && (
+                  <>
+                    <li className="mb-10 px-10 py-4 text-xl text-center text-white hover:scale-105 transition-all duration-300 font-bold gap-1 inline-flex cursor-pointer bg-red-600 hover:bg-red-400 hover:text-black rounded-full">
+                      <span className="self-center">
+                        <CgProfile size={30} />
+                      </span>
+                      <Link to="/profile/camp">Camp</Link>
                     </li>
                   </>
                 )}

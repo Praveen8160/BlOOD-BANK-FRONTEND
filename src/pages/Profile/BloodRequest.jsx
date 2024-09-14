@@ -40,8 +40,6 @@ function BloodRequest() {
     }
   };
   const handleChange = (id) => async (e) => {
-    // console.log(e.target.value);
-    // console.log(id);
     if (Role === "donor") {
       const res = await axios.put(
         "http://localhost:4000/bloodrequest/updateDonorRequestStatus",

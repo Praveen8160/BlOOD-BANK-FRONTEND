@@ -24,6 +24,7 @@ function RegisterCampModel({ close, id }) {
       const response = res.data;
       if (response.success === true) {
         toast.success("Registered Successfully");
+        close();
       }
     } catch (error) {
       toast.error(error.response.data.message);

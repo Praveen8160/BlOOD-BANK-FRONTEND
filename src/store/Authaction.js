@@ -12,9 +12,6 @@ export const login = () => async (dispatch) => {
         withCredentials: true,
       }
     );
-    // console.log(response.data);
-    // console.log("in login function");
-    // console.log({payload:response.data})
     dispatch({ type: LOGIN_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: SET_ERROR, payload: "Login failed. Please try again." });

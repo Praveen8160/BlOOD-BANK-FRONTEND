@@ -25,6 +25,7 @@ import AvailableBlood from "./pages/AvailableBlood.jsx";
 import AddBloodCamp from "./pages/Profile/AddBloodCamp.jsx";
 import AllCamp from "./pages/Profile/AllCamp.jsx";
 import BloodbankCamps from "./pages/BloodbankCamps.jsx";
+import DonorRegcamp from "./pages/Profile/DonorRegcamp.jsx";
 const rout = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App></App>}>
@@ -74,6 +75,10 @@ const rout = createBrowserRouter(
           element={<AddBloodCamp></AddBloodCamp>}
         ></Route>
         <Route path="AllBlood_Camp" element={<AllCamp></AllCamp>}></Route>
+        <Route
+          path="camp"
+          element={<DonorRegcamp></DonorRegcamp>}
+        ></Route>
       </Route>
       <Route path="/Availableblood/:id" element={<AvailableBlood />}></Route>
     </Route>
