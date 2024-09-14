@@ -4,8 +4,9 @@ import { CgProfile } from "react-icons/cg";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import { FaCalendarPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-
+import { MdCampaign } from "react-icons/md";
+import { MdBloodtype } from "react-icons/md";
+import { FaEye } from "react-icons/fa";
 function Profile() {
   const { Role } = useSelector((state) => state.Auth);
   const navigate = useNavigate();
@@ -51,19 +52,19 @@ function Profile() {
                   <>
                     <li className="mb-10 px-10 py-4 text-xl text-center text-white hover:scale-105 transition-all duration-300 font-bold gap-1 inline-flex cursor-pointer bg-red-600 hover:bg-red-400 hover:text-black rounded-full">
                       <span className="self-center">
-                        <CgProfile size={30} />
+                      <MdBloodtype size={30} />
                       </span>
                       <Link to="/profile/blood_inventory">Add Blood</Link>
                     </li>
                     <li className="mb-10 px-10 py-4 text-xl text-center text-white hover:scale-105 transition-all duration-300 font-bold gap-1 inline-flex cursor-pointer bg-red-600 hover:bg-red-400 hover:text-black rounded-full">
                       <span className="self-center">
-                        <CgProfile size={30} />
+                      <MdCampaign size={30} />
                       </span>
                       <Link to="/profile/AddBlood_Camp">Add Blood Camp</Link>
                     </li>
                     <li className="mb-10 px-10 py-4 text-xl text-center text-white hover:scale-105 transition-all duration-300 font-bold gap-1 inline-flex cursor-pointer bg-red-600 hover:bg-red-400 hover:text-black rounded-full">
                       <span className="self-center">
-                        <CgProfile size={30} />
+                      <FaEye size={30} />
                       </span>
                       <Link to="/profile/AllBlood_Camp">All Blood Camp</Link>
                     </li>

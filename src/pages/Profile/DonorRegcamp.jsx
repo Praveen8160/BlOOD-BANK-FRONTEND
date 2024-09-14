@@ -18,7 +18,6 @@ function DonorRegcamp() {
         }
       );
       if (res.data.success === true) {
-        console.log(res.data.data);
         setRegisteredCamps(res.data.data);
       }
     } catch (error) {
@@ -87,7 +86,7 @@ function DonorRegcamp() {
   return (
     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <div className="px-4 py-6 sm:px-0">
-        <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white p-4 sm:p-6 md:p-8 rounded-t-lg shadow-lg">
+        <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white p-4 sm:p-6 md:p-8 rounded-t-lg shadow-lg">
           <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-4">
             My Registered Blood Donation Camps
           </h1>
@@ -130,7 +129,7 @@ function DonorRegcamp() {
                   {camp.donorsRegistered.map((stat) => stat.status).join() !==
                     "Completed" &&
                     isPast(camp.date) !== true && (
-                      <div className="flex flex-col sm:flex-row justify-between space-y-2 sm:space-y-0 sm:space-x-2">
+                      <div className="flex flex-col sm:flex-row justify-around space-y-2 sm:space-y-0 sm:space-x-2">
                         <button
                           onClick={() => handleCancelClick(camp)}
                           className="w-full sm:w-auto px-3 py-1.5 bg-red-500 text-white text-sm rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"

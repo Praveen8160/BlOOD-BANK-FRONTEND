@@ -3,14 +3,41 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { IoIosCall } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
 function AllCamp() {
   const { Role } = useSelector((state) => state.Auth);
   const [AllCamps, setAllCamps] = useState([]);
-
   const [expandedCamp, setExpandedCamp] = useState(null);
-
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [campToDelete, setCampToDelete] = useState(null);
   const toggleCamp = (campId) => {
     setExpandedCamp(expandedCamp === campId ? null : campId);
+  };
+
+  const handleDeleteClick = (campId) => {
+    setCampToDelete(campId);
+    setShowDeleteDialog(true);
+  };
+  const handledeletecamp = async () => {
+    try {
+      const res = await axios.delete("http://localhost:4000/camp/deleteCamp", {
+        data: {
+          campId: campToDelete,
+        },
+        withCredentials: true,
+      });
+      if (res.data.success === true) {
+        setAllCamps((prevCamps) =>
+          prevCamps.filter((camp) => camp._id !== campToDelete)
+        );
+        setShowDeleteDialog(false);
+        setCampToDelete(null);
+        toast.success("Camp Deleted Successfully");
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
   };
   const handleStatusChange = (campid, donorid) => async (e) => {
     try {
@@ -52,7 +79,6 @@ function AllCamp() {
       });
       if (res.data.success === true) {
         setAllCamps(res.data.data);
-        console.log(res.data.data);
       } else {
         toast.error(res.data.message);
       }
@@ -81,12 +107,19 @@ function AllCamp() {
           >
             <div
               className="px-6 py-4 cursor-pointer flex justify-between items-center bg-gradient-to-r from-red-500 to-pink-500 text-white"
-              onClick={() => toggleCamp(camp._id)}
+             
             >
               <h2 className="text-xl font-semibold">{camp.campName}</h2>
-              <span className="text-2xl">
-                {expandedCamp === camp._id ? "−" : "+"}
-              </span>
+              <div className="flex justify-center gap-2 items-center">
+                <MdDelete
+                  size={30}
+                  className="hover:text-gray-300"
+                  onClick={() => handleDeleteClick(camp._id)}
+                />
+                <span className="text-2xl" onClick={() => toggleCamp(camp._id)}>
+                  {expandedCamp === camp._id ? "−" : "+"}
+                </span>
+              </div>
             </div>
 
             <div
@@ -114,7 +147,7 @@ function AllCamp() {
                   Total Registered:{camp.donorsRegistered.length}
                 </h3>
               </div>
-              <div className="bg-gray-100 rounded-md p-4">
+              <div className="bg-gray-100 rounded-md p-4 w-auto">
                 {camp.donorsRegistered.length > 0 ? (
                   <ul className="space-y-2">
                     {camp.donorsRegistered.map((member) => (
@@ -123,7 +156,7 @@ function AllCamp() {
                         className="flex justify-between items-center"
                       >
                         <span>{member.donorName}</span>
-                        <span className="px-2 flex  py-1 bg-green-500 items-center gap-2 text-white rounded-full text-sm text-center">
+                        <span className="px-2 flex  py-1 bg-green-500 items-center lg:gap-2 text-white rounded-full text-sm text-center">
                           <IoIosCall />
                           {member.contact}
                         </span>
@@ -170,6 +203,28 @@ function AllCamp() {
           </div>
         ))}
       </div>
+      {showDeleteDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full">
+            <h3 className="text-lg font-semibold mb-4">Delete Camp</h3>
+            <p className="mb-6">Are you sure you want to delete Camp</p>
+            <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+              <button
+                onClick={() => setShowDeleteDialog(false)}
+                className="w-full sm:w-auto px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50"
+              >
+                No
+              </button>
+              <button
+                onClick={handledeletecamp}
+                className="w-full sm:w-auto px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+              >
+                Yes, Delete Camp
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

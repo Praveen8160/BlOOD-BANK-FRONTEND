@@ -93,11 +93,7 @@ function Request() {
               <th class="p-3 font-bold">Donor Name</th>
               <th class="p-3 font-bold">Reason</th>
               <th class="p-3 font-bold">Blood Group</th>
-              {/* <th class="p-3 font-bold">
-                address
-              </th> */}
               <th class="p-3 font-bold">contact</th>
-
               <th class="p-3 font-bold">pincode</th>
               <th class="p-3 font-bold">Quantity(Unit)</th>
               <th class="p-3 font-bold">Date</th>
@@ -118,9 +114,6 @@ function Request() {
                       <td class="p-3 font-bold text-red-700">
                         {request.bloodgroup}
                       </td>
-                      {/* <td class="p-3 font-bold">
-                      {request.recipientId.address}
-                    </td> */}
                       <td class="p-3 text-md ">{request.recipientId.mobile}</td>
                       <td class="p-3 text-md ">
                         {request.recipientId.pincode}

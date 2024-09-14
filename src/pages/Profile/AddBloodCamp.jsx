@@ -28,7 +28,6 @@ function AddBloodCamp() {
   useEffect(() => {
     const fetchStates = async () => {
       try {
-        console.log("fetching states");
         const response = await axios.get(
           "https://cdn-api.co-vin.in/api/v2/admin/location/states"
         );
@@ -42,10 +41,8 @@ function AddBloodCamp() {
   }, []);
   useEffect(() => {
     const fetchDistricts = async () => {
-      console.log("fetching districts", formData.state);
       if (formData.state) {
         try {
-          console.log("fetching districts", formData.state);
           const selectedStateObj = states.find(
             (state) => state.state_name === formData.state
           );

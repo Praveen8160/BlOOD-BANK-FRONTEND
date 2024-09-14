@@ -8,7 +8,6 @@ function BloodRequest() {
   const [donorRequest, setDonorRequest] = useState([]);
   const [bloodbankAllRequest, setBloodbankAllRequest] = useState([]);
   const [donorAllRequest, setDonorAllRequest] = useState([]);
-  // const[]=us
   const getBloodbakAllRequest = async () => {
     try {
       const res = await axios.get(
@@ -122,7 +121,6 @@ function BloodRequest() {
     if (isAuth && Role === "bloodbank") {
       getBloodbakAllRequest();
     } else if (isAuth && Role === "donor") {
-      console.log("donor");
       getDonorRequest();
     }
   }, [isAuth, Role]);

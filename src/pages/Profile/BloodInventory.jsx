@@ -146,7 +146,6 @@ function BloodInventory() {
           <thead>
             <th className="text-white p-3">Blood Group</th>
             <th className="text-white p-3">Available Stock (units)</th>
-            {/* <th className="text-white p-3">Edit</th> */}
           </thead>
           <tbody className="bg-red-200 text-center">
             {bloodgroups &&
