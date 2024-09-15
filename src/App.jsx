@@ -4,7 +4,6 @@ import { Outlet } from "react-router-dom";
 import Footer from "./components/Footer";
 import store from "./store/Store";
 import { Provider } from "react-redux";
-
 function App() {
   return (
     <Provider store={store}>

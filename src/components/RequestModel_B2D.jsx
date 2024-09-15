@@ -1,8 +1,8 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdCancel } from "react-icons/md";
 import { toast } from "react-toastify";
-function RequestModel({ close, id, bloodgroup }) {
+function RequestModel({ close, id, bloodgroup, Role }) {
   const [value, setValue] = useState({
     Quantity: "",
     Reason: "",
@@ -14,25 +14,41 @@ function RequestModel({ close, id, bloodgroup }) {
   };
   const sendRequest = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post(
-        "http://localhost:4000/bloodrequest/bloodRequestDonor2Donorhandler",
-        value,
-        { withCredentials: true }
-      );
-      const response = res.data;
-      // console.log(response)
-      if (response.success === true) {
-        toast.success("Request Sent");
+    if (Role === "donor") {
+      try {
+        const res = await axios.post(
+          "http://localhost:4000/bloodrequest/bloodRequestDonor2Donorhandler",
+          value,
+          { withCredentials: true }
+        );
+        const response = res.data;
+        if (response.success === true) {
+          toast.success("Request Sent");
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
       }
-    } catch (error) {
-      // console.log(error)
-      // console.log(error.response.data.message);
-      toast.error(error.response.data.message);
+      close();
+    } else if (Role === "bloodbank") {
+      try {
+        const res = await axios.post(
+          "http://localhost:4000/bloodrequest/bloodRequestB2Dhandler",
+          value,
+          { withCredentials: true }
+        );
+        const response = res.data;
+        if (response.success === true) {
+          toast.success("Request Sent");
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+      close();
     }
-    close();
   };
-  // console.log(object)
+  useEffect(() => {
+    console.log(Role);
+  }, [Role]);
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
       <div className="bg-red-100 p-6 rounded-lg shadow-lg lg:w-[30rem] md:w-[30rem] w-80">

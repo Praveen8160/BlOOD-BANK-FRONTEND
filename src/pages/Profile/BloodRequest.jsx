@@ -31,7 +31,6 @@ function BloodRequest() {
           withCredentials: true,
         }
       );
-      // console.log(res.data.data);
       setDonorRequest(res.data.data);
       setDonorAllRequest(res.data.data);
     } catch (error) {
@@ -127,8 +126,10 @@ function BloodRequest() {
   return (
     <div className="flex w-full flex-col">
       <div className=" bg-gradient-to-r from-red-500 to-pink-500 text-white p-8 rounded-t-lg shadow-lg">
-      <h1 className="text-3xl font-bold mb-4">Incoming Blood Requests</h1>
-      <p className="text-lg">Help save lives by responding to blood donation requests</p>
+        <h1 className="text-3xl font-bold mb-4">Incoming Blood Requests</h1>
+        <p className="text-lg">
+          Help save lives by responding to blood donation requests
+        </p>
       </div>
       <div className="flex justify-items-center my-3">
         <div>
@@ -153,18 +154,10 @@ function BloodRequest() {
             <tr>
               <th class="p-3 font-bold">Name</th>
               <th class="p-3 font-bold">Reason</th>
-              <th class="p-3 font-bold">
-                Address
-              </th>
-              <th class="p-3 font-bold">
-                Contact
-              </th>
-              <th class="p-3 font-bold">
-                Blood Group
-              </th>
-              <th class="p-3 font-bold">
-                Unit(ML)
-              </th>
+              <th class="p-3 font-bold">Address</th>
+              <th class="p-3 font-bold">Contact</th>
+              <th class="p-3 font-bold">Blood Group</th>
+              <th class="p-3 font-bold">Unit(ML)</th>
               <th class="p-3 font-bold">Date</th>
               <th class="p-3 font-bold">Status</th>
             </tr>
@@ -173,26 +166,17 @@ function BloodRequest() {
             {Role === "donor" && donorRequest.length > 0
               ? donorRequest.map((request) => {
                   return (
-                    <tr>
+                    <tr key={request._id}>
                       <td class="p-3 text-md ">
-                        {request.requester.fullname}
+                        {request.requester?.fullname ||
+                          request.requester?.bloodBankName}
                       </td>
-                      <td class="p-3 text-md ">
-                        {request.Reason}
-                      </td>
-                      <td class="p-3 text-md ">
-                        {request.requester.address}
-                      </td>
+                      <td class="p-3 text-md ">{request.Reason}</td>
+                      <td class="p-3 text-md ">{request.requester.address}</td>
 
-                      <td class="p-3 text-md ">
-                        {request.requester.mobile}
-                      </td>
-                      <td class="p-3 text-md ">
-                        {request.bloodgroup}
-                      </td>
-                      <td class="p-3 text-md ">
-                        {request.quantity}
-                      </td>
+                      <td class="p-3 text-md ">{request.requester.mobile}</td>
+                      <td class="p-3 text-md ">{request.bloodgroup}</td>
+                      <td class="p-3 text-md ">{request.quantity}</td>
                       <td class="p-3 text-md ">
                         {request.createdAt.split("T")[0]}
                       </td>
@@ -233,21 +217,11 @@ function BloodRequest() {
                       <td class="p-3 text-md ">
                         {request.requester.bloodBankName}
                       </td>
-                      <td class="p-3 text-md ">
-                        {request.Reason}
-                      </td>
-                      <td class="p-3 text-md ">
-                        {request.requester.address}
-                      </td>
-                      <td class="p-3 text-md ">
-                        {request.requester.mobile}
-                      </td>
-                      <td class="p-3 text-md ">
-                        {request.bloodgroup}
-                      </td>
-                      <td class="p-3 text-md ">
-                        {request.quantity}
-                      </td>
+                      <td class="p-3 text-md ">{request.Reason}</td>
+                      <td class="p-3 text-md ">{request.requester.address}</td>
+                      <td class="p-3 text-md ">{request.requester.mobile}</td>
+                      <td class="p-3 text-md ">{request.bloodgroup}</td>
+                      <td class="p-3 text-md ">{request.quantity}</td>
                       <td class="p-3 text-md ">
                         {request.createdAt.split("T")[0]}
                       </td>

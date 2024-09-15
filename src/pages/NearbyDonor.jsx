@@ -70,11 +70,10 @@ function NearbyDonor() {
             setValue("district", ""); // Reset district selection when state changes
           }
         } catch (error) {
-          // console.error("Error fetching districts", error);
           toast.error("Failed to fetch districts. Please try again later.");
         }
       } else {
-        setDistricts([]); // Clear districts if no state is selected
+        setDistricts([]);
         setValue("district", "");
       }
     };
@@ -82,7 +81,6 @@ function NearbyDonor() {
   }, [selectedState, setValue, states]);
 
   const SearchDonor = async (data) => {
-    // console.log("data", data);
     try {
       const res = await axios.post(
         "http://localhost:4000/Search/getDonor",
@@ -94,10 +92,8 @@ function NearbyDonor() {
         }
       );
       const response = res.data;
-      // console.log(response.Donors);
       setDonor(response.Donors);
     } catch (error) {
-      // console.log("error",error.response)
       if (error.response && error.response.status === 500) {
         toast.error(error.response.data.message);
       }
@@ -110,7 +106,12 @@ function NearbyDonor() {
       </div>
       <hr />
       {isModalOpen && (
-        <RequestModel close={close} id={id} bloodgroup={bloodgroup} />
+        <RequestModel
+          close={close}
+          id={id}
+          bloodgroup={bloodgroup}
+          Role={Role}
+        />
       )}
       <div className="mt-3">
         <form onSubmit={handleSubmit(SearchDonor)}>
