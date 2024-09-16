@@ -27,6 +27,7 @@ export const logout = () => async (dispatch) => {
         withCredentials: true,
       }
     );
+    localStorage.removeItem("id");
     dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {
     console.error("Logout failed:", error);

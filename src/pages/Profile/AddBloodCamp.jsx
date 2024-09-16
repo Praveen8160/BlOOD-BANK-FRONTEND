@@ -245,6 +245,7 @@ function AddBloodCamp() {
               <button
                 type="submit"
                 className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white font-bold bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 grid-cols-2"
+                // isloading={loading}
               >
                 Add Blood Bank Camp
               </button>

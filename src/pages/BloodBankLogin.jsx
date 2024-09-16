@@ -4,10 +4,12 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../store/Authaction";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import io from "socket.io-client";
+const socket = io("http://localhost:4000");
 function BloodBankLogin() {
-  const { isAuth} = useSelector((state) => state.Auth);
-  
+  const { isAuth } = useSelector((state) => state.Auth);
+  const [bloodBankId, setBloodBankId] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -29,7 +31,11 @@ function BloodBankLogin() {
       );
       const response = res.data;
       if (response.success === true) {
+        const bloodBankId = response.id;
         dispatch(login());
+        setBloodBankId(bloodBankId);
+        localStorage.setItem("id", bloodBankId);
+        socket.emit("register", bloodBankId);
         toast.success("Successfully Login");
         navigate("/");
       }
@@ -40,6 +46,10 @@ function BloodBankLogin() {
   };
   useEffect(() => {
     if (isAuth) {
+      const savedBloodBankId = localStorage.getItem("id");
+      if (savedBloodBankId) {
+        socket.emit("register", savedBloodBankId);
+      }
       navigate("/");
     }
   }, [isAuth]);

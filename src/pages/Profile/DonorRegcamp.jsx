@@ -5,6 +5,10 @@ import { format, isPast } from "date-fns";
 import { IoTime } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import { BsCalendar2DateFill } from "react-icons/bs";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { FaCloudDownloadAlt } from "react-icons/fa";
+// import { format } from "date-fns";
 function DonorRegcamp() {
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [campToCancel, setCampToCancel] = useState(null);
@@ -82,7 +86,64 @@ function DonorRegcamp() {
       console.log(error);
     }
   };
+  const downloadCertificate = async (camp) => {
+    const doc = new jsPDF("p", "mm", "a4");
 
+  // Add camp name at the top
+  doc.setFontSize(22);
+  doc.setTextColor("#ff4d4d"); // Red color for camp name
+  doc.text(camp.campName, 20, 20);
+
+  // Add camp details below the camp name
+  doc.setFontSize(16);
+  doc.setTextColor("#000");
+  doc.text("Camp Details:", 20, 30);
+
+  const campDetails = `
+    Date: ${format(camp.date, "MMMM d, yyyy")}
+    Time: ${camp.startTime} - ${camp.endTime}
+    Location: ${camp.address}
+  `;
+
+  doc.setFontSize(12);
+  doc.setTextColor("#555"); // Grey color for details
+  doc.text(campDetails, 20, 40);
+
+  // Add Donor Details table
+  doc.setFontSize(16);
+  doc.setTextColor("#000");
+  doc.text("Donor Details:", 20, 70);
+
+  // Define table columns
+  const tableColumn = ["Name", "Blood Group", "Status"];
+  
+  // Define table rows with donor details
+  const tableRows = camp.donorsRegistered.map((donor) => [
+    donor.donorName,
+    donor.bloodType,
+    donor.status,
+  ]);
+
+  // Use autoTable plugin to create the table
+  doc.autoTable({
+    startY: 80,
+    head: [tableColumn],
+    body: tableRows,
+    styles: {
+      head: {
+        fillColor: [241, 92, 92], // Red color for header
+        textColor: [255, 255, 255], // White text
+      },
+      body: {
+        fillColor: [245, 245, 245], // Light grey for rows
+        textColor: [0, 0, 0], // Black text
+      },
+    },
+  });
+
+  // Save the generated PDF
+  doc.save(`${camp.campName}_Certificate.pdf`);
+  };
   return (
     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <div className="px-4 py-6 sm:px-0">
@@ -144,8 +205,11 @@ function DonorRegcamp() {
                   {camp.donorsRegistered.map((stat) => stat.status).join("") ===
                     "Completed" &&
                     isPast(camp.date) === true && (
-                      <button className="w-full px-3 py-1.5 bg-green-500 text-white text-sm rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
-                        View Certificate
+                      <button
+                        className="w-full px-3 py-1.5 bg-green-500 text-white text-sm rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 items-center flex justify-center gap-2"
+                        onClick={() => downloadCertificate(camp)}
+                      >
+                        <FaCloudDownloadAlt className="" size={27}/> Certificate
                       </button>
                     )}
                 </div>

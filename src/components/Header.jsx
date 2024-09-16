@@ -6,12 +6,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { login, logout } from "../store/Authaction";
+import io from "socket.io-client";
 
 export default function Header() {
   const { isAuth } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
   // console.log(isAuth)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const savedBloodBankId = localStorage.getItem("id");
 
   const handleToggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -30,7 +33,20 @@ export default function Header() {
   };
   useEffect(() => {
     dispatch(login());
-  }, [dispatch]);
+    const socket = io("http://localhost:4000");
+    if (savedBloodBankId) {
+      socket.emit("register", savedBloodBankId);
+    }
+    socket.on("newBloodRequest", (data) => {
+      console.log("data", data);
+      toast.success(data.message);
+    });
+
+    // Cleanup socket on unmount
+    return () => {
+      socket.disconnect();
+    };
+  }, [dispatch, savedBloodBankId]);
 
   const handleLogout = () => {
     dispatch(logout());
