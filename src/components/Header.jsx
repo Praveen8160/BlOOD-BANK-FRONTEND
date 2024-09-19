@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import logo from "../assets/logo3.jpeg";
-import { MdMenu, MdClose } from "react-icons/md";
+import { MdMenu, MdClose, MdNotifications } from "react-icons/md";
 import { PiUserSquareFill } from "react-icons/pi";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,6 +11,7 @@ import io from "socket.io-client";
 export default function Header() {
   const { isAuth } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
   // console.log(isAuth)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
@@ -38,8 +39,9 @@ export default function Header() {
       socket.emit("register", savedBloodBankId);
     }
     socket.on("newBloodRequest", (data) => {
-      console.log("data", data);
-      toast.success(data.message);
+      // console.log("data", data);
+      setNotifications((prev) => [...prev, data]);
+      // toast.success(data.message);
     });
 
     // Cleanup socket on unmount
@@ -50,7 +52,31 @@ export default function Header() {
 
   const handleLogout = () => {
     dispatch(logout());
+    setNotifications([]);
+    toggleDropdown();
     navigate("/");
+  };
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+  const removeAll = async () => {
+    try {
+      const res = await axios.delete(
+        "http://localhost:4000/bloodrequest/removeAll",
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.data.success === true) {
+        toast.success("All Notifications Removed");
+        setNotifications([]);
+        toggleDropdown();
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
   return (
     <>
@@ -168,10 +194,31 @@ export default function Header() {
                 >
                   Logout
                 </button>
-                <Link to="/profile">
+                <Link
+                  to="/profile"
+                  className="flex justify-center items-center hover:text-black"
+                >
                   {" "}
                   <PiUserSquareFill size={37} />
                 </Link>
+                <button
+                  onClick={toggleDropdown}
+                  className="flex items-center p-2 text-gray-600 hover:text-gray-800 focus:outline-none rounded-full transition-colors duration-200"
+                  aria-label="Notifications"
+                >
+                  <MdNotifications size={30} />
+                  {notifications.length > 0 && (
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full font-medium ${
+                        notifications.length > 0
+                          ? "bg-red-100 text-red-800"
+                          : null
+                      }`}
+                    >
+                      {notifications.length}
+                    </span>
+                  )}
+                </button>
               </div>
             )}
           </div>
@@ -266,6 +313,61 @@ export default function Header() {
           </div>
         )}
         <ToastContainer />
+        {isOpen && (
+          <div className="absolute right-10 top-28 w-80 bg-white rounded-lg shadow-lg overflow-hidden z-20 border border-gray-200">
+            <div className="py-2">
+              <div className="px-4 py-2 bg-gray-50 text-gray-800 font-semibold flex justify-between items-center border-b border-gray-200">
+                <span>Notification/Requests</span>
+                <span className="text-sm bg-blue-500 text-white px-2 py-1 rounded-full">
+                  {notifications.length} New
+                </span>
+              </div>
+              <div className="max-h-64 overflow-y-auto">
+                {notifications.map((request) => (
+                  <div
+                    // key={}
+                    className="px-4 py-3 hover:bg-gray-50 transition-colors duration-150 border-b border-gray-100 last:border-b-0"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-sm font-medium text-gray-800">
+                          Blood Type: {request.message}
+                        </p>
+                        {/* <p className="text-xs text-gray-600 mt-1">
+                          Date: {request.date}
+                        </p>
+                        <p className="text-xs text-gray-700 mt-1">
+                          {request.message}
+                        </p> */}
+                      </div>
+                      {/* <span
+                        className={`px-2 py-1 text-xs rounded-full font-medium ${
+                          request.urgency === "High"
+                            ? "bg-red-100 text-red-800"
+                            : request.urgency === "Medium"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-green-100 text-green-800"
+                        }`}
+                      >
+                        {request.urgency}
+                      </span> */}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {notifications.length > 0 && (
+                <div className="px-4 py-2 bg-gray-50 border-t border-gray-200">
+                  <button
+                    className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200"
+                    onClick={removeAll}
+                  >
+                    Remove All
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </header>
     </>
   );
