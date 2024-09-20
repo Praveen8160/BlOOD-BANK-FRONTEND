@@ -12,7 +12,6 @@ export default function Header() {
   const { isAuth } = useSelector((state) => state.Auth);
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  // console.log(isAuth)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const savedBloodBankId = localStorage.getItem("id");
@@ -39,7 +38,7 @@ export default function Header() {
       socket.emit("register", savedBloodBankId);
     }
     socket.on("newBloodRequest", (data) => {
-      // console.log("data", data);
+      console.log("data", data);
       setNotifications((prev) => [...prev, data]);
       // toast.success(data.message);
     });
@@ -53,30 +52,32 @@ export default function Header() {
   const handleLogout = () => {
     dispatch(logout());
     setNotifications([]);
-    toggleDropdown();
+    setIsMenuOpen(false)
     navigate("/");
   };
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
   const removeAll = async () => {
-    try {
-      const res = await axios.delete(
-        "http://localhost:4000/bloodrequest/removeAll",
-        {
-          withCredentials: true,
-        }
-      );
-      if (res.data.success === true) {
-        toast.success("All Notifications Removed");
-        setNotifications([]);
-        toggleDropdown();
-      } else {
-        toast.error(res.data.message);
-      }
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
+    // try {
+    //   const res = await axios.delete(
+    //     "http://localhost:4000/bloodrequest/removeAll",
+    //     {
+    //       withCredentials: true,
+    //     }
+    //   );
+    //   if (res.data.success === true) {
+    //     toast.success("All Notifications Removed");
+    //     setNotifications([]);
+    //     toggleDropdown();
+    //   } else {
+    //     toast.error(res.data.message);
+    //   }
+    // } catch (error) {
+    //   toast.error(error.response.data.message);
+    // }
+    setNotifications([]);
+    toggleDropdown();
   };
   return (
     <>
@@ -331,7 +332,7 @@ export default function Header() {
                     <div className="flex justify-between items-start">
                       <div>
                         <p className="text-sm font-medium text-gray-800">
-                          Blood Type: {request.message}
+                          {request.message}
                         </p>
                         {/* <p className="text-xs text-gray-600 mt-1">
                           Date: {request.date}
