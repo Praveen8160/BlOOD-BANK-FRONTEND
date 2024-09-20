@@ -326,7 +326,6 @@ export default function Header() {
               <div className="max-h-64 overflow-y-auto">
                 {notifications.map((request) => (
                   <div
-                    // key={}
                     className="px-4 py-3 hover:bg-gray-50 transition-colors duration-150 border-b border-gray-100 last:border-b-0"
                   >
                     <div className="flex justify-between items-start">
