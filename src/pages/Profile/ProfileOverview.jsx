@@ -11,34 +11,34 @@ function ProfileOverview() {
   const [selectedState, setSelectedState] = useState("");
   const [districts, setDistricts] = useState([]);
   const navigate = useNavigate();
-  const [Donor, setDonor] = useState([]);
-  const [donorUpdateData, setdonorUpdateData] = useState({
-    fullname: Donor?.fullname || "",
-    age: Donor?.age || "",
-    mobile: Donor?.mobile || "",
-    email: Donor?.email || "",
-    bloodGroup: Donor?.bloodGroup || "",
-    state: Donor?.state || "",
-    district: Donor?.district || "",
-    address: Donor?.address || "",
-    pincode: Donor?.pincode || "",
-  });
+  // const [Donor, setDonor] = useState([]);
+  // const [donorUpdateData, setdonorUpdateData] = useState({
+  //   fullname: Donor?.fullname || "",
+  //   age: Donor?.age || "",
+  //   mobile: Donor?.mobile || "",
+  //   email: Donor?.email || "",
+  //   bloodGroup: Donor?.bloodGroup || "",
+  //   state: Donor?.state || "",
+  //   district: Donor?.district || "",
+  //   address: Donor?.address || "",
+  //   pincode: Donor?.pincode || "",
+  // });
   const [bloodBank, setbloodBank] = useState([]);
 
-  const getDonorData = async () => {
-    try {
-      const res = await axios.get("http://localhost:4000/Donor/getDonor", {
-        withCredentials: true,
-      });
-      console.log(res.data);
-      if (res.data.success === true) {
-        setDonor(res.data.data);
-        setSelectedState(res.data.data.state);
-      }
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
+  // const getDonorData = async () => {
+  //   try {
+  //     const res = await axios.get("http://localhost:4000/Donor/getDonor", {
+  //       withCredentials: true,
+  //     });
+  //     console.log(res.data);
+  //     if (res.data.success === true) {
+  //       setDonor(res.data.data);
+  //       setSelectedState(res.data.data.state);
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.response.data.message);
+  //   }
+  // };
 
   const getBloodBankData = async () => {
     try {
@@ -92,7 +92,7 @@ function ProfileOverview() {
       navigate("/");
     } else {
       if (Role === "donor") {
-        getDonorData();
+        // getDonorData();
       } else if (Role === "bloodbank") {
         getBloodBankData();
       }

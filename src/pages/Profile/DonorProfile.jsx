@@ -1,25 +1,28 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 function DonorProfile() {
-  const [Donoe, setDonor] = useState([]);
+  const [Donor, setDonor] = useState(null);
+  const [update, setUpdate] = useState(false);
   const getDonorData = async () => {
     try {
       const res = await axios.get("http://localhost:4000/Donor/getDonor", {
         withCredentials: true,
       });
-      console.log(res.data);
+      //   console.log(res.data);
       if (res.data.success === true) {
         setDonor(res.data.data);
         console.log(res.data.data);
-        // setSelectedState(res.data.data.state);
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log(error);
+      toast.error(error.response?.data?.message || "Error fetching donor data");
     }
   };
   useEffect(() => {
     getDonorData();
   }, []);
+
   return (
     <div className="flex flex-col md:mt-12 h-auto md:w-auto">
       <form className="h-auto grid grid-cols-1 md:grid-cols-2 rounded-3xl gap-4 mt-5 px-4">
@@ -34,7 +37,8 @@ function DonorProfile() {
             type="text"
             id="name"
             name="name"
-            //   value={donorUpdateData.fullname}
+            disabled={!update}
+            value={Donor?.fullname}
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           />
         </div>
@@ -49,7 +53,8 @@ function DonorProfile() {
             type="number"
             id="Age"
             name="Age"
-            //   value={donorUpdateData.age}
+            value={Donor?.age}
+            disabled={!update}
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           />
         </div>
@@ -64,7 +69,8 @@ function DonorProfile() {
             type="number"
             id="Mobile"
             name="Mobile"
-            //   value={donorUpdateData.mobile}
+            value={Donor?.mobile}
+            disabled={!update}
             className="mt-1 p-2 border border-gray-300 rounded w-full"
             style={{
               appearance: "none",
@@ -83,7 +89,8 @@ function DonorProfile() {
           <input
             type="email"
             id="email"
-            //   value={donorUpdateData.email}
+            value={Donor?.email}
+            disabled={!update}
             name="email"
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           />
@@ -111,7 +118,8 @@ function DonorProfile() {
           </label>
           <select
             className="mt-1 p-2 border border-gray-300 rounded w-full"
-            //   value={donorUpdateData.bloodGroup}
+            value={Donor?.bloodGroup}
+            disabled={!update}
           >
             <option value="A+">A+</option>
             <option value="A-">A-</option>
@@ -134,6 +142,7 @@ function DonorProfile() {
             id="state"
             //   value={selectedState || ""}
             onChange={(e) => setSelectedState(e.target.value)}
+            disabled={!update}
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           >
             {/* {states.map((state) => (
@@ -165,6 +174,7 @@ function DonorProfile() {
           <select
             id="district"
             //   disabled={!selectedState}
+            disabled={!update}
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           >
             {/* <option value="" disabled>
@@ -188,7 +198,8 @@ function DonorProfile() {
             type="text"
             id="Address"
             name="Address"
-            //   value={donorUpdateData.address}
+            value={Donor?.address}
+            disabled={!update}
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           />
         </div>
@@ -203,25 +214,30 @@ function DonorProfile() {
             type="text"
             id="Pincode"
             name="Pincode"
-            //   value={donorUpdateData.pincode}
+            value={Donor?.pincode}
+            disabled={!update}
             className="mt-1 p-2 border border-gray-300 rounded w-full"
           />
         </div>
-        <div className="flex gap-4">
-          <button
-            type="submit"
-            className="px-7 py-0 mb-4 bg-red-500 text-white rounded hover:bg-red-600"
-          >
-            Update
-          </button>
+      </form>
+      <div className="flex gap-4 mt-5 ml-5">
+        <button
+          type="submit"
+          className="px-7 py-3 mb-4 bg-red-500 text-white rounded hover:bg-red-600"
+          onClick={() => setUpdate(true)}
+        >
+          {update ? " Save" : "Update"}
+        </button>
+        {update && (
           <button
             type="button"
-            className="px-7 py-2 mb-4 bg-red-500 text-white rounded hover:bg-red-600"
+            className="px-7 py-3 mb-4 bg-red-500 text-white rounded hover:bg-red-600"
+            onClick={() => setUpdate(false)}
           >
             Cancel
           </button>
-        </div>
-      </form>
+        )}
+      </div>
     </div>
   );
 }
