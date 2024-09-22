@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { login, logout } from "../store/Authaction";
+import axios from "axios";
 import io from "socket.io-client";
 
 export default function Header() {
@@ -37,13 +38,12 @@ export default function Header() {
     if (savedBloodBankId) {
       socket.emit("register", savedBloodBankId);
     }
-    socket.on("newBloodRequest", (data) => {
-      console.log("data", data);
+    socket.on("newRequest", (data) => {
+      // console.log("data", data);
       setNotifications((prev) => [...prev, data]);
       // toast.success(data.message);
     });
 
-    // Cleanup socket on unmount
     return () => {
       socket.disconnect();
     };
@@ -52,32 +52,31 @@ export default function Header() {
   const handleLogout = () => {
     dispatch(logout());
     setNotifications([]);
-    setIsMenuOpen(false)
+    setIsOpen(false)
     navigate("/");
   };
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
   const removeAll = async () => {
-    // try {
-    //   const res = await axios.delete(
-    //     "http://localhost:4000/bloodrequest/removeAll",
-    //     {
-    //       withCredentials: true,
-    //     }
-    //   );
-    //   if (res.data.success === true) {
-    //     toast.success("All Notifications Removed");
-    //     setNotifications([]);
-    //     toggleDropdown();
-    //   } else {
-    //     toast.error(res.data.message);
-    //   }
-    // } catch (error) {
-    //   toast.error(error.response.data.message);
-    // }
-    setNotifications([]);
-    toggleDropdown();
+    try {
+      const res = await axios.delete(
+        "http://localhost:4000/bloodrequest/removeAll",
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.data.success === true) {
+        toast.success("All Notifications Removed");
+        setNotifications([]);
+        toggleDropdown();
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response.data.message);
+    }
   };
   return (
     <>
