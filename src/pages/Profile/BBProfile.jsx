@@ -80,24 +80,24 @@ function BBProfile() {
       }
       try {
         setLoader(true);
-        console.log(bloodBank);
-        // const res = await axios.put(
-        //   "http://localhost:4000/Donor/updateDonor",
-        //   Donor,
-        //   {
-        //     withCredentials: true,
-        //   }
-        // );
-        // if (res.data.success === true) {
+        const res = await axios.put(
+          "http://localhost:4000/bloodBank/updateBloodbankDatahandler",
+          bloodBank,
+          {
+            withCredentials: true,
+          }
+        );
+        if (res.data.success === true) {
           toast.success("Donor updated successfully");
           setValue(bloodBank);
           console.log(bloodBank);
           setUpdate(false);
           setCount(0);
-        // } else {
-        //   toast.error(res.data.message);
-        // }
+        } else {
+          toast.error(res.data.message);
+        }
       } catch (error) {
+        console.log(error);
         toast.error(error.response?.data?.message || "Error updating donor");
       } finally {
         setLoader(false);
