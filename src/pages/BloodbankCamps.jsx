@@ -12,6 +12,8 @@ function BloodcampCamps() {
   const [BloodCamp, setBloodCamp] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
   const open = (id) => {
     if (isAuth === true && Role === "donor") {
       setIsModalOpen(true);
@@ -35,8 +37,8 @@ function BloodcampCamps() {
       district: "",
     },
   });
-  const selectedState = watch("state"); // Watch for changes in state selection
-  const selectedDistrict = watch("district"); // Watch for changes in district selection
+  const selectedState = watch("state");
+  const selectedDistrict = watch("district");
 
   useEffect(() => {
     const fetchStates = async () => {
@@ -100,6 +102,13 @@ function BloodcampCamps() {
       // }
     }
   };
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = BloodCamp.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(BloodCamp.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <div className="mx-7 md:mx-40 lg:mx-64 sticky">
       <div className="my-7">
@@ -175,46 +184,46 @@ function BloodcampCamps() {
         <table className="min-w-full text-center border-collapse">
           <thead className="bg-red-500 text-white">
             <tr>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">
                 campName
               </th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">
                 Address
               </th>
-              <th class="p-3 text-md border border-gray-400 rounded">Start</th>
-              <th class="p-3 text-md border border-gray-400 rounded">End</th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">Start</th>
+              <th className="p-3 text-md border border-gray-400 rounded">End</th>
+              <th className="p-3 text-md border border-gray-400 rounded">
                 Description
               </th>
               {isAuth === true && Role === "donor" && (
-                <th class="p-3 text-md border border-gray-400 rounded">
+                <th className="p-3 text-md border border-gray-400 rounded">
                   Register
                 </th>
               )}
             </tr>
           </thead>
           <tbody>
-            {BloodCamp.length > 0 ? (
-              BloodCamp.map((camp) => {
+            {currentItems.length > 0 ? (
+              currentItems.map((camp) => {
                 return (
                   <tr key={camp._id}>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {camp.campName}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {camp.address}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {camp.startTime}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {camp.endTime}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {camp.description}
                     </td>
                     {isAuth === true && Role === "donor" && (
-                      <td class="p-3 text-md flex justify-center items-center border border-gray-400 rounded">
+                      <td className="p-3 text-md flex justify-center items-center border border-gray-400 rounded">
                         <MdMarkEmailRead
                           onClick={() => open(camp._id)}
                           size={25}
@@ -237,6 +246,35 @@ function BloodcampCamps() {
             )}
           </tbody>
         </table>
+      </div>
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-1 mx-1 bg-gray-200 hover:bg-gray-300 rounded"
+        >
+          Previous
+        </button>
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index}
+            onClick={() => paginate(index + 1)}
+            className={`px-3 py-1 mx-1 ${
+              currentPage === index + 1
+                ? "bg-red-500 text-white"
+                : "bg-gray-200 hover:bg-gray-300"
+            } rounded`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-3 py-1 mx-1 bg-gray-200 hover:bg-gray-300 rounded"
+        >
+          Next
+        </button>
       </div>
     </div>
   );

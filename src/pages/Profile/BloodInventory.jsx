@@ -140,12 +140,13 @@ function BloodInventory() {
           -
         </button>
       </div>
-      {/* </div> */}
       <div className="overflow-x-auto m-5 rounded-lg">
         <table className="table-auto border-collapse border border-slate-200 bg-red-600 w-full">
           <thead>
-            <th className="text-white p-3">Blood Group</th>
-            <th className="text-white p-3">Available Stock (units)</th>
+            <tr>
+              <th className="text-white p-3">Blood Group</th>
+              <th className="text-white p-3">Available Stock (units)</th>
+            </tr>
           </thead>
           <tbody className="bg-red-200 text-center">
             {bloodgroups &&

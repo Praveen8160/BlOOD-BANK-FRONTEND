@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { MdDelete } from "react-icons/md";
 
 function Request() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
-  const [AllBloodbankRequestforBlood, setAllBloodbankRequestforBlood] = useState([]);
+  const [AllBloodbankRequestforBlood, setAllBloodbankRequestforBlood] =
+    useState([]);
   const [BloodRequest, setBloodRequest] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); 
+  const [itemsPerPage] = useState(5);
 
   // Fetch Data based on user role
   const getAllRequestforBlood = async () => {
@@ -49,16 +51,67 @@ function Request() {
     setCurrentPage(1); // Reset to the first page after filtering
   };
 
+  const deleteRequest = async (id) => {
+    console.log(id);
+    if (Role === "donor") {
+      try {
+        const res = await axios.delete(
+          "http://localhost:4000/bloodrequest/deleteDonorbloodRequest",
+          {
+            withCredentials: true,
+            data: {
+              id: id,
+            },
+          }
+        );
+        if (res.data.success === true) {
+          toast.success("Request Deleted Successfully");
+          setAllBloodbankRequestforBlood(
+            BloodRequest.filter((request) => request._id !== id)
+          );
+        } else {
+          toast.error(res.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    } else if (Role === "bloodbank") {
+    }
+    // isAuth && Role === "bloodbank"?
+    // setAllBloodbankRequestforBlood(BloodRequest.filter((request) => request._id !== id))
+    // try {
+    //   const res = await axios.delete(
+    //     "http://localhost:4000/bloodrequest/deleteRequest",
+    //     {
+    //       withCredentials: true,
+    //       data: {
+    //         id: id,
+    //       },
+    //     }
+    //   );
+    //   if (res.data.success === true) {
+    //     toast.success("Request Deleted Successfully");
+    //     setAllBloodbankRequestforBlood(BloodRequest);
+    //   } else {
+    //     toast.error(res.data.message);
+    //   }
+    // } catch (error) {
+    //   toast.error(error.response.data.message);
+    // }
+  };
   useEffect(() => {
     getAllRequestforBlood();
   }, [isAuth, Role]);
 
- 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = AllBloodbankRequestforBlood.slice(indexOfFirstItem, indexOfLastItem);
-
-  const totalPages = Math.ceil(AllBloodbankRequestforBlood.length / itemsPerPage);
+  const currentItems = AllBloodbankRequestforBlood.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+  const totalPages = Math.ceil(
+    AllBloodbankRequestforBlood.length / itemsPerPage
+  );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -71,8 +124,13 @@ function Request() {
       <div className="flex justify-items-center my-3">
         <div>
           <span className="font-semibold text-lg mr-3 ml-3">Status:</span>
-          <select onChange={getStatusData} className="p-3 focus:border-none border-none">
-            <option value="" selected>All Request</option>
+          <select
+            onChange={getStatusData}
+            className="p-3 focus:border-none border-none"
+          >
+            <option value="" selected>
+              All Request
+            </option>
             <option value="Pending">Pending</option>
             <option value="Accepted">Accepted</option>
             <option value="Rejected">Rejected</option>
@@ -92,6 +150,7 @@ function Request() {
               <th className="p-3 font-bold">Quantity(Unit)</th>
               <th className="p-3 font-bold">Date</th>
               <th className="p-3 font-bold">Status</th>
+              <th className="p-3 font-bold">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -99,20 +158,35 @@ function Request() {
               currentItems.map((request) => (
                 <tr key={request._id} className="hover:bg-gray-200">
                   <td className="p-3 text-md">
-                    {request.recipientId?.fullname || request.recipientId?.bloodBankName}
+                    {request.recipientId?.fullname ||
+                      request.recipientId?.bloodBankName}
                   </td>
                   <td className="p-3 text-md">{request.Reason}</td>
-                  <td className="p-3 font-bold text-red-700">{request.bloodgroup}</td>
+                  <td className="p-3 font-bold text-red-700">
+                    {request.bloodgroup}
+                  </td>
                   <td className="p-3 text-md">{request.recipientId.mobile}</td>
                   <td className="p-3 text-md">{request.recipientId.pincode}</td>
                   <td className="p-3 text-md">{request.quantity}</td>
-                  <td className="p-3 text-md">{request.createdAt.split("T")[0]}</td>
+                  <td className="p-3 text-md">
+                    {request.createdAt.split("T")[0]}
+                  </td>
                   <td className="p-3 text-md">{request.status}</td>
+                  <td className="p-3 text-md">
+                    <MdDelete
+                      className="cursor-pointer hover:text-red-500"
+                      size={25}
+                      onClick={() => deleteRequest(request._id)}
+                    />
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="8" className="p-5 text-center bg-red-50 text-red-500 text-lg">
+                <td
+                  colSpan="8"
+                  className="p-5 text-center bg-red-50 text-red-500 text-lg"
+                >
                   No Request Found
                 </td>
               </tr>
@@ -134,7 +208,11 @@ function Request() {
           <button
             key={index}
             onClick={() => paginate(index + 1)}
-            className={`px-3 py-1 mx-1 ${currentPage === index + 1 ? "bg-red-500 text-white" : "bg-gray-200 hover:bg-gray-300"} rounded`}
+            className={`px-3 py-1 mx-1 ${
+              currentPage === index + 1
+                ? "bg-red-500 text-white"
+                : "bg-gray-200 hover:bg-gray-300"
+            } rounded`}
           >
             {index + 1}
           </button>

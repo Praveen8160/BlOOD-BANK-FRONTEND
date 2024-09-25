@@ -13,6 +13,8 @@ function NearbyDonor() {
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [donor, setDonor] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
   const {
     register,
     handleSubmit,
@@ -99,6 +101,15 @@ function NearbyDonor() {
       }
     }
   };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = donor.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(donor.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="mx-7 md:mx-40 lg:mx-64 sticky">
       <div className="my-7">
@@ -213,51 +224,59 @@ function NearbyDonor() {
         <table className="min-w-full text-center border-collapse">
           <thead className="bg-red-500 text-white">
             <tr>
-              <th class="p-3 text-md border border-gray-400 rounded">Name</th>
-              <th class="p-3 text-md border border-gray-400 rounded">Age</th>
-              <th class="p-3 text-md border border-gray-400 rounded">Email</th>
-              <th class="p-3 text-md border border-gray-400 rounded">State</th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">
+                Name
+              </th>
+              <th className="p-3 text-md border border-gray-400 rounded">
+                Age
+              </th>
+              <th className="p-3 text-md border border-gray-400 rounded">
+                Email
+              </th>
+              <th className="p-3 text-md border border-gray-400 rounded">
+                State
+              </th>
+              <th className="p-3 text-md border border-gray-400 rounded">
                 District
               </th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">
                 Pincode
               </th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">
                 Blood Group
               </th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">
                 Request
               </th>
             </tr>
           </thead>
           <tbody className="text-center">
-            {donor.length > 0 ? (
-              donor.map((dnr) => {
+            {currentItems.length > 0 ? (
+              currentItems.map((dnr) => {
                 return (
                   <tr className="items-center">
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {dnr.fullname}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {dnr.age}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {dnr.email}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {dnr.state}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {dnr.district}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {dnr.pincode}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {dnr.bloodGroup}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       <MdMarkEmailRead
                         onClick={() => open(dnr._id, dnr.bloodGroup)}
                         size={25}
@@ -279,6 +298,35 @@ function NearbyDonor() {
             )}
           </tbody>
         </table>
+      </div>
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-1 mx-1 bg-gray-200 hover:bg-gray-300 rounded"
+        >
+          Previous
+        </button>
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index}
+            onClick={() => paginate(index + 1)}
+            className={`px-3 py-1 mx-1 ${
+              currentPage === index + 1
+                ? "bg-red-500 text-white"
+                : "bg-gray-200 hover:bg-gray-300"
+            } rounded`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-3 py-1 mx-1 bg-gray-200 hover:bg-gray-300 rounded"
+        >
+          Next
+        </button>
       </div>
     </div>
   );

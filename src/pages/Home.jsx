@@ -47,7 +47,7 @@ function Home() {
               <div key={index}>
                 <img
                   src={image}
-                  alt={`Carousel slide ${index}`}
+                  alt={`Image ${index}`}
                   className="w-screen object-fill lg:h-[40rem] h-[27rem]"
                 />
               </div>
@@ -123,76 +123,80 @@ function Home() {
             <img src={img.image} alt="" className="h-[20rem] w-[40rem]" />
           </div>
           <div>
-            <table className="w-auto sticky mt-7 mx-4" cellpadding="5">
-              <tr>
-                <td
-                  colSpan="3"
-                  className="border  bg-red-500 text-white-900 text-center font-bold"
-                >
-                  Blood Type Compatibility Matrix
-                </td>
-              </tr>
-              <tr>
-                <th className="border w-max text-lg text-center">Blood Type</th>
-                <th className="border w-max text-lg text-center">
-                  Compatible Donors
-                </th>
-                <th className="border w-max text-lg text-center">
-                  Compatible Recipients
-                </th>
-              </tr>
-              <tr>
-                <td className="border w-max text-lg text-center">A+</td>
-                <td className="border w-max text-lg text-center">A+, AB+</td>
-                <td className="border w-max text-lg text-center">
-                  A+, A-, O+, O-
-                </td>
-              </tr>
-              <tr>
-                <td className="border w-max text-lg text-center">O+</td>
-                <td className="border w-max text-lg text-center">
-                  O+, A+, B+, AB+
-                </td>
-                <td className="border w-max text-lg text-center">O+, O-</td>
-              </tr>
-              <tr>
-                <td className="border w-max text-lg text-center">B+</td>
-                <td className="border w-max text-lg text-center">B+, AB+</td>
-                <td className="border w-max text-lg text-center">
-                  B+, B-, O+, O-
-                </td>
-              </tr>
-              <tr>
-                <td className="border w-max text-lg text-center">AB+</td>
-                <td className="border w-max text-lg text-center">AB+</td>
-                <td className="border w-max text-lg text-center">Everyone</td>
-              </tr>
-              <tr>
-                <td className="border w-max text-lg text-center">A-</td>
-                <td className="border w-max text-lg text-center">
-                  A+, A-, AB+, AB-
-                </td>
-                <td className="border w-max text-lg text-center">A-, O-</td>
-              </tr>
-              <tr>
-                <td className="border w-max text-lg text-center">O-</td>
-                <td className="border w-max text-lg text-center">Everyone</td>
-                <td className="border w-max text-lg text-center">O-</td>
-              </tr>
-              <tr>
-                <td className="border w-max text-lg text-center">B-</td>
-                <td className="border w-max text-lg text-center">
-                  B+, B-, AB+, AB-
-                </td>
-                <td className="border w-max text-lg text-center">B-, O-</td>
-              </tr>
-              <tr>
-                <td className="border w-max text-lg text-center">AB-</td>
-                <td className="border w-max text-lg text-center">AB+, AB-</td>
-                <td className="border w-max text-lg text-center">
-                  AB-, A-, B-, O-
-                </td>
-              </tr>
+            <table className="w-auto sticky mt-7 mx-4" cellPadding="5">
+              <tbody>
+                <tr>
+                  <td
+                    colSpan="3"
+                    className="border  bg-red-500 text-white-900 text-center font-bold"
+                  >
+                    Blood Type Compatibility Matrix
+                  </td>
+                </tr>
+                <tr>
+                  <th className="border w-max text-lg text-center">
+                    Blood Type
+                  </th>
+                  <th className="border w-max text-lg text-center">
+                    Compatible Donors
+                  </th>
+                  <th className="border w-max text-lg text-center">
+                    Compatible Recipients
+                  </th>
+                </tr>
+                <tr>
+                  <td className="border w-max text-lg text-center">A+</td>
+                  <td className="border w-max text-lg text-center">A+, AB+</td>
+                  <td className="border w-max text-lg text-center">
+                    A+, A-, O+, O-
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border w-max text-lg text-center">O+</td>
+                  <td className="border w-max text-lg text-center">
+                    O+, A+, B+, AB+
+                  </td>
+                  <td className="border w-max text-lg text-center">O+, O-</td>
+                </tr>
+                <tr>
+                  <td className="border w-max text-lg text-center">B+</td>
+                  <td className="border w-max text-lg text-center">B+, AB+</td>
+                  <td className="border w-max text-lg text-center">
+                    B+, B-, O+, O-
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border w-max text-lg text-center">AB+</td>
+                  <td className="border w-max text-lg text-center">AB+</td>
+                  <td className="border w-max text-lg text-center">Everyone</td>
+                </tr>
+                <tr>
+                  <td className="border w-max text-lg text-center">A-</td>
+                  <td className="border w-max text-lg text-center">
+                    A+, A-, AB+, AB-
+                  </td>
+                  <td className="border w-max text-lg text-center">A-, O-</td>
+                </tr>
+                <tr>
+                  <td className="border w-max text-lg text-center">O-</td>
+                  <td className="border w-max text-lg text-center">Everyone</td>
+                  <td className="border w-max text-lg text-center">O-</td>
+                </tr>
+                <tr>
+                  <td className="border w-max text-lg text-center">B-</td>
+                  <td className="border w-max text-lg text-center">
+                    B+, B-, AB+, AB-
+                  </td>
+                  <td className="border w-max text-lg text-center">B-, O-</td>
+                </tr>
+                <tr>
+                  <td className="border w-max text-lg text-center">AB-</td>
+                  <td className="border w-max text-lg text-center">AB+, AB-</td>
+                  <td className="border w-max text-lg text-center">
+                    AB-, A-, B-, O-
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>

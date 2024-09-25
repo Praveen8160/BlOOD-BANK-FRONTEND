@@ -18,7 +18,6 @@ const authreducer = (state = initialState, action) => {
         error: null,
       };
     case LOGOUT_SUCCESS:
-      console.log("logout", state);
       return {
         ...state,
         isAuth: false,

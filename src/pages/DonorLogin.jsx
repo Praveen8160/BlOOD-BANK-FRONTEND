@@ -48,7 +48,6 @@ function DonorLogin() {
   };
   useEffect(() => {
     if (isAuth) {
-      console.log("check:", isAuth);
       navigate("/");
     }
   }, [isAuth]);

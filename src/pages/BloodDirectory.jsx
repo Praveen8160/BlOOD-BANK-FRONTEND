@@ -16,7 +16,7 @@ function BloodDirectory() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(1);
+  const [itemsPerPage] = useState(5);
 
   const open = (id) => {
     if (isAuth === true && Role === "bloodbank") {
@@ -108,6 +108,7 @@ function BloodDirectory() {
   const totalPages = Math.ceil(bloodbank.length / itemsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="mx-7 md:mx-40 lg:mx-64 sticky">
       <div className="my-7">
@@ -185,33 +186,33 @@ function BloodDirectory() {
         <table className="min-w-full text-center border-collapse">
           <thead className="bg-red-500 text-white">
             <tr>
-              <th class="p-3 text-md border border-gray-400 rounded">
-                Blood Bank Name
+              <th className="p-3 text-md border border-gray-400 rounded">
+                Blood Bank
               </th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">
                 Parent Hospital
               </th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">
                 Category
               </th>
-              <th class="p-3 text-md border border-gray-400 rounded">State</th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">State</th>
+              <th className="p-3 text-md border border-gray-400 rounded">
                 District
               </th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">
                 Address
               </th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">
                 Contact
               </th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">
                 Pincode
               </th>
-              <th class="p-3 text-md border border-gray-400 rounded">
+              <th className="p-3 text-md border border-gray-400 rounded">
                 Availble Blood
               </th>
               {isAuth === true && Role === "bloodbank" && (
-                <th class="p-3 text-md border border-gray-400 rounded">
+                <th className="p-3 text-md border border-gray-400 rounded">
                   Request
                 </th>
               )}
@@ -222,31 +223,31 @@ function BloodDirectory() {
               currentItems.map((bank) => {
                 return (
                   <tr>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {bank.bloodBankName}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {bank.parentHospital}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {bank.category}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {bank.state}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {bank.district}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {bank.address}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {bank.mobile}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       {bank.pincode}
                     </td>
-                    <td class="p-3 text-md border border-gray-400 rounded">
+                    <td className="p-3 text-md border border-gray-400 rounded">
                       <Link
                         // className="ml-3 md:ml-5 lg:ml-10 hover:text-red-500 cursor-pointer"
                         to={`/Availableblood/${bank._id}`}
@@ -255,7 +256,7 @@ function BloodDirectory() {
                       </Link>
                     </td>
                     {isAuth === true && Role === "bloodbank" && (
-                      <td class="p-3 text-md border border-gray-400 rounded">
+                      <td className="p-3 text-md border border-gray-400 rounded">
                         <MdMarkEmailRead
                           onClick={() => open(bank._id)}
                           size={25}
