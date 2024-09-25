@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
 import img from "../utils/Image.js";
 import axios from "axios";
+import Loader from "../components/Loader.jsx";
 function Home() {
   const [totaldonor, setTotaldonor] = useState(0);
   const [totalBloodbank, setTotalbloodbank] = useState(0);
@@ -18,37 +19,41 @@ function Home() {
     const api2 = "http://localhost:4000/BloodBank/getTotalBloodBank";
     axios
       .all([axios.get(api1), axios.get(api2)])
-      .then(axios.spread((response1, response2) => {
-        setTotaldonor(response1.data.data);
-        setTotalbloodbank(response2.data.data);
-      }))
+      .then(
+        axios.spread((response1, response2) => {
+          setTotaldonor(response1.data.data);
+          setTotalbloodbank(response2.data.data);
+        })
+      )
       .catch((error) => {
         console.log(error.response.data.message);
       });
   };
   useEffect(() => {
     gettotalUser();
-  },[]);
+  }, []);
   return (
     <div className="w-auto z-0 overflow-hidden">
       <div className="w-auto">
-        <Carousel
-          showThumbs={false}
-          autoPlay
-          interval={2000}
-          infiniteLoop
-          showStatus={false}
-        >
-          {carouselImages.map((image, index) => (
-            <div key={index}>
-              <img
-                src={image}
-                alt={`Carousel slide ${index}`}
-                className="w-screen object-fill lg:h-[40rem] h-[27rem]"
-              />
-            </div>
-          ))}
-        </Carousel>
+        <Suspense fallback={<Loader></Loader>}>
+          <Carousel
+            showThumbs={false}
+            autoPlay
+            interval={2000}
+            infiniteLoop
+            showStatus={false}
+          >
+            {carouselImages.map((image, index) => (
+              <div key={index}>
+                <img
+                  src={image}
+                  alt={`Carousel slide ${index}`}
+                  className="w-screen object-fill lg:h-[40rem] h-[27rem]"
+                />
+              </div>
+            ))}
+          </Carousel>
+        </Suspense>
       </div>
       <div className="h-auto w-screen flex flex-col md:flex-row mt-10 justify-evenly items-center">
         <div className="bg-blue-500 h-36 md:w-96 w-64 flex flex-col justify-center items-center sticky border rounded-2xl mb-10 md:mb-0">

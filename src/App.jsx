@@ -10,7 +10,9 @@ function App() {
   return (
     <Provider store={store}>
       <Header></Header>
-      <Outlet></Outlet>
+      <div className="min-h-[29rem]">
+        <Outlet></Outlet>{" "}
+      </div>
       <Footer></Footer>
     </Provider>
   );

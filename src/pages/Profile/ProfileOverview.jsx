@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import DonorProfile from "./DonorProfile";
-import BBProfile from "./BBProfile";
+import Loader from "../../components/Loader";
+// import DonorProfile from "./DonorProfile";
+// import BBProfile from "./BBProfile";
+const BBProfile = lazy(() => import("./BBProfile"));
+const DonorProfile = lazy(() => import("./DonorProfile"));
 function ProfileOverview() {
   const dispatch = useDispatch();
   const { Role } = useSelector((state) => state.Auth);
@@ -18,8 +20,10 @@ function ProfileOverview() {
       <div className=" bg-gradient-to-r from-red-500 to-pink-500 text-white p-8 rounded-t-lg shadow-lg text-center">
         <h1 className="text-3xl font-bold mb-4">Personal Details</h1>
       </div>
-      {Role === "donor" && <DonorProfile />}
-      {Role === "bloodbank" && <BBProfile />}
+      <Suspense fallback={<Loader></Loader>}>
+        {Role === "donor" && <DonorProfile />}
+        {Role === "bloodbank" && <BBProfile />}
+      </Suspense>
     </div>
   );
 }

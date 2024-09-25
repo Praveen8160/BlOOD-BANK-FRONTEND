@@ -14,6 +14,10 @@ function BloodDirectory() {
   const [districts, setDistricts] = useState([]);
   const [bloodbank, setbloodbank] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(1);
+
   const open = (id) => {
     if (isAuth === true && Role === "bloodbank") {
       setIsModalOpen(true);
@@ -37,9 +41,7 @@ function BloodDirectory() {
       district: "",
     },
   });
-  const selectedState = watch("state"); // Watch for changes in state selection
-  const selectedDistrict = watch("district"); // Watch for changes in district selection
-
+  const selectedState = watch("state");
   useEffect(() => {
     const fetchStates = async () => {
       try {
@@ -49,7 +51,7 @@ function BloodDirectory() {
         setStates(response.data.states);
       } catch (error) {
         console.error("Error fetching states", error);
-        toast.error("Failed to fetch states. Please try again later.");
+        toast.error("Connection Error. Please Connect Network");
       }
     };
     fetchStates();
@@ -67,14 +69,13 @@ function BloodDirectory() {
               `https://cdn-api.co-vin.in/api/v2/admin/location/districts/${selectedStateObj.state_id}`
             );
             setDistricts(response.data.districts);
-            setValue("district", ""); // Reset district selection when state changes
+            setValue("district", "");
           }
         } catch (error) {
-          // console.error("Error fetching districts", error);
-          toast.error("Failed to fetch districts. Please try again later.");
+          toast.error("Connection Error. Please Connect Network");
         }
       } else {
-        setDistricts([]); // Clear districts if no state is selected
+        setDistricts([]);
         setValue("district", "");
       }
     };
@@ -92,15 +93,21 @@ function BloodDirectory() {
         }
       );
       const response = res.data;
-      // console.log(response.bloobank);
       setbloodbank(response.bloobank);
     } catch (error) {
-      // console.log("error",error.response)
       if (error.response && error.response.status === 500) {
         toast.error(error.response.data.message);
       }
     }
   };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = bloodbank.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(bloodbank.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <div className="mx-7 md:mx-40 lg:mx-64 sticky">
       <div className="my-7">
@@ -211,8 +218,8 @@ function BloodDirectory() {
             </tr>
           </thead>
           <tbody>
-            {bloodbank.length > 0 ? (
-              bloodbank.map((bank) => {
+            {currentItems.length > 0 ? (
+              currentItems.map((bank) => {
                 return (
                   <tr>
                     <td class="p-3 text-md border border-gray-400 rounded">
@@ -271,6 +278,35 @@ function BloodDirectory() {
             )}
           </tbody>
         </table>
+      </div>
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-1 mx-1 bg-gray-200 hover:bg-gray-300 rounded"
+        >
+          Previous
+        </button>
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index}
+            onClick={() => paginate(index + 1)}
+            className={`px-3 py-1 mx-1 ${
+              currentPage === index + 1
+                ? "bg-red-500 text-white"
+                : "bg-gray-200 hover:bg-gray-300"
+            } rounded`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-3 py-1 mx-1 bg-gray-200 hover:bg-gray-300 rounded"
+        >
+          Next
+        </button>
       </div>
     </div>
   );

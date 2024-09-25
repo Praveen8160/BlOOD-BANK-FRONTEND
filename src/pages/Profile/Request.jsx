@@ -7,10 +7,8 @@ function Request() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
   const [AllBloodbankRequestforBlood, setAllBloodbankRequestforBlood] = useState([]);
   const [BloodRequest, setBloodRequest] = useState([]);
-
-  // Pagination States
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); // You can adjust this for how many items you want per page
+  const [itemsPerPage] = useState(5); 
 
   // Fetch Data based on user role
   const getAllRequestforBlood = async () => {
@@ -55,15 +53,13 @@ function Request() {
     getAllRequestforBlood();
   }, [isAuth, Role]);
 
-  // Pagination Logic
+ 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = AllBloodbankRequestforBlood.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Calculate total pages
   const totalPages = Math.ceil(AllBloodbankRequestforBlood.length / itemsPerPage);
 
-  // Handle page change
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
