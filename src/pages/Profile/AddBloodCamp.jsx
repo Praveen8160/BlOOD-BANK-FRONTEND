@@ -66,7 +66,7 @@ function AddBloodCamp() {
     fetchDistricts();
   }, [formData.state]);
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault();\
     try {
       const Data = new FormData();
       Data.append("campName", formData.campName);
