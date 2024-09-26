@@ -8,10 +8,8 @@ function BloodBankRegister() {
   const { isAuth } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  // const [states, setStates] = useState([]);
-  // const [selectedState, setSelectedState] = useState("");
-  // const [districts, setDistricts] = useState([]);
   const {
     register,
     handleSubmit,
@@ -31,6 +29,8 @@ function BloodBankRegister() {
       district: "",
       address: "",
       pincode: "",
+      latitude: "",
+      longitude: "",
     },
   });
   const selectedState = watch("state"); // Watch for changes in state selection
@@ -38,6 +38,7 @@ function BloodBankRegister() {
 
   useEffect(() => {
     const fetchStates = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
           "https://cdn-api.co-vin.in/api/v2/admin/location/states"
@@ -47,6 +48,9 @@ function BloodBankRegister() {
         console.error("Error fetching states", error);
         toast.error("connect Internet");
       }
+      finally {
+        setLoading(false);
+      }
     };
     fetchStates();
   }, []);
@@ -54,6 +58,7 @@ function BloodBankRegister() {
   useEffect(() => {
     const fetchDistricts = async () => {
       if (selectedState) {
+        setLoading(true);
         try {
           const selectedStateObj = states.find(
             (state) => state.state_name === selectedState
@@ -69,6 +74,9 @@ function BloodBankRegister() {
           // console.error("Error fetching districts", error);
           toast.error("connect Internet");
         }
+        finally {
+          setLoading(false);
+        }
       } else {
         setDistricts([]); // Clear districts if no state is selected
         setValue("district", "");
@@ -77,6 +85,7 @@ function BloodBankRegister() {
     fetchDistricts();
   }, [selectedState, setValue, states]);
   const Register = async (data) => {
+    setLoading(true);
     try {
       const res = await axios.post(
         "http://localhost:4000/bloodBank/register",
@@ -92,11 +101,14 @@ function BloodBankRegister() {
         toast.success("Registration successful Now Login to continue");
       }
     } catch (error) {
-      if (error.response && error.response.status === 400) {
+      if (error.response) {
         toast.error(error.response.data.message);
       } else {
         toast.error(error.response.data.message);
       }
+    }
+    finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -104,6 +116,24 @@ function BloodBankRegister() {
       navigate("/");
     }
   }, [isAuth]);
+  const handleGeolocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setValue("latitude", position.coords.latitude);
+          setValue("longitude", position.coords.longitude);
+        },
+        (error) => {
+          console.error("Geolocation error: ", error);
+          toast.error(
+            "Unable to retrieve your location. Please fill in manually."
+          );
+        }
+      );
+    } else {
+      toast.error("Geolocation is not supported by your browser.");
+    }
+  };
   return (
     <div className="flex flex-col justify-center md:mt-12 items-center">
       <form
@@ -365,16 +395,55 @@ function BloodBankRegister() {
               </p>
             )}
           </div>
-          <div>
-            <h1></h1>
+          <div className="flex flex-col">
+            <label
+              htmlFor="latitude"
+              className="text-sm font-medium text-gray-700"
+            >
+              Latitude
+            </label>
+            <input
+              type="text"
+              id="latitude"
+              className="mt-1 p-2 border border-gray-300 rounded"
+              {...register("latitude")}
+              readOnly
+            />
           </div>
+
+          <div className="flex flex-col">
+            <label
+              htmlFor="longitude"
+              className="text-sm font-medium text-gray-700"
+            >
+              Longitude
+            </label>
+            <input
+              type="text"
+              id="longitude"
+              className="mt-1 p-2 border border-gray-300 rounded"
+              {...register("longitude")}
+              readOnly
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={handleGeolocation}
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Get Current Location
+          </button>
         </fieldset>
 
         <button
           type="submit"
-          className="px-7 py-2 mb-4 bg-red-500 text-white rounded hover:bg-red-600"
+          className={`px-10 py-3 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300 my-3 ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          disabled={loading}
         >
-          Register
+          {loading ? "Registering..." : "Register"}
         </button>
       </form>
     </div>

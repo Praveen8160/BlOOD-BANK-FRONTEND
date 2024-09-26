@@ -8,6 +8,7 @@ function DonorRegister() {
   const { isAuth } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -28,6 +29,8 @@ function DonorRegister() {
       state: "",
       district: "",
       pincode: "",
+      latitude: "",
+      longitude: "",
     },
   });
 
@@ -36,6 +39,7 @@ function DonorRegister() {
 
   useEffect(() => {
     const fetchStates = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
           "https://cdn-api.co-vin.in/api/v2/admin/location/states"
@@ -44,6 +48,8 @@ function DonorRegister() {
       } catch (error) {
         console.error("Error fetching states", error);
         toast.error("Failed to fetch states. Please try again later.");
+      } finally {
+        setLoading(false);
       }
     };
     fetchStates();
@@ -56,6 +62,7 @@ function DonorRegister() {
   useEffect(() => {
     const fetchDistricts = async () => {
       if (selectedState) {
+        setLoading(true);
         try {
           const selectedStateObj = states.find(
             (state) => state.state_name === selectedState
@@ -68,11 +75,12 @@ function DonorRegister() {
             setValue("district", ""); // Reset district selection when state changes
           }
         } catch (error) {
-          // console.error("Error fetching districts", error);
           toast.error("Failed to fetch districts. Please try again later.");
+        } finally {
+          setLoading(false);
         }
       } else {
-        setDistricts([]); // Clear districts if no state is selected
+        setDistricts([]);
         setValue("district", "");
       }
     };
@@ -80,8 +88,7 @@ function DonorRegister() {
   }, [selectedState, setValue, states]);
 
   const Register = async (data) => {
-    console.log("Form Data Submitted: ", data);
-    // axios.defaults.withCredentials = true;
+    setLoading(true);
     try {
       const res = await axios.post(
         "http://localhost:4000/Donor/register",
@@ -97,22 +104,41 @@ function DonorRegister() {
         toast.success("Registration successful Now Login to continue");
       }
     } catch (error) {
-      console.log(error);
-      if (error.response && error.response.status === 400) {
+      // console.log(error);
+      if (error.response) {
         toast.error(error.response.data.message);
       } else {
         toast.error(error.response.data.message);
       }
+    } finally {
+      setLoading(false);
     }
   };
-
+  const handleGeolocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setValue("latitude", position.coords.latitude);
+          setValue("longitude", position.coords.longitude);
+        },
+        (error) => {
+          console.error("Geolocation error: ", error);
+          toast.error(
+            "Unable to retrieve your location. Please fill in manually."
+          );
+        }
+      );
+    } else {
+      toast.error("Geolocation is not supported by your browser.");
+    }
+  };
   return (
     <div className="flex flex-col justify-center md:mt-12 items-center">
       <form
         className="border min-h-[45rem] w-full max-w-4xl flex flex-col items-center justify-center rounded-3xl bg-white mt-5 shadow-2xl p-6"
         onSubmit={handleSubmit(Register)}
       >
-        <fieldset className="w-full md:mx-20 md:my-10 md:p-9 mx-5 p-5 border grid grid-cols-1 md:grid-cols-2 gap-4 shadow-2xl border-red-100 rounded-xl my-4 sticky">
+        <fieldset className="w-full md:-mx-24 md:my-10 md:p-9 mx-5 p-5 border grid grid-cols-1 md:grid-cols-2 gap-4 shadow-2xl border-red-100 rounded-xl my-4 sticky">
           <legend className="text-3xl font-semibold text-red-600 mb-4 md:col-span-2">
             Donor Registration
           </legend>
@@ -368,16 +394,57 @@ function DonorRegister() {
               </p>
             )}
           </div>
+          <div className="flex flex-col">
+            <label
+              htmlFor="latitude"
+              className="text-sm font-medium text-gray-700"
+            >
+              Latitude
+            </label>
+            <input
+              type="text"
+              id="latitude"
+              className="mt-1 p-2 border border-gray-300 rounded"
+              {...register("latitude")}
+              readOnly
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label
+              htmlFor="longitude"
+              className="text-sm font-medium text-gray-700"
+            >
+              Longitude
+            </label>
+            <input
+              type="text"
+              id="longitude"
+              className="mt-1 p-2 border border-gray-300 rounded"
+              {...register("longitude")}
+              readOnly
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={handleGeolocation}
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Get Current Location
+          </button>
         </fieldset>
 
         <button
           type="submit"
-          className="px-10 py-3 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300 mt-6"
+          className={`px-10 py-3 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300 mt-3 ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          disabled={loading}
         >
-          Register
+          {loading ? "Registering..." : "Register"}
         </button>
       </form>
-      {/* <ToastContainer /> */}
     </div>
   );
 }
