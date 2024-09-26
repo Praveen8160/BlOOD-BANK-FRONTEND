@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Loader from "../../components/Loader";
 
 function BloodRequest() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
@@ -9,7 +10,7 @@ function BloodRequest() {
   const [donorRequest, setDonorRequest] = useState([]);
   const [bloodbankAllRequest, setBloodbankAllRequest] = useState([]);
   const [donorAllRequest, setDonorAllRequest] = useState([]);
-
+  const [Loading, setLoader] = useState(false);
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
@@ -17,6 +18,7 @@ function BloodRequest() {
   // Fetch blood bank and donor requests
   const getBloodbakAllRequest = async () => {
     try {
+      setLoader(true);
       const res = await axios.get(
         "http://localhost:4000/bloodrequest/getBloodbakAllRequest",
         { withCredentials: true }
@@ -25,11 +27,14 @@ function BloodRequest() {
       setBloodbankAllRequest(res.data.data);
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setLoader(false);
     }
   };
 
   const getDonorRequest = async () => {
     try {
+      setLoader(true);
       const res = await axios.get(
         "http://localhost:4000/bloodrequest/getDonorRequest",
         { withCredentials: true }
@@ -38,25 +43,31 @@ function BloodRequest() {
       setDonorAllRequest(res.data.data);
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setLoader(false);
     }
   };
 
   const handleChange = (id) => async (e) => {
     if (Role === "donor") {
+      setLoader(true);
       const res = await axios.put(
         "http://localhost:4000/bloodrequest/updateDonorRequestStatus",
         { id: id, status: e.target.value },
         { withCredentials: true }
       );
       toast.success(res.data.message);
+      setLoader(false);
       getDonorRequest();
     } else if (Role === "bloodbank") {
+      setLoader(true);
       const res = await axios.put(
         "http://localhost:4000/bloodrequest/updateBloodbakRequestStatus",
         { id: id, status: e.target.value },
         { withCredentials: true }
       );
       toast.success(res.data.message);
+      setLoader(false);
       getBloodbakAllRequest();
     }
   };
@@ -145,50 +156,61 @@ function BloodRequest() {
               <th className="p-3 font-bold">Status</th>
             </tr>
           </thead>
-          <tbody>
-            {currentRequests.length > 0 ? (
-              currentRequests.map((request) => (
-                <tr key={request._id}>
-                  <td className="p-3 text-md">
-                    {request.requester?.fullname ||
-                      request.requester?.bloodBankName}
-                  </td>
-                  <td className="p-3 text-md">{request.Reason}</td>
-                  <td className="p-3 text-md">{request.requester.address}</td>
-                  <td className="p-3 text-md">{request.requester.mobile}</td>
-                  <td className="p-3 text-md">{request.bloodgroup}</td>
-                  <td className="p-3 text-md">{request.quantity}</td>
-                  <td className="p-3 text-md">
-                    {request.createdAt.split("T")[0]}
-                  </td>
-                  <td className="p-3 text-md">
-                    {request.status === "Completed" ? (
-                      request.status
-                    ) : (
-                      <select
-                        value={request.status}
-                        onChange={handleChange(request._id)}
-                      >
-                        <option value="Pending">Pending</option>
-                        <option value="Accepted">Accepted</option>
-                        <option value="Rejected">Rejected</option>
-                        <option value="Completed">Completed</option>
-                      </select>
-                    )}
+          {Loading ? (
+            <tr>
+              <td
+                colSpan="8"
+                className="p-5 text-center bg-red-50 text-red-500 text-lg"
+              >
+                <Loader />
+              </td>
+            </tr>
+          ) : (
+            <tbody>
+              {currentRequests.length > 0 ? (
+                currentRequests.map((request) => (
+                  <tr key={request._id}>
+                    <td className="p-3 text-md">
+                      {request.requester?.fullname ||
+                        request.requester?.bloodBankName}
+                    </td>
+                    <td className="p-3 text-md">{request.Reason}</td>
+                    <td className="p-3 text-md">{request.requester.address}</td>
+                    <td className="p-3 text-md">{request.requester.mobile}</td>
+                    <td className="p-3 text-md">{request.bloodgroup}</td>
+                    <td className="p-3 text-md">{request.quantity}</td>
+                    <td className="p-3 text-md">
+                      {request.createdAt.split("T")[0]}
+                    </td>
+                    <td className="p-3 text-md">
+                      {request.status === "Completed" ? (
+                        request.status
+                      ) : (
+                        <select
+                          value={request.status}
+                          onChange={handleChange(request._id)}
+                        >
+                          <option value="Pending">Pending</option>
+                          <option value="Accepted">Accepted</option>
+                          <option value="Rejected">Rejected</option>
+                          <option value="Completed">Completed</option>
+                        </select>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="8"
+                    className="p-5 text-center bg-red-50 text-red-500 text-lg"
+                  >
+                    No Request Found
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan="8"
-                  className="p-5 text-center bg-red-50 text-red-500 text-lg"
-                >
-                  No Request Found
-                </td>
-              </tr>
-            )}
-          </tbody>
+              )}
+            </tbody>
+          )}
         </table>
       </div>
 

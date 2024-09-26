@@ -5,13 +5,14 @@ function AddBloodCamp() {
   const [campDate, setCampDate] = useState("");
   const [states, setStates] = useState([]);
   const [districts, setDistricts] = useState([]);
+  const [image, setimage] = useState("");
   const [formData, setFormData] = useState({
     campName: "",
     address: "",
     startTime: "",
     endTime: "",
     description: "",
-    district:"",
+    district: "",
     state: "",
   });
 
@@ -24,6 +25,9 @@ function AddBloodCamp() {
   };
   const handleDateChange = (e) => {
     setCampDate(e.target.value);
+  };
+  const handleFileChange = (e) => {
+    setimage(e.target.files[0]);
   };
   useEffect(() => {
     const fetchStates = async () => {
@@ -64,11 +68,27 @@ function AddBloodCamp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const Data = new FormData();
+      Data.append("campName", formData.campName);
+      Data.append("address", formData.address);
+      Data.append("startTime", formData.startTime);
+      Data.append("endTime", formData.endTime);
+      Data.append("description", formData.description);
+      Data.append("district", formData.district);
+      Data.append("state", formData.state);
+      Data.append("image", image);
+      Data.append("campDate", campDate);
       const res = await axios.post(
         "http://localhost:4000/camp/AddCamp",
-        { ...formData, campDate },
-        { withCredentials: true },
-        { headers: { "Content-Type": "application/json" } }
+        Data,
+        {
+          withCredentials: true,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       if (res.data.success === true) {
         toast.success("Camp Added Successfully");
@@ -104,6 +124,23 @@ function AddBloodCamp() {
                 name="campName"
                 value={formData.campName}
                 onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border border-red-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="campName"
+                className="block text-red-600 font-semibold mb-2"
+              >
+                Camp Image
+              </label>
+              <input
+                type="file"
+                id="campImage"
+                name="Image"
+                accept="image/*"
+                onChange={handleFileChange}
                 required
                 className="w-full px-3 py-2 border border-red-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
               />

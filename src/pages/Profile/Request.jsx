@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
+import Loader from "../../components/Loader";
 
 function Request() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
@@ -11,11 +12,12 @@ function Request() {
   const [BloodRequest, setBloodRequest] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
-
+  const [Loading, setLoader] = useState(false);
   // Fetch Data based on user role
   const getAllRequestforBlood = async () => {
     if (isAuth && Role === "bloodbank") {
       try {
+        setLoader(true);
         const res = await axios.get(
           "http://localhost:4000/bloodrequest/getAllBloodbankRequestforBlood",
           { withCredentials: true }
@@ -24,9 +26,12 @@ function Request() {
         setBloodRequest(res.data.data);
       } catch (error) {
         toast.error(error.response.data.message);
+      } finally {
+        setLoader(false);
       }
     } else if (isAuth && Role === "donor") {
       try {
+        setLoader(true);
         const res = await axios.get(
           "http://localhost:4000/bloodrequest/getAllDonorRequestforBlood",
           { withCredentials: true }
@@ -35,6 +40,8 @@ function Request() {
         setBloodRequest(res.data.data);
       } catch (error) {
         toast.error(error.response.data.message);
+      } finally {
+        setLoader(false);
       }
     }
   };
@@ -55,6 +62,7 @@ function Request() {
     console.log(id);
     if (Role === "donor") {
       try {
+        setLoader(true);
         const res = await axios.delete(
           "http://localhost:4000/bloodrequest/deleteDonorbloodRequest",
           {
@@ -74,30 +82,35 @@ function Request() {
         }
       } catch (error) {
         toast.error(error.response.data.message);
+      } finally {
+        setLoader(false);
       }
     } else if (Role === "bloodbank") {
+      try {
+        setLoader(true);
+        const res = await axios.delete(
+          "http://localhost:4000/bloodrequest/deleteBloodbankbloodRequest",
+          {
+            withCredentials: true,
+            data: {
+              id: id,
+            },
+          }
+        );
+        if (res.data.success === true) {
+          toast.success("Request Deleted Successfully");
+          setAllBloodbankRequestforBlood(
+            BloodRequest.filter((request) => request._id !== id)
+          );
+        } else {
+          toast.error(res.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      } finally {
+        setLoader(false);
+      }
     }
-    // isAuth && Role === "bloodbank"?
-    // setAllBloodbankRequestforBlood(BloodRequest.filter((request) => request._id !== id))
-    // try {
-    //   const res = await axios.delete(
-    //     "http://localhost:4000/bloodrequest/deleteRequest",
-    //     {
-    //       withCredentials: true,
-    //       data: {
-    //         id: id,
-    //       },
-    //     }
-    //   );
-    //   if (res.data.success === true) {
-    //     toast.success("Request Deleted Successfully");
-    //     setAllBloodbankRequestforBlood(BloodRequest);
-    //   } else {
-    //     toast.error(res.data.message);
-    //   }
-    // } catch (error) {
-    //   toast.error(error.response.data.message);
-    // }
   };
   useEffect(() => {
     getAllRequestforBlood();
@@ -153,45 +166,60 @@ function Request() {
               <th className="p-3 font-bold">Delete</th>
             </tr>
           </thead>
-          <tbody>
-            {currentItems.length > 0 ? (
-              currentItems.map((request) => (
-                <tr key={request._id} className="hover:bg-gray-200">
-                  <td className="p-3 text-md">
-                    {request.recipientId?.fullname ||
-                      request.recipientId?.bloodBankName}
-                  </td>
-                  <td className="p-3 text-md">{request.Reason}</td>
-                  <td className="p-3 font-bold text-red-700">
-                    {request.bloodgroup}
-                  </td>
-                  <td className="p-3 text-md">{request.recipientId.mobile}</td>
-                  <td className="p-3 text-md">{request.recipientId.pincode}</td>
-                  <td className="p-3 text-md">{request.quantity}</td>
-                  <td className="p-3 text-md">
-                    {request.createdAt.split("T")[0]}
-                  </td>
-                  <td className="p-3 text-md">{request.status}</td>
-                  <td className="p-3 text-md">
-                    <MdDelete
-                      className="cursor-pointer hover:text-red-500"
-                      size={25}
-                      onClick={() => deleteRequest(request._id)}
-                    />
+          {Loading ? (
+            <tr>
+              <td
+                colSpan="9"
+                className="p-5 text-center bg-red-50 text-red-500 text-lg"
+              >
+                <Loader />
+              </td>
+            </tr>
+          ) : (
+            <tbody>
+              {currentItems.length > 0 ? (
+                currentItems.map((request) => (
+                  <tr key={request._id} className="hover:bg-gray-200">
+                    <td className="p-3 text-md">
+                      {request.recipientId?.fullname ||
+                        request.recipientId?.bloodBankName}
+                    </td>
+                    <td className="p-3 text-md">{request.Reason}</td>
+                    <td className="p-3 font-bold text-red-700">
+                      {request.bloodgroup}
+                    </td>
+                    <td className="p-3 text-md">
+                      {request.recipientId.mobile}
+                    </td>
+                    <td className="p-3 text-md">
+                      {request.recipientId.pincode}
+                    </td>
+                    <td className="p-3 text-md">{request.quantity}</td>
+                    <td className="p-3 text-md">
+                      {request.createdAt.split("T")[0]}
+                    </td>
+                    <td className="p-3 text-md">{request.status}</td>
+                    <td className="p-3 text-md">
+                      <MdDelete
+                        className="cursor-pointer hover:text-red-500"
+                        size={25}
+                        onClick={() => deleteRequest(request._id)}
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="9"
+                    className="p-5 text-center bg-red-50 text-red-500 text-lg"
+                  >
+                    No Request Found
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan="8"
-                  className="p-5 text-center bg-red-50 text-red-500 text-lg"
-                >
-                  No Request Found
-                </td>
-              </tr>
-            )}
-          </tbody>
+              )}
+            </tbody>
+          )}
         </table>
       </div>
 
