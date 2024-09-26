@@ -66,7 +66,20 @@ function AddBloodCamp() {
     fetchDistricts();
   }, [formData.state]);
   const handleSubmit = async (e) => {
-    e.preventDefault();\
+    e.preventDefault();
+    if (
+      !formData.campName ||
+      !formData.address ||
+      !formData.startTime ||
+      !formData.endTime ||
+      !formData.description ||
+      !formData.district ||
+      !formData.state ||
+      !image
+    ) {
+      toast.error("Please fill out all fields");
+      return;
+    }
     try {
       const Data = new FormData();
       Data.append("campName", formData.campName);

@@ -105,7 +105,11 @@ function AllCamp() {
               className="bg-white rounded-lg shadow-md overflow-hidden mb-6"
             >
               <div className="px-6 py-4 cursor-pointer flex justify-between items-center bg-gradient-to-r from-red-500 to-pink-500 text-white">
-                <h2 className="text-xl font-semibold">{camp.campName}</h2>
+                <div className="flex gap-3 justify-center items-center">
+                  {" "}
+                  <img src={camp.Image} alt="camp-image" className="w-16 h-16 rounded-full" />
+                  <h2 className="text-xl font-semibold">{camp.campName}</h2>
+                </div>
                 <div className="flex justify-center gap-2 items-center">
                   <MdDelete
                     size={30}
