@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { MdMarkEmailRead } from "react-icons/md";
 import RequestModelB2B from "../components/RequestModel_B2B";
 import { useSelector } from "react-redux";
+import MapView from "../components/MapView";
 function BloodDirectory() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
@@ -14,6 +15,7 @@ function BloodDirectory() {
   const [districts, setDistricts] = useState([]);
   const [bloodbank, setbloodbank] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [Loader, setLoader] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
@@ -44,6 +46,7 @@ function BloodDirectory() {
   const selectedState = watch("state");
   useEffect(() => {
     const fetchStates = async () => {
+      setLoader(true);
       try {
         const response = await axios.get(
           "https://cdn-api.co-vin.in/api/v2/admin/location/states"
@@ -52,6 +55,8 @@ function BloodDirectory() {
       } catch (error) {
         console.error("Error fetching states", error);
         toast.error("Connection Error. Please Connect Network");
+      } finally {
+        setLoader(false);
       }
     };
     fetchStates();
@@ -59,6 +64,7 @@ function BloodDirectory() {
 
   useEffect(() => {
     const fetchDistricts = async () => {
+      setLoader(true);
       if (selectedState) {
         try {
           const selectedStateObj = states.find(
@@ -78,11 +84,52 @@ function BloodDirectory() {
         setDistricts([]);
         setValue("district", "");
       }
+      setLoader(false);
     };
     fetchDistricts();
   }, [selectedState, setValue, states]);
+  const getUserLocation = () => {
+    setLoader(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          try {
+            const response = await axios.post(
+              "http://localhost:4000/Search/getNearestBloodBank",
+              { latitude, longitude },
+              {
+                headers: { "Content-Type": "application/json" },
+              }
+            );
+            console.log(response.data.bloobank);
+            setbloodbank(response.data.bloobank);
+            if(response.data.bloobank.length === 0){
+              toast.error("No Blood Bank Found Nearby");
+            }
+          } catch (error) {
+            console.log(error);
+            toast.error("Failed to fetch nearby donors. Please try again.");
+          }
+          finally {
+            setLoader(false);
+          }
+        },
+        (error) => {
+          toast.error(
+            "Unable to retrieve your location. Please Allow Location Access."
+          );
+          setLoader(false);
+        }
+      );
+    } else {
+      toast.error("Geolocation is not supported by your browser.");
+      setLoader(false);
+    }
+  };
   const searchBloodbank = async (data) => {
     try {
+      setLoader(true);
       const res = await axios.post(
         "http://localhost:4000/Search/getBloodBank",
         data,
@@ -98,6 +145,8 @@ function BloodDirectory() {
       if (error.response && error.response.status === 500) {
         toast.error(error.response.data.message);
       }
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -175,8 +224,15 @@ function BloodDirectory() {
             )}
           </div>
           <button
+            type="button"
+            onClick={getUserLocation}
+            className={`${Loader ? "opacity-50 cursor-not-allowed" : ""} px-7 py-2 mt-4 mr-3 bg-red-500 text-white rounded hover:bg-red-600`}
+          >
+            Use My Location
+          </button>
+          <button
             type="submit"
-            className="px-7 py-2 mt-4 bg-red-500 text-white rounded hover:bg-red-600"
+            className={`${Loader ? "opacity-50 cursor-not-allowed" : ""} px-7 py-2 mt-4 mr-3 bg-red-500 text-white rounded hover:bg-red-600`}
           >
             Search
           </button>
@@ -195,7 +251,9 @@ function BloodDirectory() {
               <th className="p-3 text-md border border-gray-400 rounded">
                 Category
               </th>
-              <th className="p-3 text-md border border-gray-400 rounded">State</th>
+              <th className="p-3 text-md border border-gray-400 rounded">
+                State
+              </th>
               <th className="p-3 text-md border border-gray-400 rounded">
                 District
               </th>
@@ -222,7 +280,7 @@ function BloodDirectory() {
             {currentItems.length > 0 ? (
               currentItems.map((bank) => {
                 return (
-                  <tr>
+                  <tr key={bank._id}>
                     <td className="p-3 text-md border border-gray-400 rounded">
                       {bank.bloodBankName}
                     </td>
@@ -249,7 +307,6 @@ function BloodDirectory() {
                     </td>
                     <td className="p-3 text-md border border-gray-400 rounded">
                       <Link
-                        // className="ml-3 md:ml-5 lg:ml-10 hover:text-red-500 cursor-pointer"
                         to={`/Availableblood/${bank._id}`}
                       >
                         <FaBook className="ml-3 md:ml-5 lg:ml-10 hover:text-red-500 cursor-pointer" />
@@ -309,6 +366,7 @@ function BloodDirectory() {
           Next
         </button>
       </div>
+      {bloodbank.length > 0 && <MapView data={bloodbank} />}
     </div>
   );
 }

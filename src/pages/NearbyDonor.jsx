@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { MdMarkEmailRead } from "react-icons/md";
 import RequestModel from "../components/RequestModel_B2D";
 import { useSelector } from "react-redux";
+import MapView from "../components/MapView";
 function NearbyDonor() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,6 +16,7 @@ function NearbyDonor() {
   const [donor, setDonor] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
+  const [Loader, setLoader] = useState(false);
   const {
     register,
     handleSubmit,
@@ -45,6 +47,7 @@ function NearbyDonor() {
   useEffect(() => {
     const fetchStates = async () => {
       try {
+        setLoader(true);
         const response = await axios.get(
           "https://cdn-api.co-vin.in/api/v2/admin/location/states"
         );
@@ -52,6 +55,8 @@ function NearbyDonor() {
       } catch (error) {
         console.error("Error fetching states", error);
         toast.error("Failed to fetch states. Please try again later.");
+      } finally {
+        setLoader(false);
       }
     };
     fetchStates();
@@ -61,6 +66,7 @@ function NearbyDonor() {
     const fetchDistricts = async () => {
       if (selectedState) {
         try {
+          setLoader(true);
           const selectedStateObj = states.find(
             (state) => state.state_name === selectedState
           );
@@ -73,17 +79,60 @@ function NearbyDonor() {
           }
         } catch (error) {
           toast.error("Failed to fetch districts. Please try again later.");
+        } finally {
+          setLoader(false);
         }
       } else {
         setDistricts([]);
         setValue("district", "");
+        setLoader(false);
       }
     };
     fetchDistricts();
   }, [selectedState, setValue, states]);
 
+  const getUserLocation = () => {
+    if (watch("bloodGroup") === "") {
+      toast.error("Please select a blood group");
+      return;
+    }
+    if (navigator.geolocation) {
+      setLoader(true);
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          try {
+            const response = await axios.post(
+              "http://localhost:4000/Search/getNearestDonor",
+              { latitude, longitude, bloodGroup: watch("bloodGroup") },
+              {
+                headers: { "Content-Type": "application/json" },
+              }
+            );
+            console.log(response.data.Donors);
+            setDonor(response.data.Donors);
+          } catch (error) {
+            console.log(error);
+            toast.error("Failed to fetch nearby donors. Please try again.");
+          } finally {
+            setLoader(false);
+          }
+        },
+        (error) => {
+          toast.error(
+            "Unable to retrieve your location. Please Allow Location Access."
+          );
+          setLoader(false);
+        }
+      );
+    } else {
+      toast.error("Geolocation is not supported by your browser.");
+      setLoader(false);
+    }
+  };
   const SearchDonor = async (data) => {
     try {
+      setLoader(true);
       const res = await axios.post(
         "http://localhost:4000/Search/getDonor",
         data,
@@ -99,6 +148,8 @@ function NearbyDonor() {
       if (error.response && error.response.status === 500) {
         toast.error(error.response.data.message);
       }
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -213,8 +264,19 @@ function NearbyDonor() {
             )}
           </div>
           <button
+            type="button"
+            onClick={getUserLocation}
+            className={`${
+              Loader ? "opacity-50 cursor-not-allowed" : ""
+            } px-7 py-2 mt-4 mr-3 bg-red-500 text-white rounded hover:bg-red-600`}
+          >
+            Use My Location
+          </button>
+          <button
             type="submit"
-            className="px-7 py-2 mt-4 bg-red-500 text-white rounded hover:bg-red-600"
+            className={`${
+              Loader ? "opacity-50 cursor-not-allowed" : ""
+            } px-7 py-2 mt-4 mr-3 bg-red-500 text-white rounded hover:bg-red-600`}
           >
             Search
           </button>
@@ -328,6 +390,7 @@ function NearbyDonor() {
           Next
         </button>
       </div>
+      {donor.length > 0 && <MapView data={donor} />}
     </div>
   );
 }
