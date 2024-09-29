@@ -27,8 +27,9 @@ function DonorProfile() {
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message || "Error fetching donor data");
+    } finally {
+      setLoader(false);
     }
-    setLoader(false);
   };
   const onchangeHandler = (e) => {
     setCount(count + 1);
@@ -115,6 +116,7 @@ function DonorProfile() {
   }, [selectedState, states]);
   const fetchStates = async () => {
     try {
+      setLoader(true);
       const response = await axios.get(
         "https://cdn-api.co-vin.in/api/v2/admin/location/states"
       );
@@ -122,6 +124,8 @@ function DonorProfile() {
     } catch (error) {
       console.error("Error fetching states", error);
       toast.error("connect Internet");
+    } finally {
+      setLoader(false);
     }
   };
   const fetchDistricts = async () => {
@@ -268,7 +272,6 @@ function DonorProfile() {
                 </label>
                 <select
                   id="state"
-                  //   value={selectedState || ""}
                   onChange={onchangeHandler}
                   disabled={!update}
                   className="mt-1 p-2 border border-gray-300 rounded w-full"
@@ -370,7 +373,9 @@ function DonorProfile() {
           <div className="flex gap-4 mt-5 ml-5">
             <button
               type="submit"
-              className="px-7 py-3 mb-4 bg-red-500 text-white rounded hover:bg-red-600"
+              className={`${
+                Loading ? "opacity-50 cursor-not-allowed" : ""
+              } px-7 py-3 mb-4 bg-red-500 text-white rounded hover:bg-red-600`}
               onClick={updatehandler}
             >
               {update ? " Save" : "Update"}
@@ -378,7 +383,9 @@ function DonorProfile() {
             {update && (
               <button
                 type="button"
-                className="px-7 py-3 mb-4 bg-red-500 text-white rounded hover:bg-red-600"
+                className={`${
+                  Loading ? "opacity-50 cursor-not-allowed" : ""
+                } px-7 py-3 mb-4 bg-red-500 text-white rounded hover:bg-red-600`}
                 onClick={cancelhandler}
               >
                 Cancel

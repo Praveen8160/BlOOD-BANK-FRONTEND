@@ -381,7 +381,9 @@ function BBProfile() {
           <div className="flex gap-4 mt-5 ml-5">
             <button
               type="submit"
-              className="px-7 py-3 mb-4 bg-red-500 text-white rounded hover:bg-red-600"
+              className={`${
+                Loading ? "opacity-50 cursor-not-allowed" : ""
+              } px-7 py-3 mb-4 bg-red-500 text-white rounded hover:bg-red-600`}
               onClick={updatehandler}
             >
               {update ? " Save" : "Update"}
@@ -389,7 +391,9 @@ function BBProfile() {
             {update && (
               <button
                 type="button"
-                className="px-7 py-3 mb-4 bg-red-500 text-white rounded hover:bg-red-600"
+                className={`${
+                  Loading ? "opacity-50 cursor-not-allowed" : ""
+                } px-7 py-3 mb-4 bg-red-500 text-white rounded hover:bg-red-600`}
                 onClick={cancelhandler}
               >
                 Cancel
