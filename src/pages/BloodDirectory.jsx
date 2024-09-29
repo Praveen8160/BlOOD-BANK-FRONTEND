@@ -53,7 +53,7 @@ function BloodDirectory() {
         );
         setStates(response.data.states);
       } catch (error) {
-        console.error("Error fetching states", error);
+        // console.error("Error fetching states", error);
         toast.error("Connection Error. Please Connect Network");
       } finally {
         setLoader(false);
@@ -102,13 +102,13 @@ function BloodDirectory() {
                 headers: { "Content-Type": "application/json" },
               }
             );
-            console.log(response.data.bloobank);
+            // console.log(response.data.bloobank);
             setbloodbank(response.data.bloobank);
             if(response.data.bloobank.length === 0){
               toast.error("No Blood Bank Found Nearby");
             }
           } catch (error) {
-            console.log(error);
+            // console.log(error);
             toast.error("Failed to fetch nearby donors. Please try again.");
           }
           finally {

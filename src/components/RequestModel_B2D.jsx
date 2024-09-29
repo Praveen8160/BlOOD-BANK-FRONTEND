@@ -46,9 +46,6 @@ function RequestModel({ close, id, bloodgroup, Role }) {
       close();
     }
   };
-  useEffect(() => {
-    console.log(Role);
-  }, [Role]);
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
       <div className="bg-red-100 p-6 rounded-lg shadow-lg lg:w-[30rem] md:w-[30rem] w-80">

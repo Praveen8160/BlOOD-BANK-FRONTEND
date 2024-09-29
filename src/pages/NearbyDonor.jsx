@@ -390,7 +390,7 @@ function NearbyDonor() {
           Next
         </button>
       </div>
-      {donor.length > 0 && <MapView data={donor} />}
+      {donor.length > 0 && !isModalOpen &&<div className="z-40"> <MapView data={donor} /></div>}
     </div>
   );
 }

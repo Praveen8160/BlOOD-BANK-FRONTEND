@@ -11,7 +11,7 @@ import img from "../utils/Image.js";
 import axios from "axios";
 import Loader from "../components/Loader.jsx";
 import { Link } from "react-router-dom";
-// import MapView from "../components/MapView.jsx";
+import { toast } from "react-toastify";
 const MapView = React.lazy(() => import("../components/MapView.jsx"));
 function Home() {
   const [totaldonor, setTotaldonor] = useState(0);
@@ -22,6 +22,7 @@ function Home() {
     img.fourth,
     img.third,
   ]);
+  const [saperator, setSaperator] = useState(img.separator);
   const [allUser, setAllUser] = useState([]);
   const [Loading, setLoader] = useState(false);
   const gettotalUser = async () => {
@@ -33,7 +34,7 @@ function Home() {
       setTotaldonor(response1.data.data);
       setTotalbloodbank(response2.data.data);
     } catch (error) {
-      console.error(error.response?.data?.message || error.message);
+      toast.error(error.response?.data?.message || error.message);
     } finally {
       setLoader(false);
     }
@@ -47,7 +48,7 @@ function Home() {
       ]);
       setAllUser([...response1.data.donor, ...response2.data.bloodBank]);
     } catch (error) {
-      console.error(error.response?.data?.message || error.message);
+      toast.error(error.response?.data?.message || error.message);
     }
   };
 
@@ -103,7 +104,7 @@ function Home() {
           <div className="flex flex-col mt-7">
             <div className="bg-red flex flex-col justify-center items-center my-5">
               <h1 className="text-3xl">Donation Process</h1>
-              <img src={img.separator} alt="" />
+              <img src={saperator} alt="ggg" />
               <h1 className="hidden md:flex text-lg">
                 The donation process from the time you arrive center until the
                 time you leave
@@ -149,17 +150,13 @@ function Home() {
             </div>
           </div>
           <div className="bg-red flex flex-col justify-center items-center my-8">
-            <h1 className="text-3xl">Donation Process</h1>
-            <img src={img.separator} alt="" />
-            <h1 className="hidden md:flex text-lg">
-              The donation process from the time you arrive center until the
-              time you leave
-            </h1>
+            <h1 className="text-3xl">Blood Donation and Services</h1>
+            <img src={saperator} alt="" />
           </div>
           <div className="h-auto w-screen mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 mt-10 lg:gap-11 items-center container">
             <Link
               to={"/NearbyDonor"}
-              className="bg-red-700 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
+              className="bg-red-700 hover:-translate-y-2 duration-150 transform h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
             >
               <h1 className="font-semibold text-4xl">
                 <FaHandHoldingWater className="text-white" />
@@ -170,7 +167,7 @@ function Home() {
             </Link>
             <Link
               to={"/BloodDirectory"}
-              className="bg-blue-500 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
+              className="bg-blue-500 hover:-translate-y-2 duration-150 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
             >
               <h1 className="font-semibold text-4xl">
                 <FaHospital className="text-white" />
@@ -180,8 +177,8 @@ function Home() {
               </h1>
             </Link>
             <Link
-              to={"/BloodBankLogin"}
-              className="bg-yellow-400 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
+              to={"/BloodbankCamps"}
+              className="bg-yellow-400 hover:-translate-y-2 duration-150 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
             >
               <h1 className="font-semibold text-4xl">
                 <MdCampaign className="text-white" />
@@ -192,7 +189,7 @@ function Home() {
             </Link>
             <Link
               to={"/DonorLogin"}
-              className="bg-red-600 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
+              className="bg-red-600 hover:-translate-y-2 duration-150 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
             >
               <h1 className="font-semibold text-4xl">
                 <FaRegUserCircle className="text-white" />
@@ -200,8 +197,8 @@ function Home() {
               <h1 className="font-semibold text-xl text-white">Donor Login</h1>
             </Link>
             <Link
-              to={"/BloodbankCamps"}
-              className="bg-green-600 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
+              to={"/BloodBankRegister"}
+              className="bg-green-600 h-36 hover:-translate-y-2 duration-150 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
             >
               <h1 className="font-semibold text-4xl">
                 <FaHospital className="text-white" />
@@ -214,7 +211,7 @@ function Home() {
           <div>
             <div className="bg-red flex flex-col justify-center items-center my-5">
               <h1 className="text-3xl">Learn About Donation</h1>
-              <img src={img.separator} alt="" />
+              <img src={saperator} alt="" />
             </div>
             <div className="h-auto w-screen flex flex-col md:flex-row justify-evenly items-center py-7">
               <div className="w-auto h-auto sticky">
@@ -317,7 +314,7 @@ function Home() {
           </div>
           <div className="bg-red flex flex-col justify-center items-center text-center my-5">
             <h1 className="text-3xl">All Donor and Blood Bank Location</h1>
-            <img src={img.separator} alt="" />
+            <img src={saperator} alt="" />
           </div>
           {allUser.length > 0 && (
             <div className="bg-red h-[50rem]flex flex-col justify-center items-center lg:mx-52">
