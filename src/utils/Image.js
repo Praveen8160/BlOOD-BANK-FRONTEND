@@ -8,7 +8,7 @@ import first from "../assets/1.jpg";
 import second from "../assets/2.jpg";
 import third from "../assets/3.png";
 import fourth from "../assets/4.jpg";
-import Donor from "../assets/donor.png";
+import Donor from "../assets/Donor.png";
 import BloodBank from "../assets/bloodbank.png";
 const images = {
   process_1,
