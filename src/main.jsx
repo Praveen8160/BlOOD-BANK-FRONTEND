@@ -26,10 +26,12 @@ import AddBloodCamp from "./pages/Profile/AddBloodCamp.jsx";
 import AllCamp from "./pages/Profile/AllCamp.jsx";
 import BloodbankCamps from "./pages/BloodbankCamps.jsx";
 import DonorRegcamp from "./pages/Profile/DonorRegcamp.jsx";
+import Chatbot from "./components/Chatbot.jsx";
 const rout = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App></App>}>
       <Route path="/" element={<Home></Home>}></Route>
+      <Route path="/chatbot" element={<Chatbot></Chatbot>}></Route>
       <Route
         path="/BloodBankLogin"
         element={<BloodBankLogin></BloodBankLogin>}

@@ -15,7 +15,7 @@ function App() {
     // Simulate loading (you can replace this with your actual app initialization logic)
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 4000); // Adjust the time or use actual API calls/initialization here
+    }, 2000); // Adjust the time or use actual API calls/initialization here
 
     return () => clearTimeout(timer);
   }, []);

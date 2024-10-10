@@ -65,7 +65,6 @@ export default function Footer() {
             </div>
           </div>
         </div>
-
         <hr className="my-6 border-gray-600" />
 
         <div className="flex justify-between items-center">

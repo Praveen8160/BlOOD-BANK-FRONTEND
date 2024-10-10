@@ -112,7 +112,9 @@ export default function Header() {
             <Link to="/" className="font-semibold mr-6">
               Home
             </Link>
-
+            <Link to="/chatbot" className="font-semibold mr-6">
+              bot
+            </Link>
             <select
               title="Option"
               className="lg:w-44 text-center md:w-40 p-2.5 font-semibold text-white border-none rounded-3xl shadow-sm outline-none bg-red-700 transition-all duration-500 appearance-none cursor-pointer md:hover:w-48"
