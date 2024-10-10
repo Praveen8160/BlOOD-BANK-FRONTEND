@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "../config.js"
 function DonorRegister() {
   const { isAuth } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
@@ -91,7 +92,7 @@ function DonorRegister() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:4000/Donor/register",
+        `${BASE_URL}/Donor/register`,
         data,
         {
           headers: {

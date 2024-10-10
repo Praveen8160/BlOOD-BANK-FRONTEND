@@ -17,7 +17,7 @@ function RequestModel({ close, id, bloodgroup, Role }) {
     if (Role === "donor") {
       try {
         const res = await axios.post(
-          "http://localhost:4000/bloodrequest/bloodRequestDonor2Donorhandler",
+          `${BASE_URL}/bloodrequest/bloodRequestDonor2Donorhandler`,
           value,
           { withCredentials: true }
         );
@@ -32,7 +32,7 @@ function RequestModel({ close, id, bloodgroup, Role }) {
     } else if (Role === "bloodbank") {
       try {
         const res = await axios.post(
-          "http://localhost:4000/bloodrequest/bloodRequestB2Dhandler",
+          `${BASE_URL}/bloodrequest/bloodRequestB2Dhandler`,
           value,
           { withCredentials: true }
         );

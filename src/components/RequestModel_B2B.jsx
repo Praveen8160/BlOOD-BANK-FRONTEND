@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { MdCancel } from "react-icons/md";
 import { toast } from "react-toastify";
+import BASE_URL from "../config.js";
 function RequestModelB2B({ close, id }) {
   const [value, setValue] = useState({
     bloodGroup: "",
@@ -16,7 +17,7 @@ function RequestModelB2B({ close, id }) {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:4000/bloodrequest/bloodRequestB2Bhandler",
+        `${BASE_URL}/bloodrequest/bloodRequestB2Bhandler`,
         value,
         { withCredentials: true }
       );

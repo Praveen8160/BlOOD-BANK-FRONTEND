@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 import axios from "axios";
+import BASE_URL from "../../config.js"
 function BBProfile() {
   const [bloodBank, setbloodBank] = useState(null);
   const [update, setUpdate] = useState(false);
@@ -18,7 +19,7 @@ function BBProfile() {
     setLoader(true);
     try {
       const res = await axios.get(
-        "http://localhost:4000/bloodBank/getBloodBank",
+        `${BASE_URL}/bloodBank/getBloodBank`,
         {
           withCredentials: true,
         }

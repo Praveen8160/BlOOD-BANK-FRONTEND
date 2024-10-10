@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { MdMarkEmailRead } from "react-icons/md";
 import RegisterCampModel from "../components/RegisterCampModel";
+import BASE_URL from "../config.js"
 function BloodcampCamps() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
@@ -85,7 +86,7 @@ function BloodcampCamps() {
   const searchCamp = async (data) => {
     try {
       const res = await axios.post(
-        "http://localhost:4000/camp/searchCamp",
+        `${BASE_URL}/camp/searchCamp`,
         data,
         { withCredentials: true },
         {

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import BASE_URL from "../../config.js"
 function BloodInventory() {
   const { Role, isAuth } = useSelector((state) => state.Auth);
   const [bloodgroup, setBloodgroup] = useState("");
@@ -11,7 +12,7 @@ function BloodInventory() {
   const handleAdd = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:4000/bloodBank/addBloood",
+        `${BASE_URL}/bloodBank/addBloood`,
 
         {
           bloodgroup: bloodgroup,
@@ -34,7 +35,7 @@ function BloodInventory() {
   const handlesub = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:4000/bloodBank/subBlood",
+        `${BASE_URL}/bloodBank/subBlood`,
 
         {
           bloodgroup: bloodgroup,
@@ -58,7 +59,7 @@ function BloodInventory() {
   const getAllBloodgroups = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4000/bloodBank/getAllBloodData",
+        `${BASE_URL}/bloodBank/getAllBloodData`,
         {
           withCredentials: true,
         }

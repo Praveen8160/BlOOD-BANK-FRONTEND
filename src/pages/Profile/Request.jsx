@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
 import Loader from "../../components/Loader";
-
+import BASE_URL from "../../config.js"
 function Request() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
   const [AllBloodbankRequestforBlood, setAllBloodbankRequestforBlood] =
@@ -19,7 +19,7 @@ function Request() {
       try {
         setLoader(true);
         const res = await axios.get(
-          "http://localhost:4000/bloodrequest/getAllBloodbankRequestforBlood",
+          `${BASE_URL}/bloodrequest/getAllBloodbankRequestforBlood`,
           { withCredentials: true }
         );
         setAllBloodbankRequestforBlood(res.data.data);
@@ -33,7 +33,7 @@ function Request() {
       try {
         setLoader(true);
         const res = await axios.get(
-          "http://localhost:4000/bloodrequest/getAllDonorRequestforBlood",
+          `${BASE_URL}/bloodrequest/getAllDonorRequestforBlood`,
           { withCredentials: true }
         );
         setAllBloodbankRequestforBlood(res.data.data);
@@ -64,7 +64,7 @@ function Request() {
       try {
         setLoader(true);
         const res = await axios.delete(
-          "http://localhost:4000/bloodrequest/deleteDonorbloodRequest",
+          `${BASE_URL}/bloodrequest/deleteDonorbloodRequest`,
           {
             withCredentials: true,
             data: {
@@ -89,7 +89,7 @@ function Request() {
       try {
         setLoader(true);
         const res = await axios.delete(
-          "http://localhost:4000/bloodrequest/deleteBloodbankbloodRequest",
+          `${BASE_URL}/bloodrequest/deleteBloodbankbloodRequest`,
           {
             withCredentials: true,
             data: {

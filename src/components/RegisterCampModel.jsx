@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { MdCancel } from "react-icons/md";
 import { toast } from "react-toastify";
+import BASE_URL from "../config.js";
 function RegisterCampModel({ close, id }) {
   const [value, setValue] = useState({
     bloodGroup: "",
@@ -16,7 +17,7 @@ function RegisterCampModel({ close, id }) {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:4000/camp/donorCampRegister",
+        `${BASE_URL}/camp/donorCampRegister`,
         value,
         { withCredentials: true },
         { headers: { "Content-Type": "application/json" } }

@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { login, logout } from "../store/Authaction";
+import BASE_URL from "../config.js";
 import axios from "axios";
 import io from "socket.io-client";
 
@@ -34,7 +35,7 @@ export default function Header() {
   };
   useEffect(() => {
     dispatch(login());
-    const socket = io("http://localhost:4000");
+    const socket = io(`${BASE_URL}`);
     if (savedBloodBankId) {
       socket.emit("register", savedBloodBankId);
     }
@@ -61,7 +62,7 @@ export default function Header() {
   const removeAll = async () => {
     try {
       const res = await axios.delete(
-        "http://localhost:4000/bloodrequest/removeAll",
+        `${BASE_URL}/bloodrequest/removeAll`,
         {
           withCredentials: true,
         }

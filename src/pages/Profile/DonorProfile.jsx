@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
+import BASE_URL from "../../config.js"
 function DonorProfile() {
   const [Donor, setDonor] = useState(null);
   const [update, setUpdate] = useState(false);
@@ -15,7 +16,7 @@ function DonorProfile() {
   const getDonorData = async () => {
     setLoader(true);
     try {
-      const res = await axios.get("http://localhost:4000/Donor/getDonor", {
+      const res = await axios.get(`${BASE_URL}/Donor/getDonor`, {
         withCredentials: true,
       });
       if (res.data.success === true) {
@@ -72,7 +73,7 @@ function DonorProfile() {
       try {
         setLoader(true);
         const res = await axios.put(
-          "http://localhost:4000/Donor/updateDonor",
+          `${BASE_URL}/Donor/updateDonor`,
           Donor,
           {
             withCredentials: true,

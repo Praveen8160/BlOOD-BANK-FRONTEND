@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { IoIosCall } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
+import BASE_URL from "../../config.js"
 function AllCamp() {
   const { Role } = useSelector((state) => state.Auth);
   const [AllCamps, setAllCamps] = useState([]);
@@ -19,7 +20,7 @@ function AllCamp() {
   };
   const handledeletecamp = async () => {
     try {
-      const res = await axios.delete("http://localhost:4000/camp/deleteCamp", {
+      const res = await axios.delete(`${BASE_URL}/camp/deleteCamp`, {
         data: {
           campId: campToDelete,
         },
@@ -42,7 +43,7 @@ function AllCamp() {
     try {
       const newStatus = e.target.value;
       const res = await axios.put(
-        "http://localhost:4000/camp/updateDonorStatus",
+        `${BASE_URL}/camp/updateDonorStatus`,
         {
           campid: campid,
           donorid: donorid,
@@ -73,7 +74,7 @@ function AllCamp() {
   };
   const getAllCamps = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/camp/allCamp", {
+      const res = await axios.get(`${BASE_URL}/camp/allCamp`, {
         withCredentials: true,
       });
       if (res.data.success === true) {

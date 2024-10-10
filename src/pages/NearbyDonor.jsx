@@ -6,6 +6,7 @@ import { MdMarkEmailRead } from "react-icons/md";
 import RequestModel from "../components/RequestModel_B2D";
 import { useSelector } from "react-redux";
 import MapView from "../components/MapView";
+import BASE_URL from "../config.js"
 function NearbyDonor() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -103,7 +104,7 @@ function NearbyDonor() {
           const { latitude, longitude } = position.coords;
           try {
             const response = await axios.post(
-              "http://localhost:4000/Search/getNearestDonor",
+              `${BASE_URL}/Search/getNearestDonor`,
               { latitude, longitude, bloodGroup: watch("bloodGroup") },
               {
                 headers: { "Content-Type": "application/json" },
@@ -134,7 +135,7 @@ function NearbyDonor() {
     try {
       setLoader(true);
       const res = await axios.post(
-        "http://localhost:4000/Search/getDonor",
+        `${BASE_URL}/Search/getDonor`,
         data,
         {
           headers: {

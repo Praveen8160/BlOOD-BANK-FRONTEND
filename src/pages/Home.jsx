@@ -1,6 +1,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import BASE_URL from "../config.js";
 import {
   FaHandHoldingWater,
   FaHospital,
@@ -28,8 +29,8 @@ function Home() {
   const gettotalUser = async () => {
     try {
       const [response1, response2] = await Promise.all([
-        axios.get("http://localhost:4000/Donor/getTotalDonor"),
-        axios.get("http://localhost:4000/BloodBank/getTotalBloodBank"),
+        axios.get("http://13.235.17.201/Donor/getTotalDonor"),
+        axios.get("http://13.235.17.201/BloodBank/getTotalBloodBank"),
       ]);
       setTotaldonor(response1.data.data);
       setTotalbloodbank(response2.data.data);
@@ -43,8 +44,8 @@ function Home() {
   const getAllUser = async () => {
     try {
       const [response1, response2] = await Promise.all([
-        axios.get("http://localhost:4000/Donor/getDonorLocation"),
-        axios.get("http://localhost:4000/BloodBank/getBloodBankLocation"),
+        axios.get(`${BASE_URL}/Donor/getDonorLocation`),
+        axios.get(`${BASE_URL}/BloodBank/getBloodBankLocation`),
       ]);
       setAllUser([...response1.data.donor, ...response2.data.bloodBank]);
     } catch (error) {

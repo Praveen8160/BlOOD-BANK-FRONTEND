@@ -8,6 +8,7 @@ import { MdMarkEmailRead } from "react-icons/md";
 import RequestModelB2B from "../components/RequestModel_B2B";
 import { useSelector } from "react-redux";
 import MapView from "../components/MapView";
+import BASE_URL from "../config.js"
 function BloodDirectory() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
@@ -96,7 +97,7 @@ function BloodDirectory() {
           const { latitude, longitude } = position.coords;
           try {
             const response = await axios.post(
-              "http://localhost:4000/Search/getNearestBloodBank",
+              `${BASE_URL}/Search/getNearestBloodBank`,
               { latitude, longitude },
               {
                 headers: { "Content-Type": "application/json" },
@@ -131,7 +132,7 @@ function BloodDirectory() {
     try {
       setLoader(true);
       const res = await axios.post(
-        "http://localhost:4000/Search/getBloodBank",
+        `${BASE_URL}/Search/getBloodBank`,
         data,
         {
           headers: {

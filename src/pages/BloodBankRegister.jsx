@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import BASE_URL from "../config.js"
 function BloodBankRegister() {
   const { isAuth } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
@@ -88,7 +89,7 @@ function BloodBankRegister() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:4000/bloodBank/register",
+        `${BASE_URL}/bloodBank/register`,
         data,
         {
           headers: {

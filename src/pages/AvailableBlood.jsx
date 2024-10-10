@@ -1,13 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import BASE_URL from "../config.js"
 function AvailableBlood() {
   const { id } = useParams();
   const [blooddata, setblooddata] = useState({});
   const getdata = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/bloodBank/getAvailableBlood/${id}`,
+        `${BASE_URL}/bloodBank/getAvailableBlood/${id}`,
         {
           withCredentials: true,
         }

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
-
+import BASE_URL from "../../config.js"
 function BloodRequest() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
   const [bloodbankRequest, setBloodbankRequest] = useState([]);
@@ -20,7 +20,7 @@ function BloodRequest() {
     try {
       setLoader(true);
       const res = await axios.get(
-        "http://localhost:4000/bloodrequest/getBloodbakAllRequest",
+        `${BASE_URL}/bloodrequest/getBloodbakAllRequest`,
         { withCredentials: true }
       );
       setBloodbankRequest(res.data.data);
@@ -36,7 +36,7 @@ function BloodRequest() {
     try {
       setLoader(true);
       const res = await axios.get(
-        "http://localhost:4000/bloodrequest/getDonorRequest",
+        `${BASE_URL}/bloodrequest/getDonorRequest`,
         { withCredentials: true }
       );
       setDonorRequest(res.data.data);
@@ -52,7 +52,7 @@ function BloodRequest() {
     if (Role === "donor") {
       setLoader(true);
       const res = await axios.put(
-        "http://localhost:4000/bloodrequest/updateDonorRequestStatus",
+        `${BASE_URL}/bloodrequest/updateDonorRequestStatus`,
         { id: id, status: e.target.value },
         { withCredentials: true }
       );
@@ -62,7 +62,7 @@ function BloodRequest() {
     } else if (Role === "bloodbank") {
       setLoader(true);
       const res = await axios.put(
-        "http://localhost:4000/bloodrequest/updateBloodbakRequestStatus",
+        `${BASE_URL}/bloodrequest/updateBloodbakRequestStatus`,
         { id: id, status: e.target.value },
         { withCredentials: true }
       );

@@ -2,8 +2,6 @@ import React, { useEffect, useState, lazy, Suspense } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
-// import DonorProfile from "./DonorProfile";
-// import BBProfile from "./BBProfile";
 const BBProfile = lazy(() => import("./BBProfile"));
 const DonorProfile = lazy(() => import("./DonorProfile"));
 function ProfileOverview() {

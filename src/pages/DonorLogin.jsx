@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../store/Authaction";
 import { useEffect, useState } from "react";
+import BASE_URL from "../config.js"
 import io from "socket.io-client";
-const socket = io("http://localhost:4000");
+const socket = io(`${BASE_URL}`);
 function DonorLogin() {
   const { isAuth, Role } = useSelector((state) => state.Auth);
   const [bloodBankId, setBloodBankId] = useState(null);
@@ -21,7 +22,7 @@ function DonorLogin() {
   const Login = async (data) => {
     try {
       const res = await axios.post(
-        "http://localhost:4000/Donor/login",
+        `${BASE_URL}/Donor/login`,
         data,
         { withCredentials: true },
         {

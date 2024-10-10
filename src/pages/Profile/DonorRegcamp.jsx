@@ -8,6 +8,7 @@ import { BsCalendar2DateFill } from "react-icons/bs";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { FaCloudDownloadAlt } from "react-icons/fa";
+import BASE_URL from "../../config.js"
 // import { format } from "date-fns";
 function DonorRegcamp() {
   const [showCancelDialog, setShowCancelDialog] = useState(false);
@@ -16,7 +17,7 @@ function DonorRegcamp() {
   const getDonorCamp = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4000/camp/donorCampRegistered",
+        `${BASE_URL}/camp/donorCampRegistered`,
         {
           withCredentials: true,
         }

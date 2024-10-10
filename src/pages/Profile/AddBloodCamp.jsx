@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import BASE_URL from "../../config.js"
 function AddBloodCamp() {
   const [campDate, setCampDate] = useState("");
   const [states, setStates] = useState([]);
@@ -92,7 +93,7 @@ function AddBloodCamp() {
       Data.append("image", image);
       Data.append("campDate", campDate);
       const res = await axios.post(
-        "http://localhost:4000/camp/AddCamp",
+        `${BASE_URL}/camp/AddCamp`,
         Data,
         {
           withCredentials: true,
