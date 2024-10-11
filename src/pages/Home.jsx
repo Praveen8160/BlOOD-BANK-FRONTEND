@@ -35,6 +35,7 @@ function Home() {
       setTotaldonor(response1.data.data);
       setTotalbloodbank(response2.data.data);
     } catch (error) {
+      console.log("total error",error)
       toast.error(error.response?.data?.message || error.message);
     } finally {
       setLoader(false);
@@ -49,6 +50,7 @@ function Home() {
       ]);
       setAllUser([...response1.data.donor, ...response2.data.bloodBank]);
     } catch (error) {
+      console.log("error",error)
       toast.error(error.response?.data?.message || error.message);
     }
   };
