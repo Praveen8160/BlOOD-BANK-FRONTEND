@@ -1,2 +1,2 @@
-const BASE_URL = "http://13.235.17.201";
+const BASE_URL = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 export default BASE_URL;
