@@ -45,8 +45,8 @@ function Home() {
   const getAllUser = async () => {
     try {
       const [response1, response2] = await Promise.all([
-        axios.get(`${BASE_URL}/Donor/getDonorLocation`),
-        axios.get(`${BASE_URL}/BloodBank/getBloodBankLocation`),
+        axios.get(`https://api.lifeflow.site/Donor/getDonorLocation`),
+        axios.get(`https://api.lifeflow.site/BloodBank/getBloodBankLocation`),
       ]);
       setAllUser([...response1.data.donor, ...response2.data.bloodBank]);
     } catch (error) {
