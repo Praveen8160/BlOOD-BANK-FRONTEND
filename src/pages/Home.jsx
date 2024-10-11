@@ -56,6 +56,7 @@ function Home() {
   };
 
   useEffect(() => {
+    console.log(BASE_URL)
     setLoader(true);
     gettotalUser();
     getAllUser();
