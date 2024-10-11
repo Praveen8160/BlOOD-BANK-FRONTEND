@@ -29,13 +29,13 @@ function Home() {
   const gettotalUser = async () => {
     try {
       const [response1, response2] = await Promise.all([
-        axios.get("http://13.235.17.201/Donor/getTotalDonor"),
-        axios.get("http://13.235.17.201/BloodBank/getTotalBloodBank"),
+        axios.get(`${BASE_URL}/Donor/getTotalDonor`),
+        axios.get(`${BASE_URL}/BloodBank/getTotalBloodBank`),
       ]);
       setTotaldonor(response1.data.data);
       setTotalbloodbank(response2.data.data);
     } catch (error) {
-      console.log("total error",error)
+      console.log("total error", error);
       toast.error(error.response?.data?.message || error.message);
     } finally {
       setLoader(false);
@@ -50,7 +50,7 @@ function Home() {
       ]);
       setAllUser([...response1.data.donor, ...response2.data.bloodBank]);
     } catch (error) {
-      console.log("error",error)
+      console.log("error", error);
       toast.error(error.response?.data?.message || error.message);
     }
   };
