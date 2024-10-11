@@ -82,7 +82,7 @@ function BBProfile() {
       try {
         setLoader(true);
         const res = await axios.put(
-          "http://localhost:4000/bloodBank/updateBloodbankDatahandler",
+          `${BASE_URL}/bloodBank/updateBloodbankDatahandler`,
           bloodBank,
           {
             withCredentials: true,

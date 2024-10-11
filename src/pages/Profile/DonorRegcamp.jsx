@@ -66,7 +66,7 @@ function DonorRegcamp() {
     console.log(`Cancelled registration for camp: ${campToCancel.campName}`);
     try {
       const res = await axios.delete(
-        "http://localhost:4000/camp/cancelRegistration",
+        `${BASE_URL}/camp/cancelRegistration`,
         {
           data: {
             campId: campToCancel._id,
