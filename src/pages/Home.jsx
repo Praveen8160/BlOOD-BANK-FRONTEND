@@ -29,8 +29,8 @@ function Home() {
   const gettotalUser = async () => {
     try {
       const [response1, response2] = await Promise.all([
-        axios.get("https://13.235.17.201/Donor/getTotalDonor"),
-        axios.get("https://13.235.17.201/BloodBank/getTotalBloodBank"),
+        axios.get("http://13.235.17.201/Donor/getTotalDonor"),
+        axios.get("http://13.235.17.201/BloodBank/getTotalBloodBank"),
       ]);
       setTotaldonor(response1.data.data);
       setTotalbloodbank(response2.data.data);
