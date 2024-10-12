@@ -72,6 +72,7 @@ function DonorRegister() {
             const response = await axios.get(
               `${BASE_URL}/api/districts/${selectedStateObj.state_id}`
             );
+            console.log(response.data.districts)
             setDistricts(response.data.districts);
             setValue("district", ""); // Reset district selection when state changes
           }
