@@ -42,7 +42,9 @@ function DonorRegister() {
     const fetchStates = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${BASE_URL}/api/states`);
+        const response = await axios.get(
+          "https://cors-anywhere.herokuapp.com/https://cdn-api.co-vin.in/api/v2/admin/location/states"
+        );
         setStates(response.data.states);
       } catch (error) {
         console.error("Error fetching states", error);
