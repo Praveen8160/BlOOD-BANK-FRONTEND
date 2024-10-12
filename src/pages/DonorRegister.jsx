@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import BASE_URL from "../config.js"
+import BASE_URL from "../config.js";
 function DonorRegister() {
   const { isAuth } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
@@ -43,7 +43,8 @@ function DonorRegister() {
       setLoading(true);
       try {
         const response = await axios.get(
-          "https://cdn-api.co-vin.in/api/v2/admin/location/states"
+          // "https://cdn-api.co-vin.in/api/v2/admin/location/states"
+          `${BASE_URL}/location/states`
         );
         setStates(response.data.states);
       } catch (error) {
@@ -91,15 +92,11 @@ function DonorRegister() {
   const Register = async (data) => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${BASE_URL}/Donor/register`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await axios.post(`${BASE_URL}/Donor/register`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const response = res.data;
       if (response.success === true) {
         toast.success("Registration successful Now Login to continue");
