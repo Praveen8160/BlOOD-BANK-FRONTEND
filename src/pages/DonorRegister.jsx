@@ -43,7 +43,7 @@ function DonorRegister() {
       setLoading(true);
       try {
         const response = await axios.get(
-          "https://cdn-api.co-vin.in/api/v2/admin/location/states"
+          `${BASE_URL}/api/states`
         );
         setStates(response.data.states);
       } catch (error) {
