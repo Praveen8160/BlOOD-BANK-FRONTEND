@@ -42,10 +42,7 @@ function DonorRegister() {
     const fetchStates = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          // "https://cdn-api.co-vin.in/api/v2/admin/location/states"
-          `${BASE_URL}/api/states`
-        );
+        const response = await axios.get(`${BASE_URL}/api/states`);
         setStates(response.data.states);
       } catch (error) {
         console.error("Error fetching states", error);
