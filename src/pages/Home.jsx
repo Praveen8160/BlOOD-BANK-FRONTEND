@@ -29,8 +29,8 @@ function Home() {
   const gettotalUser = async () => {
     try {
       const [response1, response2] = await Promise.all([
-        axios.get(`${BASE_URL}/Donor/getTotalDonor`),
-        axios.get(`${BASE_URL}/BloodBank/getTotalBloodBank`),
+        axios.get(`https://api.lifeflow.site/Donor/getTotalDonor`),
+        axios.get(`https://api.lifeflow.site/BloodBank/getTotalBloodBank`),
       ]);
       setTotaldonor(response1.data.data);
       setTotalbloodbank(response2.data.data);
