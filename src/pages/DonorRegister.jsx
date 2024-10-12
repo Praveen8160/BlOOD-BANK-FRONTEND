@@ -68,6 +68,7 @@ function DonorRegister() {
           const selectedStateObj = states.find(
             (state) => state.state_name === selectedState
           );
+          console.log(selectedStateObj)
           if (selectedStateObj) {
             const response = await axios.get(
               `${BASE_URL}/api/districts/${selectedStateObj.state_id}`
