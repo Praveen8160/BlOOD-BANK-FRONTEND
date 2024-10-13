@@ -8,11 +8,10 @@ export default function Footer() {
     <footer className="bg-slate-800 text-white py-10 mt-10">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-          {/* Logo and Description */}
           <div className="mb-6 md:mb-0">
-            <img src={logo} alt="Logo" className="h-16 mb-4" />
+            <img src={logo} alt="Logo" className="h-20 w-24 mb-4" />
             <p className="text-sm text-gray-400">
-              Your trusted platform for blood donations and requests.
+            Join the Flow, Save a Life
             </p>
           </div>
 

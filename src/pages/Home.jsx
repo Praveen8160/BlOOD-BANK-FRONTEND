@@ -153,14 +153,15 @@ function Home() {
               </div>
             </div>
           </div>
-          <div className="bg-red flex flex-col justify-center items-center my-8">
-            <h1 className="text-3xl">Blood Donation and Services</h1>
+          <div className="bg-red flex flex-col items-center justify-center my-8">
+            <h1 className="text-3xl">Join the Flow</h1>
+            <h1 className="text-3xl"> Save a Life</h1>
             <img src={saperator} alt="" />
           </div>
           <div className="h-auto w-screen mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 mt-10 lg:gap-11 items-center container">
             <Link
               to={"/NearbyDonor"}
-              className="bg-red-700 hover:-translate-y-2 duration-150 transform h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
+              className="bg-red-700 hover:-translate-y-2 duration-150 transform h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl mx-2"
             >
               <h1 className="font-semibold text-4xl">
                 <FaHandHoldingWater className="text-white" />
@@ -171,7 +172,7 @@ function Home() {
             </Link>
             <Link
               to={"/BloodDirectory"}
-              className="bg-blue-500 hover:-translate-y-2 duration-150 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
+              className="bg-blue-500 hover:-translate-y-2 duration-150 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl  mx-2"
             >
               <h1 className="font-semibold text-4xl">
                 <FaHospital className="text-white" />
@@ -182,7 +183,7 @@ function Home() {
             </Link>
             <Link
               to={"/BloodbankCamps"}
-              className="bg-yellow-400 hover:-translate-y-2 duration-150 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
+              className="bg-yellow-400 hover:-translate-y-2 duration-150 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl mx-2"
             >
               <h1 className="font-semibold text-4xl">
                 <MdCampaign className="text-white" />
@@ -193,7 +194,7 @@ function Home() {
             </Link>
             <Link
               to={"/DonorLogin"}
-              className="bg-red-600 hover:-translate-y-2 duration-150 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
+              className="bg-red-600 hover:-translate-y-2 duration-150 h-36 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl mx-2"
             >
               <h1 className="font-semibold text-4xl">
                 <FaRegUserCircle className="text-white" />
@@ -202,7 +203,7 @@ function Home() {
             </Link>
             <Link
               to={"/BloodBankRegister"}
-              className="bg-green-600 h-36 hover:-translate-y-2 duration-150 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl"
+              className="bg-green-600 h-36 hover:-translate-y-2 duration-150 mb-4 gap-5 w-auto flex flex-col justify-center items-center sticky border rounded-2xl mx-2"
             >
               <h1 className="font-semibold text-4xl">
                 <FaHospital className="text-white" />
@@ -213,8 +214,8 @@ function Home() {
             </Link>
           </div>
           <div>
-            <div className="bg-red flex flex-col justify-center items-center my-5">
-              <h1 className="text-3xl">Learn About Donation</h1>
+            <div className="bg-red w-full flex flex-col justify-center items-center my-5">
+              <h1 className="text-3xl text-center">Learn About Donation</h1>
               <img src={saperator} alt="" />
             </div>
             <div className="h-auto w-screen flex flex-col md:flex-row justify-evenly items-center py-7">
