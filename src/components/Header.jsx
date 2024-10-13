@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { login, logout } from "../store/Authaction";
+import { FaRobot } from "react-icons/fa";
 import BASE_URL from "../config.js";
 import axios from "axios";
 import io from "socket.io-client";
@@ -53,7 +54,7 @@ export default function Header() {
   const handleLogout = () => {
     dispatch(logout());
     setNotifications([]);
-    setIsOpen(false)
+    setIsOpen(false);
     navigate("/");
   };
   const toggleDropdown = () => {
@@ -61,12 +62,9 @@ export default function Header() {
   };
   const removeAll = async () => {
     try {
-      const res = await axios.delete(
-        `${BASE_URL}/bloodrequest/removeAll`,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.delete(`${BASE_URL}/bloodrequest/removeAll`, {
+        withCredentials: true,
+      });
       if (res.data.success === true) {
         toast.success("All Notifications Removed");
         setNotifications([]);
@@ -75,7 +73,7 @@ export default function Header() {
         toast.error(res.data.message);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error(error.response.data.message);
     }
   };
@@ -114,7 +112,7 @@ export default function Header() {
               Home
             </Link>
             <Link to="/chatbot" className="font-semibold mr-6">
-              bot
+              <FaRobot />
             </Link>
             <select
               title="Option"
@@ -234,6 +232,9 @@ export default function Header() {
               <Link to="/" className="font-semibold self-center">
                 Home
               </Link>
+              <Link to="/chatbot" className="font-semibold mr-6">
+                <FaRobot />
+              </Link>
               <select
                 title="Option"
                 className="w-full text-center font-semibold p-2.5 border-none text-black appearance-none bg-white rounded-3xl outline-none hover:bg-red-500 transition-all duration-1000 focus:ring-0 focus:border-none shadow-none cursor-pointer"
@@ -327,9 +328,7 @@ export default function Header() {
               </div>
               <div className="max-h-64 overflow-y-auto">
                 {notifications.map((request) => (
-                  <div
-                    className="px-4 py-3 hover:bg-gray-50 transition-colors duration-150 border-b border-gray-100 last:border-b-0"
-                  >
+                  <div className="px-4 py-3 hover:bg-gray-50 transition-colors duration-150 border-b border-gray-100 last:border-b-0">
                     <div className="flex justify-between items-start">
                       <div>
                         <p className="text-sm font-medium text-gray-800">
