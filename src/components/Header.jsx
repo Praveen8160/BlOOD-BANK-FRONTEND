@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import logo from "../assets/logo3.jpeg";
+import logo from "../assets/logo3.png";
 import { MdMenu, MdClose, MdNotifications } from "react-icons/md";
 import { PiUserSquareFill } from "react-icons/pi";
 import { Link, useNavigate } from "react-router-dom";
