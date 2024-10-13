@@ -105,7 +105,7 @@ function DonorLogin() {
           <div>
             <h1>
               I'm New User :{" "}
-              <Link to="/DonorRegister" className="underline">
+              <Link to="/DonorRegister" className="underline hover:text-red-500 font-bold">
                 Sign Up
               </Link>
             </h1>

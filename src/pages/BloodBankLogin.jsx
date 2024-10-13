@@ -107,7 +107,7 @@ function BloodBankLogin() {
           <div>
             <h1>
               I'm New User :{" "}
-              <Link to="/BloodBankRegister" className="underline">
+              <Link to="/BloodBankRegister" className="underline hover:text-red-500 font-bold">
                 Sign Up
               </Link>
             </h1>
