@@ -136,7 +136,7 @@ function DonorRegister() {
         onSubmit={handleSubmit(Register)}
       >
         <fieldset className="md:mx-20 md:my-10 md:p-9 mx-5 p-5 border border-red-100 rounded-xl grid grid-cols-1 md:grid-cols-2 my-4 gap-4 sticky shadow-2xl drop-shadow-2xl shadow-red-300 ">
-          <legend className="text-2xl font-semibold text-red-600">
+          <legend className="text-3xl font-semibold text-red-600 mb-4 md:col-span-2">
             Donor Registration
           </legend>
           <div className="flex flex-col">
@@ -426,11 +426,12 @@ function DonorRegister() {
           <button
             type="button"
             onClick={handleGeolocation}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 col-span-2 self-center"
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
             Get Current Location
           </button>
-          <div className="col-span-2 text-center">
+          <div></div>
+          <div >
             <h1>
               Already have an account?{" "}
               <Link
@@ -445,7 +446,7 @@ function DonorRegister() {
 
         <button
           type="submit"
-          className={`px-10 py-3 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300 my-3 ${
+          className={`px-10 py-3 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300 my-3  ${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
           disabled={loading}

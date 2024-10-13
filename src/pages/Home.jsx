@@ -332,7 +332,7 @@ function Home() {
             </div>
           </div>
           {allUser.length > 0 && (
-            <div className="bg-red h-[50rem]flex flex-col justify-center items-center lg:mx-52">
+            <div className="bg-red h-[50rem]flex flex-col mx-7 justify-center items-center md:mx-52">
               <Suspense fallback={<Loader></Loader>}>
                 <MapView data={allUser} />
               </Suspense>
