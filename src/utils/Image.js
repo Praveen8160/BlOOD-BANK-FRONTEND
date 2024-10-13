@@ -9,7 +9,7 @@ import second from "../assets/2.jpg";
 import third from "../assets/3.png";
 import fourth from "../assets/4.jpg";
 const Donor = "../assest/Donor.png";
-const BloodBank = "../assest/BloodBank.png";
+const BloodBank = "../assest/Bloodbank.png";
 const images = {
   process_1,
   process_2,
