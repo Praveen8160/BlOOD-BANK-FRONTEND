@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { MdCancel } from "react-icons/md";
 import { toast } from "react-toastify";
+import BASE_URL from "../config.js";
 function RequestModel({ close, id, bloodgroup, Role }) {
   const [value, setValue] = useState({
     Quantity: "",
@@ -21,13 +22,11 @@ function RequestModel({ close, id, bloodgroup, Role }) {
           value,
           { withCredentials: true }
         );
-        console.log(res)
         const response = res.data;
         if (response.success === true) {
           toast.success("Request Sent");
         }
       } catch (error) {
-        console.log(error)
         toast.error(error.response.data.message);
       }
       close();
