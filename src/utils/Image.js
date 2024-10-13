@@ -22,7 +22,7 @@ const images = {
   third,
   fourth,
   Donor,
-  BloodBank,
+  BloodBank
 };
 
 export default images;
