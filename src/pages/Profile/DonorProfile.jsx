@@ -139,14 +139,11 @@ function DonorProfile() {
           const response = await axios.get(
             `${BASE_URL}/api/districts/${selectedStateObj.state_id}`
           );
-          console.log("if response:",response.data.districts)
           setDistricts(response.data.districts);
         } else {
-          console.log("selectedState:",selectedState)
           const response = await axios.get(
             `${BASE_URL}/api/districts/${selectedState}`
           );
-          console.log("else response:",response.data.districts)
           setDistricts(response.data.districts);
         }
       } catch (error) {
