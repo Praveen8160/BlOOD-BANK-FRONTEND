@@ -8,8 +8,8 @@ import first from "../assets/1.jpg";
 import second from "../assets/2.jpg";
 import third from "../assets/3.png";
 import fourth from "../assets/4.jpg";
-const Donor = "../../public/assest/Donor.png";
-const BloodBank = "../../public/assest/BloodBank.png";
+const Donor = "../assest/Donor.png";
+const BloodBank = "../assest/BloodBank.png";
 const images = {
   process_1,
   process_2,
@@ -22,7 +22,7 @@ const images = {
   third,
   fourth,
   Donor,
-  BloodBank
+  BloodBank,
 };
 
 export default images;
