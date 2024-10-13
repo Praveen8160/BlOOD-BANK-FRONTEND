@@ -105,11 +105,11 @@ function BloodBankLogin() {
             )}
           </div>
           <div>
-            <h1>
+          <h1>
               I'm New User :{" "}
-              <a className="underline" href="jb">
+              <Link to="/BloodBankRegister" className="underline">
                 Sign Up
-              </a>
+              </Link>
             </h1>
           </div>
         </fieldset>
