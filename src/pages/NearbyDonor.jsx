@@ -50,7 +50,7 @@ function NearbyDonor() {
       try {
         setLoader(true);
         const response = await axios.get(
-          "https://cdn-api.co-vin.in/api/v2/admin/location/states"
+          `${BASE_URL}/api/states`
         );
         setStates(response.data.states);
       } catch (error) {
@@ -73,7 +73,7 @@ function NearbyDonor() {
           );
           if (selectedStateObj) {
             const response = await axios.get(
-              `https://cdn-api.co-vin.in/api/v2/admin/location/districts/${selectedStateObj.state_id}`
+             `${BASE_URL}/api/districts/${selectedStateObj.state_id}`
             );
             setDistricts(response.data.districts);
             setValue("district", ""); // Reset district selection when state changes
