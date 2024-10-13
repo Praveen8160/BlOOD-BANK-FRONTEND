@@ -1,8 +1,8 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 // import img from "../utils/Image.js";
-import donor from "../assest/Donor.png";
-import bloodbank from "../assets/BloodBank.png";
+import donor from "../../public/assest/Donor.png";
+import bloodbank from "../../public/assest/BloodBank.png";
 const MapView = (props) => {
   const handleGetDirections = (latitude, longitude) => {
     const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
