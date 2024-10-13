@@ -21,11 +21,13 @@ function RequestModel({ close, id, bloodgroup, Role }) {
           value,
           { withCredentials: true }
         );
+        console.log(res)
         const response = res.data;
         if (response.success === true) {
           toast.success("Request Sent");
         }
       } catch (error) {
+        console.log(error)
         toast.error(error.response.data.message);
       }
       close();
