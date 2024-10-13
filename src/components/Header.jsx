@@ -86,7 +86,10 @@ export default function Header() {
       >
         <div className="flex justify-between items-center w-full">
           <img src={logo} alt="Logo" className="md:h-28 md:w-32 h-24 w-28" />
-          <div className="md:hidden flex gap-5">
+          <div className="md:hidden flex gap-2">
+            <Link to="/chatbot" className="font-semibold mr-6">
+              <FaRobot size={30} />
+            </Link>
             <button
               onClick={handleToggleMenu}
               className="md:hidden flex items-center text-gray-700 focus:outline-none"
@@ -112,7 +115,7 @@ export default function Header() {
               Home
             </Link>
             <Link to="/chatbot" className="font-semibold mr-6">
-              <FaRobot />
+              <FaRobot size={30} />
             </Link>
             <select
               title="Option"
@@ -232,9 +235,7 @@ export default function Header() {
               <Link to="/" className="font-semibold self-center">
                 Home
               </Link>
-              <Link to="/chatbot" className="font-semibold mr-6">
-                <FaRobot />
-              </Link>
+           
               <select
                 title="Option"
                 className="w-full text-center font-semibold p-2.5 border-none text-black appearance-none bg-white rounded-3xl outline-none hover:bg-red-500 transition-all duration-1000 focus:ring-0 focus:border-none shadow-none cursor-pointer"
