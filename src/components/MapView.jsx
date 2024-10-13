@@ -1,21 +1,23 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import img from "../utils/Image.js";
+// import img from "../utils/Image.js";
+import donor from "../assest/Donor.png";
+import bloodbank from "../assets/BloodBank.png";
 const MapView = (props) => {
   const handleGetDirections = (latitude, longitude) => {
     const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
     window.open(googleMapsUrl, "_blank");
   };
   const donorIcon = new L.Icon({
-    iconUrl: img.Donor,
-    iconSize: [25, 41], 
-    iconAnchor: [12, 41], 
-    popupAnchor: [1, -34], 
+    iconUrl: donor,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
     shadowSize: [41, 41],
   });
 
   const bloodBankIcon = new L.Icon({
-    iconUrl: img.BloodBank,
+    iconUrl: bloodbank,
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
