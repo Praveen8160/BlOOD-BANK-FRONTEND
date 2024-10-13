@@ -3,7 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BASE_URL from "../config.js";
 function DonorRegister() {
   const { isAuth } = useSelector((state) => state.Auth);
@@ -42,9 +42,7 @@ function DonorRegister() {
     const fetchStates = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `${BASE_URL}/api/states`
-        );
+        const response = await axios.get(`${BASE_URL}/api/states`);
         setStates(response.data.states);
       } catch (error) {
         console.error("Error fetching states", error);
@@ -68,12 +66,12 @@ function DonorRegister() {
           const selectedStateObj = states.find(
             (state) => state.state_name === selectedState
           );
-          console.log(selectedStateObj)
+          console.log(selectedStateObj);
           if (selectedStateObj) {
             const response = await axios.get(
               `${BASE_URL}/api/districts/${selectedStateObj.state_id}`
             );
-            console.log(response.data.districts)
+            console.log(response.data.districts);
             setDistricts(response.data.districts);
             setValue("district", ""); // Reset district selection when state changes
           }
@@ -134,11 +132,11 @@ function DonorRegister() {
   return (
     <div className="flex flex-col justify-center md:mt-12 items-center">
       <form
-        className="border min-h-[45rem] w-full max-w-4xl flex flex-col items-center justify-center rounded-3xl bg-white mt-5 shadow-2xl p-6"
+        className="border min-h-[45rem] sticky w-auto flex flex-col items-center justify-center rounded-3xl bg-transparent mt-5 shadow-2xl shadow-red-400"
         onSubmit={handleSubmit(Register)}
       >
-        <fieldset className="w-full md:-mx-24 md:my-10 md:p-9 mx-5 p-5 border grid grid-cols-1 md:grid-cols-2 gap-4 shadow-2xl border-red-100 rounded-xl my-4 sticky">
-          <legend className="text-3xl font-semibold text-red-600 mb-4 md:col-span-2">
+        <fieldset className="md:mx-20 md:my-10 md:p-9 mx-5 p-5 border border-red-100 rounded-xl grid grid-cols-1 md:grid-cols-2 my-4 gap-4 sticky shadow-2xl drop-shadow-2xl shadow-red-300 ">
+          <legend className="text-2xl font-semibold text-red-600">
             Donor Registration
           </legend>
           <div className="flex flex-col">
@@ -428,15 +426,26 @@ function DonorRegister() {
           <button
             type="button"
             onClick={handleGeolocation}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 col-span-2 self-center"
           >
             Get Current Location
           </button>
+          <div className="col-span-2 text-center">
+            <h1>
+              Already have an account?{" "}
+              <Link
+                to="/DonorLogin"
+                className="underline font-bold hover:text-red-500"
+              >
+                Sign in
+              </Link>
+            </h1>
+          </div>
         </fieldset>
 
         <button
           type="submit"
-          className={`px-10 py-3 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300 mt-3 ${
+          className={`px-10 py-3 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300 my-3 ${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
           disabled={loading}

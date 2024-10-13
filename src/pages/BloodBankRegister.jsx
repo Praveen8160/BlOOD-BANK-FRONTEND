@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import BASE_URL from "../config.js"
+import BASE_URL from "../config.js";
 function BloodBankRegister() {
   const { isAuth } = useSelector((state) => state.Auth);
   const [states, setStates] = useState([]);
@@ -41,15 +41,12 @@ function BloodBankRegister() {
     const fetchStates = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `${BASE_URL}/api/states`
-        );
+        const response = await axios.get(`${BASE_URL}/api/states`);
         setStates(response.data.states);
       } catch (error) {
         console.error("Error fetching states", error);
         toast.error("connect Internet");
-      }
-      finally {
+      } finally {
         setLoading(false);
       }
     };
@@ -74,8 +71,7 @@ function BloodBankRegister() {
         } catch (error) {
           // console.error("Error fetching districts", error);
           toast.error("connect Internet");
-        }
-        finally {
+        } finally {
           setLoading(false);
         }
       } else {
@@ -88,15 +84,11 @@ function BloodBankRegister() {
   const Register = async (data) => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${BASE_URL}/bloodBank/register`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await axios.post(`${BASE_URL}/bloodBank/register`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const response = res.data;
       if (response.success === true) {
         toast.success("Registration successful Now Login to continue");
@@ -107,8 +99,7 @@ function BloodBankRegister() {
       } else {
         toast.error(error.response.data.message);
       }
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -435,6 +426,14 @@ function BloodBankRegister() {
           >
             Get Current Location
           </button>
+          <div>
+            <h1>
+              Already have an account?{" "}
+              <Link to="/BloodBankLogin" className="underline font-bold hover:text-red-500">
+                Sign in
+              </Link>
+            </h1>
+          </div>
         </fieldset>
 
         <button
