@@ -320,6 +320,16 @@ function Home() {
             <h1 className="text-3xl">All Donor and Blood Bank Location</h1>
             <img src={saperator} alt="" />
           </div>
+          <div className="flex flex-row justify-evenly">
+            <div className="flex flex-row justify-evenly items-center">
+              <img src={img.Donor} alt="" className="h-[2rem] w-[2rem]" />
+              <h1 className="text-center text-lg font-bold">Donor</h1>
+            </div>
+            <div className="flex flex-row justify-evenly items-center">
+              <img src={img.BloodBank} alt="" className="h-[2rem] w-[2rem]" />
+              <h1 className="text-center text-lg font-bold text-red-600">Blood Bank</h1>
+            </div>
+          </div>
           {allUser.length > 0 && (
             <div className="bg-red h-[50rem]flex flex-col justify-center items-center lg:mx-52">
               <Suspense fallback={<Loader></Loader>}>
